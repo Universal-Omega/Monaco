@@ -1293,24 +1293,24 @@ div#mw-recreate-deleted-warn ul li {
 
 /* MW arrow icons */
 .mw-arr-r {
-	background-image: url('../../../common/images/Arr_r.png');
+	background-image: url('../images/Arr_r.png');
 	background-repeat: no-repeat;
 }
 
 .mw-arr-l {
-        background-image: url('../../../common/images/Arr_l.png');
+        background-image: url('../images/Arr_l.png');
         background-repeat: no-repeat;
 }
 
 .mw-arr-d,
 .mw-sort-desc {
-        background-image: url('../../../common/images/Arr_d.png');
+        background-image: url('../images/Arr_d.png');
         background-repeat: no-repeat;
 }
 
 .mw-arr-u,
 .mw-sort-asc {
-        background-image: url('../../../common/images/Arr_u.png');
+        background-image: url('../images/Arr_u.png');
         background-repeat: no-repeat;
 }
 
