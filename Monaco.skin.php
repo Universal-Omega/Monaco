@@ -762,7 +762,7 @@ wfProfileIn( __METHOD__ . '-body'); ?>
 					<!-- ARTICLE -->
 
 <?php		wfProfileIn( __METHOD__ . '-article'); ?>
-				<article id="article" role="main" aria-labelledby="firstHeading">
+				<article id="article" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a name="top" id="top"></a>
 					<?php wfRunHooks('MonacoAfterArticle', array($this)); // recipes: not needed? ?>
 					<?php if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
