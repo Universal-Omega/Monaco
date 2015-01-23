@@ -81,8 +81,6 @@ class SkinMonaco extends SkinTemplate {
 		
 		// ResourceLoader doesn't do ie specific styles that well iirc, so we have
 		// to do those manually.
-		$out->addStyle( 'monaco/style/css/monaco_ltie7.css', 'screen', 'lt IE 7' );
-		$out->addStyle( 'monaco/style/css/monaco_ie7.css', 'screen', 'IE 7' );
 		$out->addStyle( 'monaco/style/css/monaco_ie8.css', 'screen', 'IE 8' );
 		$out->addStyle( 'monaco/style/css/monaco_gteie8.css', 'screen', 'gte IE 8');
 		
