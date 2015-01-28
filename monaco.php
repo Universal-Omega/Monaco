@@ -42,6 +42,7 @@ $wgResourceModules['skins.monaco'] = array(
 		'skins/monaco/style/css/footer.css' => array( 'media' => 'screen' ),
 		'skins/monaco/style/css/star_rating.css' => array( 'media' => 'screen' ),
 		'skins/monaco/style/css/ny.css' => array( 'media' => 'screen' ),
+		'skins/monaco/style/css/print.css' => array( 'media' => 'print' ),
 	),
 	'scripts' => 'skins/monaco/style/js/monaco.js',
 );
