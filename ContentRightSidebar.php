@@ -12,7 +12,7 @@
 if(!defined('MEDIAWIKI'))
   die( "This is an extension to the MediaWiki package and cannot be run standalone." );
 
-$wgExtensionCredits['skin'][] = array (
+$wgExtensionCredits['parserhook'][] = array (
   'path' => __FILE__,
   'name' => 'ContentRightSidebar',
   'author' => array('[http://mediawiki.org/wiki/User:Dantman Daniel Friesen]', '[http://doomwiki.org/wiki/User:Quasar James Haley]'),
