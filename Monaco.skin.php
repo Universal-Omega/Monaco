@@ -838,7 +838,7 @@ if ($custom_article_footer !== '') {
 					$this->blankimg( array( "id" => "fe_edit_img", "class" => "sprite edit" ) ) ) .
 				' ' .
 				Html::rawElement( 'div', null,
-					wfMessage('monaco-footer-improve',
+					wfMessage('monaco-footer-improve')->rawParams(
 						Html::element( 'a', array( "id" => "fe_edit_link", "href" => $wgTitle->getEditURL() ), wfMessage('monaco-footer-improve-linktext')->text() ) )->text() ) );
 			echo "\n";
 		}
