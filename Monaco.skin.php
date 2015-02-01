@@ -325,16 +325,16 @@ class SkinMonaco extends SkinTemplate {
 		if(isset($extraWords[strtolower($node['org'])])) {
 			if(substr($node['org'],0,1) == '#') {
 				if(strtolower($node['org']) == strtolower($node['text'])) {
-					$node['text'] = wfMsg(trim(strtolower($node['org']), ' *'));
+					$node['text'] = wfMessage(trim(strtolower($node['org']), ' *'))->text();
 				}
 				$node['magic'] = true;
 			}
 			$results = DataProvider::$extraWords[strtolower($node['org'])][1]();
-			$results[] = array('url' => SpecialPage::getTitleFor('Top/'.$extraWords[strtolower($node['org'])][0])->getLocalURL(), 'text' => strtolower(wfMsg('moredotdotdot')), 'class' => 'Monaco-sidebar_more');
+			$results[] = array('url' => SpecialPage::getTitleFor('Top/'.$extraWords[strtolower($node['org'])][0])->getLocalURL(), 'text' => strtolower(wfMessage('moredotdotdot')->text()), 'class' => 'Monaco-sidebar_more');
 			global $wgUser;
 			if( $wgUser->isAllowed( 'editinterface' ) ) {
 				if(strtolower($node['org']) == '#popular#') {
-					$results[] = array('url' => Title::makeTitle(NS_MEDIAWIKI, 'Most popular articles')->getLocalUrl(), 'text' => wfMsg('monaco-edit-this-menu'), 'class' => 'Monaco-sidebar_edit');
+					$results[] = array('url' => Title::makeTitle(NS_MEDIAWIKI, 'Most popular articles')->getLocalUrl(), 'text' => wfMessage('monaco-edit-this-menu')->text(), 'class' => 'Monaco-sidebar_edit');
 				}
 			}
 			foreach($results as $key => $val) {
@@ -455,8 +455,8 @@ class SkinMonaco extends SkinTemplate {
 					}
 					
 					// @note We know we're in 1.18 so we don't need to pass the second param to wfEmptyMsg anymore
-					$tabText = wfMsg("monaco-tab-$msgKey");
-					if ( $tabText && $tabText != '-' && !wfEmptyMsg("monaco-tab-$msgKey") ) {
+					$tabText = wfMessage("monaco-tab-$msgKey")->text();
+					if ( $tabText && $tabText != '-' && wfMessage("monaco-tab-$msgKey")->exists() ) {
 						$val["text"] = $tabText;
 					}
 					
@@ -480,11 +480,11 @@ class SkinMonaco extends SkinTemplate {
 			foreach($tpl->data['content_actions'] as $key => $val) {
 				$msgKey = $key;
 				if ( $key == "edit" ) {
-					$msgKey = $this->mTitle->exists() || ( $this->mTitle->getNamespace() == NS_MEDIAWIKI && !wfEmptyMsg( $this->mTitle->getText(), wfMsg($this->mTitle->getText()) ) )
+					$msgKey = $this->mTitle->exists() || ( $this->mTitle->getNamespace() == NS_MEDIAWIKI && wfMessage($this->mTitle->getText())->exists() )
 						? "edit" : "create";
 				}
-				$tabText = wfMsg("monaco-tab-$msgKey");
-				if ( $tabText && $tabText != '-' && !wfEmptyMsg("monaco-tab-$msgKey", $tabText) ) {
+				$tabText = wfMessage("monaco-tab-$msgKey")->text();
+				if ( $tabText && $tabText != '-' && wfMessage("monaco-tab-$msgKey")->exists() ) {
 					$val["text"] = $tabText;
 				}
 
@@ -545,12 +545,12 @@ class SkinMonaco extends SkinTemplate {
 		if(!$wgUser->isLoggedIn()) {
 			$signUpHref = Skin::makeSpecialUrl( 'UserLogin', $returnto );
 			$data['login'] = array(
-				'text' => wfMsg('login'),
+				'text' => wfMessage('login')->text(),
 				'href' => $signUpHref . "&type=login"
 				);
 
 			$data['register'] = array(
-				'text' => wfMsg('nologinlink'),
+				'text' => wfMessage('nologinlink')->text(),
 				'href' => $signUpHref . "&type=signup"
 				);
 
@@ -569,7 +569,7 @@ class SkinMonaco extends SkinTemplate {
 			if (isset($tpl->data['personal_urls']['watchlist'])) {
 				$data['watchlist'] = array(
 					/*'text' => $tpl->data['personal_urls']['watchlist']['text'],*/
-					'text' => wfMsg('prefs-watchlist'),
+					'text' => wfMessage('prefs-watchlist')->text(),
 					'href' => $tpl->data['personal_urls']['watchlist']['href']
 					);
 			}
@@ -584,7 +584,7 @@ class SkinMonaco extends SkinTemplate {
 
 
 			$data['more']['userpage'] = array(
-				'text' => wfMsg('mypage'),
+				'text' => wfMessage('mypage')->text(),
 				'href' => $tpl->data['personal_urls']['userpage']['href']
 				);
 
@@ -596,7 +596,7 @@ class SkinMonaco extends SkinTemplate {
 			}
 
 			$data['more']['mycontris'] = array(
-				'text' => wfMsg('mycontris'),
+				'text' => wfMessage('mycontris')->text(),
 				'href' => $tpl->data['personal_urls']['mycontris']['href']
 				);
 
@@ -838,8 +838,8 @@ if ($custom_article_footer !== '') {
 					$this->blankimg( array( "id" => "fe_edit_img", "class" => "sprite edit" ) ) ) .
 				' ' .
 				Html::rawElement( 'div', null,
-					wfMsgHtml('monaco-footer-improve',
-						Html::element( 'a', array( "id" => "fe_edit_link", "href" => $wgTitle->getEditURL() ), wfMsg('monaco-footer-improve-linktext') ) ) ) );
+					wfMessage('monaco-footer-improve',
+						Html::element( 'a', array( "id" => "fe_edit_link", "href" => $wgTitle->getEditURL() ), wfMessage('monaco-footer-improve-linktext')->text() ) )->escaped() ) );
 			echo "\n";
 		}
 
@@ -862,7 +862,7 @@ if ($custom_article_footer !== '') {
 				if($userPageExists)
 					$feUserIcon = Html::rawElement( 'a', array( "id" => "fe_user_icon", "href" => $userPageLink ), $feUserIcon );
 ?>
-								<li><?php echo $feUserIcon ?> <div><?php echo wfMsgHtml('monaco-footer-lastedit', $skin->link($userPageTitle, htmlspecialchars($user->getName()), array( "id" => "fe_user_link" )), Html::element('time', array( 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp )), $lastUpdate)) ?></div></li>
+								<li><?php echo $feUserIcon ?> <div><?php echo wfMessage('monaco-footer-lastedit', $skin->link($userPageTitle, htmlspecialchars($user->getName()), array( "id" => "fe_user_link" )), Html::element('time', array( 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp )), $lastUpdate))->escaped() ?></div></li>
 <?php
 			}
 		}
@@ -898,7 +898,7 @@ if ($custom_article_footer !== '') {
 			{
 				$feRecentIcon = $this->blankimg(array("id" => "fe_recent_img", "class" => "sprite recent"));
 				$feRecentIcon = Html::rawElement("a", array("id" => "fe_recent_icon", "href" => $nav_urls['recentchangeslinked']['href']), $feRecentIcon);
-				$feRecentLink = Html::rawElement("a", array("id" => "fe_recent_link", "href" => $nav_urls['recentchangeslinked']['href']), wfMsgHtml('recentchangeslinked'));
+				$feRecentLink = Html::rawElement("a", array("id" => "fe_recent_link", "href" => $nav_urls['recentchangeslinked']['href']), wfMessage('recentchangeslinked')->escaped());
 ?>
 								<li id="fe_recent"><?php echo $feRecentIcon ?> <div><?php echo $feRecentLink ?> </div></li>
 <?php
@@ -925,7 +925,7 @@ if ($custom_article_footer !== '') {
 			{
 				$feWhatIcon = $this->blankimg(array("id" => "fe_whatlinkshere_img", "class" => "sprite pagelink"));
 				$feWhatIcon = Html::rawElement("a", array("id" => "fe_whatlinkshere_icon", "href" => $nav_urls['whatlinkshere']['href']), $feWhatIcon);
-				$feWhatLink = Html::rawElement("a", array("id" => "fe_whatlinkshere_link", "href" => $nav_urls['whatlinkshere']['href']), wfMsgHtml('whatlinkshere'));
+				$feWhatLink = Html::rawElement("a", array("id" => "fe_whatlinkshere_link", "href" => $nav_urls['whatlinkshere']['href']), wfMessage('whatlinkshere')->escaped());
 ?>
 								<li id="fe_whatlinkshere"><?php echo $feWhatIcon ?> <div><?php echo $feWhatLink ?></div></li>
 <?php
@@ -936,7 +936,7 @@ if ($custom_article_footer !== '') {
 		}
 		$feRandIcon = $this->blankimg(array("id" => "fe_random_img", "class" => "sprite random"));
 		$feRandIcon = Html::rawElement("a", array("id" => "fe_random_icon", "href" => Skin::makeSpecialUrl('Randompage')), $feRandIcon);
-		$feRandLink = Html::rawElement("a", array("id" => "fe_random_link", "href" => Skin::makeSpecialUrl('Randompage')), wfMsgHtml('viewrandompage'));
+		$feRandLink = Html::rawElement("a", array("id" => "fe_random_link", "href" => Skin::makeSpecialUrl('Randompage')), wfMessage('viewrandompage')->escaped());
 ?>
 							<ul class="actions clearfix" id="articleFooterActions2">
 								<li id="fe_randompage"><?php echo $feRandIcon ?> <div><?php echo $feRandLink ?></div></li>
@@ -992,8 +992,8 @@ if ($custom_article_footer !== '') {
 			<div class="widget sidebox navigation_box" id="navigation_widget" role="navigation">
 <?php
 	global $wgSitename;
-	$msgSearchLabel = wfMsgHtml('Tooltip-search');
-	$searchLabel = wfEmptyMsg('Tooltip-search', $msgSearchLabel) ? (wfMsgHtml('ilsubmit').' '.$wgSitename.'...') : $msgSearchLabel;
+	$msgSearchLabel = wfMessage('Tooltip-search')->escaped();
+	$searchLabel = wfMessage('Tooltip-search')->isDisabled() ? (wfMessage('ilsubmit')->escaped().' '.$wgSitename.'...') : $msgSearchLabel;
 ?>
 			<div id="search_box" class="color1" role="search">
 				<form action="<?php $this->text('searchaction') ?>" id="searchform">
@@ -1012,7 +1012,7 @@ if ($custom_article_footer !== '') {
 					) + $skin->tooltipAndAccesskeyAttribs('search') ); ?>
 					<?php global $wgSearchDefaultFulltext; ?>
 					<input type="hidden" name="<?php echo ( $wgSearchDefaultFulltext ) ? 'fulltext' : 'go'; ?>" value="1" />
-					<input type="image" alt="<?php echo htmlspecialchars(wfMsgHtml('search')) ?>" src="<?php $this->text('blankimg') ?>" id="search-button" class="sprite search" tabIndex=2 />
+					<input type="image" alt="<?php echo htmlspecialchars(wfMessage('search')->escaped()) ?>" src="<?php $this->text('blankimg') ?>" id="search-button" class="sprite search" tabIndex=2 />
 				</form>
 			</div>
 <?php
@@ -1037,9 +1037,8 @@ if ($custom_article_footer !== '') {
 		
 		global $wgMonacoDynamicCreateOverride;
 		$createPage = null;
-		$writeArticleUrl = wfMsg('dynamic-links-write-article-url');
-		if ( $writeArticleUrl && $writeArticleUrl !== '-' && !wfEmptyMsg('dynamic-links-write-article-url', $writeArticleUrl) ) {
-			$createPage = Title::newFromText($writeArticleUrl);
+		if(!wfMessage('dynamic-links-write-article-url')->isDisabled()) {
+			$createPage = Title::newFromText(wfMessage('dynamic-links-write-article-url')->text());
 		}
 		if ( !isset($createPage) && !empty($wgMonacoDynamicCreateOverride) ) {
 			$createPage = Title::newFromText($wgMonacoDynamicCreateOverride);
@@ -1077,13 +1076,12 @@ if ($custom_article_footer !== '') {
 		$this->extendDynamicLinksAfterHook( $dynamicLinksInternal );
 		
 		$dynamicLinksUser = array();
-		foreach ( explode( "\n", wfMsgForContent('dynamic-links') ) as $line ) {
+		foreach ( explode( "\n", wfMessage('dynamic-links')->inContentLanguage()->text() ) as $line ) {
 			if ( !$line || $line[0] == ' ' )
 				continue;
 			$line = trim($line, '* ');
-			$url = wfMsg("dynamic-links-$line-url");
-			if ( $url && $url !== '-' && !wfEmptyMsg("dynamic-links-$line-url", $url) ) {
-				$url = Title::newFromText($url);
+			if (!wfMessage("dynamic-links-$line-url")->isDisabled()) {
+				$url = Title::newFromText(wfMessage("dynamic-links-$line-url")->text());
 				if ( $url ) {
 					$dynamicLinksUser[$line] = array(
 						"url" => $url,
@@ -1109,7 +1107,7 @@ if ($custom_article_footer !== '') {
 			foreach ($dynamicLinksArray as $key => $link) {
 				$link['id'] = "dynamic-links-$key";
 				if ( !isset($link['text']) )
-					$link['text'] = wfMsg("dynamic-links-$key");
+					$link['text'] = wfMessage("dynamic-links-$key")->text();
 				echo "						";
 				echo Html::rawElement( 'li', array( "id" => "{$link['id']}-row", "class" => "link_box_dynamic_item" ),
 					Html::rawElement( 'a', array( "id" => "{$link['id']}-icon", "href" => $link['url'], "tabIndex" => -1 ),
@@ -1133,13 +1131,13 @@ if ($custom_article_footer !== '') {
 
 	//add user specific links
 	if(!empty($nav_urls['contributions'])) {
-		$linksArray[] = array('href' => $nav_urls['contributions']['href'], 'text' => wfMsg('contributions'));
+		$linksArray[] = array('href' => $nav_urls['contributions']['href'], 'text' => wfMessage('contributions')->text());
 	}
 	if(!empty($nav_urls['blockip'])) {
-		$linksArray[] = array('href' => $nav_urls['blockip']['href'], 'text' => wfMsg('blockip'));
+		$linksArray[] = array('href' => $nav_urls['blockip']['href'], 'text' => wfMessage('blockip')->text());
 	}
 	if(!empty($nav_urls['emailuser'])) {
-		$linksArray[] = array('href' => $nav_urls['emailuser']['href'], 'text' => wfMsg('emailuser'));
+		$linksArray[] = array('href' => $nav_urls['emailuser']['href'], 'text' => wfMessage('emailuser')->text());
 	}
 
 	if(is_array($linksArray) && count($linksArray) > 0) {
@@ -1292,8 +1290,7 @@ wfProfileOut( __METHOD__ . '-body');
 		$box .= "\n";
 		if ( isset($bar) ) {
 			$box .= "				";
-			$out = wfMsg( $bar );
-			$out = wfEmptyMsg($bar, $out) ? $bar : $out;
+			$out = !wfMessage($bar)->exists() ? $bar : wfMessage($bar)->text();
 			if ( $out )
 				$box .= Html::element( 'h3', array( "class" => "color1 $titleClass" ), $out ) . "\n";
 		}
@@ -1398,7 +1395,7 @@ wfProfileOut( __METHOD__ . '-body');
 <?php
 				if ( $this->useUserMore() ) { ?>
 				<span class="more hovermenu">
-					<button id="headerButtonUser" class="header-button color1" tabIndex="-1"><?php echo trim(wfMsgHtml('moredotdotdot'), ' .') ?><img src="<?php $this->text('blankimg') ?>" /></button>
+					<button id="headerButtonUser" class="header-button color1" tabIndex="-1"><?php echo trim(wfMessage('moredotdotdot')->escaped(), ' .') ?><img src="<?php $this->text('blankimg') ?>" /></button>
 					<span class="invisibleBridge"></span>
 					<div id="headerMenuUser" class="headerMenu color1 reset">
 						<ul>
@@ -1459,7 +1456,7 @@ wfProfileOut( __METHOD__ . '-body');
 		}
 		global $wgLang;
 		$user = $skin->getMastheadUser();
-		$username = $user->isAnon() ? wfMsg('masthead-anonymous-user') : $user->getName();
+		$username = $user->isAnon() ? wfMessage('masthead-anonymous-user')->text() : $user->getName();
 		$editcount = $wgLang->formatNum($user->isAnon() ? 0 : $user->getEditcount());
 		?>
 			<div id="user_masthead" class="accent reset clearfix">
