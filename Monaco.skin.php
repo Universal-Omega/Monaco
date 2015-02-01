@@ -839,7 +839,7 @@ if ($custom_article_footer !== '') {
 				' ' .
 				Html::rawElement( 'div', null,
 					wfMessage('monaco-footer-improve',
-						Html::element( 'a', array( "id" => "fe_edit_link", "href" => $wgTitle->getEditURL() ), wfMessage('monaco-footer-improve-linktext')->text() ) )->escaped() ) );
+						Html::element( 'a', array( "id" => "fe_edit_link", "href" => $wgTitle->getEditURL() ), wfMessage('monaco-footer-improve-linktext')->text() ) )->text() ) );
 			echo "\n";
 		}
 
@@ -862,7 +862,8 @@ if ($custom_article_footer !== '') {
 				if($userPageExists)
 					$feUserIcon = Html::rawElement( 'a', array( "id" => "fe_user_icon", "href" => $userPageLink ), $feUserIcon );
 ?>
-								<li><?php echo $feUserIcon ?> <div><?php echo wfMessage('monaco-footer-lastedit', $skin->link($userPageTitle, htmlspecialchars($user->getName()), array( "id" => "fe_user_link" )), Html::element('time', array( 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp )), $lastUpdate))->escaped() ?></div></li>
+								<li><?php echo $feUserIcon ?> <div><?php 
+					echo wfMessage('monaco-footer-lastedit')->rawParams($skin->link($userPageTitle, htmlspecialchars($user->getName()), array( "id" => "fe_user_link" )), Html::element('time', array( 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp )), $lastUpdate))->escaped() ?></div></li>
 <?php
 			}
 		}
