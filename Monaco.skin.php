@@ -1002,7 +1002,6 @@ if ($custom_article_footer !== '') {
 					<?php echo Html::input( 'search', '', 'text', array(
 						'id' => "searchInput",
 						'name' => "search",
-						'type' => "text",
 						'maxlength' => 200,
 						'alt' => $searchLabel,
 						'aria-label' => $searchLabel,
