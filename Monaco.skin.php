@@ -999,7 +999,7 @@ if ($custom_article_footer !== '') {
 			<div id="search_box" class="color1" role="search">
 				<form action="<?php $this->text('searchaction') ?>" id="searchform">
 					<label style="display: none;" for="searchInput"><?php echo htmlspecialchars($searchLabel) ?></label>
-					<?php echo Html::input( 'search', '', 'text', array(
+					<?php echo Html::input( 'search', '', 'search', array(
 						'id' => "searchInput",
 						'maxlength' => 200,
 						'alt' => $searchLabel,
