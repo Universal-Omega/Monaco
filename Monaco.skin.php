@@ -763,7 +763,7 @@ wfProfileIn( __METHOD__ . '-body'); ?>
 
 <?php		wfProfileIn( __METHOD__ . '-article'); ?>
 				<article id="article" class="mw-body" role="main" aria-labelledby="firstHeading">
-					<a name="top" id="top"></a>
+					<a id="top"></a>
 					<?php wfRunHooks('MonacoAfterArticle', array($this)); // recipes: not needed? ?>
 					<?php if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
 					<?php $this->printFirstHeading(); ?>
@@ -821,7 +821,7 @@ if ($custom_article_footer !== '') {
 		global $wgLang;
 ?>
 			<div id="articleFooter" class="reset article_footer">
-				<table cellspacing="0">
+				<table style="border-spacing: 0;">
 					<tr>
 						<td class="col1">
 							<ul class="actions" id="articleFooterActions">
@@ -835,7 +835,7 @@ if ($custom_article_footer !== '') {
 			echo "								";
 			echo Html::rawElement( 'li', null,
 				Html::rawElement( 'a', array( "id" => "fe_edit_icon", "href" => $wgTitle->getEditURL() ),
-					$this->blankimg( array( "id" => "fe_edit_img", "class" => "sprite edit" ) ) ) .
+					$this->blankimg( array( "id" => "fe_edit_img", "class" => "sprite edit", "alt" => "" ) ) ) .
 				' ' .
 				Html::rawElement( 'div', null,
 					wfMessage('monaco-footer-improve')->rawParams(
@@ -858,7 +858,7 @@ if ($custom_article_footer !== '') {
 				$userPageLink   = $userPageTitle->getLocalUrl();
 				$userPageExists = $userPageTitle->exists();
 				$userGender     = $user->getOption("gender");
-				$feUserIcon     = $this->blankimg(array( "id" => "fe_user_img", "class" => ($userGender == "female" ? "sprite user-female" : "sprite user" )));
+				$feUserIcon     = $this->blankimg(array( "id" => "fe_user_img", "alt" => "", "class" => ($userGender == "female" ? "sprite user-female" : "sprite user" )));
 				if($userPageExists)
 					$feUserIcon = Html::rawElement( 'a', array( "id" => "fe_user_icon", "href" => $userPageLink ), $feUserIcon );
 ?>
@@ -870,7 +870,7 @@ if ($custom_article_footer !== '') {
 
 		if($this->data['copyright'])
 		{
-			$feCopyIcon = $this->blankimg(array("id" => "fe_copyright_img", "class" => "sprite copyright"));
+			$feCopyIcon = $this->blankimg(array("id" => "fe_copyright_img", "class" => "sprite copyright", "alt" => ""));
 ?>
 								<!-- haleyjd 20140425: generic copyright text support -->
 								<li><?php echo $feCopyIcon ?> <div id="copyright"><?php $this->html('copyright') ?></div></li>
@@ -888,7 +888,7 @@ if ($custom_article_footer !== '') {
 <?php
 			if(!empty($this->data['content_actions']['history'])) 
 			{
-				$feHistoryIcon = $this->blankimg(array("id" => "fe_history_img", "class" => "sprite history"));
+				$feHistoryIcon = $this->blankimg(array("id" => "fe_history_img", "class" => "sprite history", "alt" => ""));
 				$feHistoryIcon = Html::rawElement("a", array("id" => "fe_history_icon", "href" => $this->data['content_actions']['history']['href']), $feHistoryIcon);
 				$feHistoryLink = Html::rawElement("a", array("id" => "fe_history_link", "href" => $this->data['content_actions']['history']['href']), $this->data['content_actions']['history']['text']);
 ?>
@@ -897,7 +897,7 @@ if ($custom_article_footer !== '') {
 			}
 			if(!empty($nav_urls['recentchangeslinked']))
 			{
-				$feRecentIcon = $this->blankimg(array("id" => "fe_recent_img", "class" => "sprite recent"));
+				$feRecentIcon = $this->blankimg(array("id" => "fe_recent_img", "class" => "sprite recent", "alt" => ""));
 				$feRecentIcon = Html::rawElement("a", array("id" => "fe_recent_icon", "href" => $nav_urls['recentchangeslinked']['href']), $feRecentIcon);
 				$feRecentLink = Html::rawElement("a", array("id" => "fe_recent_link", "href" => $nav_urls['recentchangeslinked']['href']), wfMessage('recentchangeslinked')->escaped());
 ?>
@@ -915,7 +915,7 @@ if ($custom_article_footer !== '') {
 <?php
 			if(!empty($nav_urls['permalink'])) 
 			{
-				$fePermaIcon = $this->blankimg(array("id" => "fe_permalink_img", "class" => "sprite move"));
+				$fePermaIcon = $this->blankimg(array("id" => "fe_permalink_img", "class" => "sprite move", "alt" => ""));
 				$fePermaIcon = Html::rawElement("a", array("id" => "fe_permalink_icon", "href" => $nav_urls['permalink']['href']), $fePermaIcon);
 				$fePermaLink = Html::rawElement("a", array("id" => "fe_permalink_link", "href" => $nav_urls['permalink']['href']), $nav_urls['permalink']['text']);
 ?>
@@ -924,7 +924,7 @@ if ($custom_article_footer !== '') {
 			}
 			if(!empty($nav_urls['whatlinkshere'])) 
 			{
-				$feWhatIcon = $this->blankimg(array("id" => "fe_whatlinkshere_img", "class" => "sprite pagelink"));
+				$feWhatIcon = $this->blankimg(array("id" => "fe_whatlinkshere_img", "class" => "sprite pagelink", "alt" => ""));
 				$feWhatIcon = Html::rawElement("a", array("id" => "fe_whatlinkshere_icon", "href" => $nav_urls['whatlinkshere']['href']), $feWhatIcon);
 				$feWhatLink = Html::rawElement("a", array("id" => "fe_whatlinkshere_link", "href" => $nav_urls['whatlinkshere']['href']), wfMessage('whatlinkshere')->escaped());
 ?>
@@ -935,7 +935,7 @@ if ($custom_article_footer !== '') {
 							</ul>
 <?php
 		}
-		$feRandIcon = $this->blankimg(array("id" => "fe_random_img", "class" => "sprite random"));
+		$feRandIcon = $this->blankimg(array("id" => "fe_random_img", "class" => "sprite random", "alt" => ""));
 		$feRandIcon = Html::rawElement("a", array("id" => "fe_random_icon", "href" => Skin::makeSpecialUrl('Randompage')), $feRandIcon);
 		$feRandLink = Html::rawElement("a", array("id" => "fe_random_link", "href" => Skin::makeSpecialUrl('Randompage')), wfMessage('viewrandompage')->escaped());
 ?>
@@ -945,7 +945,7 @@ if ($custom_article_footer !== '') {
 		// haleyjd 20140426: support for Extension:MobileFrontend
 		if($this->get('mobileview') !== null)
 		{
-			$feMobileIcon = $this->blankimg(array("id" => "fe_mobile_img", "class" => "sprite mobile"));
+			$feMobileIcon = $this->blankimg(array("id" => "fe_mobile_img", "class" => "sprite mobile", "alt" => ""));
 ?>
 								<li id="fe_mobile"><?php echo $feMobileIcon ?> <div><?php $this->html('mobileview') ?></div></li>
 <?php
@@ -967,7 +967,7 @@ if ($custom_article_footer !== '') {
 			<!-- /PAGE -->
 <?php		wfProfileOut( __METHOD__ . '-page'); ?>
 
-			<noscript><link rel="stylesheet" type="text/css" href="<?php $this->text( 'stylepath' ) ?>/monaco/style/css/noscript.css?<?php echo $wgStyleVersion ?>" /></noscript>
+			<noscript><link rel="stylesheet" property="stylesheet" type="text/css" href="<?php $this->text( 'stylepath' ) ?>/monaco/style/css/noscript.css?<?php echo $wgStyleVersion ?>" /></noscript>
 <?php
 	if(!($wgRequest->getVal('action') != '' || $namespace == NS_SPECIAL)) {
 		$this->html('JSloader');
@@ -998,7 +998,7 @@ if ($custom_article_footer !== '') {
 ?>
 			<div id="search_box" class="color1" role="search">
 				<form action="<?php $this->text('searchaction') ?>" id="searchform">
-					<label style="display: none;" for="search_field"><?php echo htmlspecialchars($searchLabel) ?></label>
+					<label style="display: none;" for="searchInput"><?php echo htmlspecialchars($searchLabel) ?></label>
 					<?php echo Html::input( 'search', '', 'text', array(
 						'id' => "searchInput",
 						'name' => "search",
@@ -1023,7 +1023,7 @@ if ($custom_article_footer !== '') {
 	}
 	echo $monacoSidebar->getCode();
 
-	echo '<table cellspacing="0" id="link_box_table">';
+	echo '<table style="border-spacing: 0;" id="link_box_table">';
 	//BEGIN: create dynamic box
 	$showDynamicLinks = true;
 	$dynamicLinksArray = array();
@@ -1200,8 +1200,8 @@ if ($custom_article_footer !== '') {
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 						<input type="hidden" name="cmd" value="_s-xclick">
 						<input type="hidden" name="hosted_button_id" value="D5MLUSDXA8HMQ">
-						<input type="image" src="<?php $this->text('stylepath') ?>/monaco/style/images/contribute-button.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" style="width:139px;margin:0;">
-						<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+						<input type="image" src="<?php $this->text('stylepath') ?>/monaco/style/images/contribute-button.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
+						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;">
 					</form>
 				</td>
 			</tr>
@@ -1583,7 +1583,7 @@ wfProfileOut( __METHOD__ . '-body');
 		$attrs = array(
 			"class" => "page_{$list["type"]}",
 			"id" => $list["id"],
-			"role" => $list["type"] == "tabs" ? "navigation" : "toolbar",
+			"role" => /*$list["type"] == "tabs" ? "navigation" :*/ "toolbar",
 		);
 		if ( isset($list["class"]) && $list["class"] ) {
 			$attrs["class"] .= " {$list["class"]}";
