@@ -1001,7 +1001,6 @@ if ($custom_article_footer !== '') {
 					<label style="display: none;" for="searchInput"><?php echo htmlspecialchars($searchLabel) ?></label>
 					<?php echo Html::input( 'search', '', 'text', array(
 						'id' => "searchInput",
-						'name' => "search",
 						'maxlength' => 200,
 						'alt' => $searchLabel,
 						'aria-label' => $searchLabel,
