@@ -1093,7 +1093,7 @@ input#wpPreview {
 /* Classes for article validation */
 
 select#wpaccuracy, select#wpdepth, select#wpstyle, 
-input#mw-fr-commentbox, input#mw-fr-submit-accept, input#mw-fr-unaccept {
+input#mw-fr-commentbox, input#mw-fr-submit-accept, input#mw-fr-submit-unaccept {
 	font-family: inherit;
 }
 
