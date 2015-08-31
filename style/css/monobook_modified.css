@@ -1058,12 +1058,18 @@ ul#filetoc {
 }
 
 input#wpSummary {
+	font-family: inherit;
 	width: 80%;
 }
 
 /* @bug 1714 */
 input#wpSave, input#wpDiff {
+	font-family: inherit;
 	margin-right: 0.33em;
+}
+
+input#wpPreview {
+   font-family: inherit;
 }
 
 #editform .editOptions {
@@ -1085,6 +1091,11 @@ input#wpSave, input#wpDiff {
 }
 
 /* Classes for article validation */
+
+select#wpaccuracy, select#wpdepth, select#wpstyle, 
+input#mw-fr-commentbox, input#mw-fr-submit-accept, input#mw-fr-unaccept {
+	font-family: inherit;
+}
 
 table.revisionform_default {
 	border: 1px solid #000000;
