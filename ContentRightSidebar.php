@@ -20,7 +20,8 @@ $wgExtensionCredits['parserhook'][] = array (
   'url' => "https://github.com/haleyjd/monaco-port",
 );
 
-$wgExtensionMessagesFiles['ContentRightSidebar'] = dirname(__FILE__).'/ContentRightSidebar.i18n.php';
+//$wgExtensionMessagesFiles['ContentRightSidebar'] = dirname(__FILE__).'/ContentRightSidebar.i18n.php';
+$wgMessagesDirs['ContentRightSidebar'] = __DIR__ . '/crs.i18n';
 
 /**
  * Resource module for ContentRightSidebar
