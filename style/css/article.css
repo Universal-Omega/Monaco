@@ -336,6 +336,7 @@ span.searchmatch {
 	color: inherit;
 }
 
-.body_content a.external, .body_content a[href^="gopher://"] {
+.body_content a.external {
 	background: url(../images/monaco-sprite.png) top right no-repeat;
+   padding-right: 13px;
 }
