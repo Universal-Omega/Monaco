@@ -530,65 +530,6 @@ div.townBox dl dd {
 	font-weight: bold;
 }
 
-/*
-** keep the whitespace in front of the ^=, hides rule from konqueror
-** this is css3, the validator doesn't like it when validating as css2
-*/
-.body_content a.external,
-.body_content a[href ^="gopher://"] {
-	background: url(../../../monobook/external.png) center right no-repeat;
-	padding-right: 13px;
-}
-.body_content a[href ^="https://"],
-.link-https {
-	background: url(../../../monobook/lock_icon.gif) center right no-repeat;
-	padding-right: 16px;
-}
-.body_content a[href ^="mailto:"],
-.link-mailto {
-	background: url(../../../monobook/mail_icon.gif) center right no-repeat;
-	padding-right: 18px;
-}
-.body_content a[href ^="news://"] {
-	background: url(../../../monobook/news_icon.png) center right no-repeat;
-	padding-right: 18px;
-}
-.body_content a[href ^="ftp://"],
-.link-ftp {
-	background: url(../../../monobook/file_icon.gif) center right no-repeat;
-	padding-right: 18px;
-}
-.body_content a[href ^="irc://"],
-.link-irc {
-	background: url(../../../monobook/discussionitem_icon.gif) center right no-repeat;
-	padding-right: 18px;
-}
-.body_content a.external[href $=".ogg"], .body_content a.external[href $=".OGG"],
-.body_content a.external[href $=".mid"], .body_content a.external[href $=".MID"],
-.body_content a.external[href $=".midi"], .body_content a.external[href $=".MIDI"],
-.body_content a.external[href $=".mp3"], .body_content a.external[href $=".MP3"],
-.body_content a.external[href $=".wav"], .body_content a.external[href $=".WAV"],
-.body_content a.external[href $=".wma"], .body_content a.external[href $=".WMA"],
-.link-audio {
-	background: url("../../../monobook/audio.png") center right no-repeat;
-	padding-right: 13px;
-}
-.body_content a.external[href $=".ogm"], .body_content a.external[href $=".OGM"],
-.body_content a.external[href $=".avi"], .body_content a.external[href $=".AVI"],
-.body_content a.external[href $=".mpeg"], .body_content a.external[href $=".MPEG"],
-.body_content a.external[href $=".mpg"], .body_content a.external[href $=".MPG"],
-.link-video {
-	background: url("../../../monobook/video.png") center right no-repeat;
-	padding-right: 13px;
-}
-.body_content a.external[href $=".pdf"], .body_content a.external[href $=".PDF"],
-.body_content a.external[href *=".pdf#"], .body_content a.external[href *=".PDF#"],
-.body_content a.external[href *=".pdf?"], .body_content a.external[href *=".PDF?"],
-.link-document {
-	background: url("../../../monobook/document.png") center right no-repeat;
-	padding-right: 12px;
-}
-
 /* disable interwiki styling */
 .body_content a.extiw,
 .body_content a.extiw:active {
