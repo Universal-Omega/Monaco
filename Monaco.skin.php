@@ -77,7 +77,7 @@ class SkinMonaco extends SkinTemplate {
 		parent::setupSkinUserCss( $out );
 		
 		// Load the bulk of our styles with the MediaWiki 1.17+ resource loader
-		$out->addModuleStyles( 'skins.monaco' );
+		$out->addModuleStyles(array('skins.monaco', 'mediawiki.skinning.content.externallinks'));
 		
 		// ResourceLoader doesn't do ie specific styles that well iirc, so we have
 		// to do those manually.
