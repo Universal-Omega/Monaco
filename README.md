@@ -5,8 +5,9 @@ About
 -----
 
 This is an unbranded fork of the Monaco skin originally developed by Wikia
-which is being maintained for use at DoomWiki.org. It was also previously
-deployed at the Orain non-profit wiki farm before it went offline.
+which is being maintained for use at [DoomWiki.org](http://doomwiki.org). It was
+also previously deployed at the Orain non-profit wiki farm before it went 
+offline.
 
 Compared to the original version of the skin, this fork now supports MediaWiki
 versions 1.18 to 1.24 officially, with verified support for 1.25+ in the works.
@@ -16,8 +17,8 @@ continue to support them.
 
 New features in this fork over `dantman/monaco-port` include:  
 
-* A new Widgets framework which cooperates with Extension:Gadgets to allow sidebar content to be defined through the MediaWiki frontend.
-* Special support for Extension:FlaggedRevs and Extension:MobileFrontend when they are installed.
+* A new Widgets framework which cooperates with [Extension:Gadgets](https://www.mediawiki.org/wiki/Extension:Gadgets) to allow sidebar content to be defined through the MediaWiki frontend.
+* Special support for [Extension:FlaggedRevs](https://www.mediawiki.org/wiki/Extension:FlaggedRevs) and [Extension:MobileFrontend](https://www.mediawiki.org/wiki/Extension:MobileFrontend) when they are installed.
 * Wiki copyright notice is displayed in the footer of every page as with WikiMedia-maintained skins.
 * Numerous bug fixes to stylesheets, JavaScript, and php HTML generation.
 
@@ -34,11 +35,11 @@ To install, install monaco-port into a monaco/ folder in your skins/ folder.
 From the command line you can do this by cd'ing to your skins/ folder inside
 your MediaWiki installation and running:
 
-`git clone git://github.com/haleyjd/monaco-port.git monaco`.
+`git clone git://github.com/haleyjd/monaco-port.git monaco`
 
 After you have placed the skin into that folder add:
 
-`require_once("$IP/skins/monaco/monaco.php");` 
+`require_once("$IP/skins/monaco/monaco.php");`
 
 near the end of your LocalSettings.php to finish installation of the skin.
 
