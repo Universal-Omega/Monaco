@@ -338,7 +338,7 @@ class MonacoSidebar {
 		}
 
 		if(wfMessage($line)->exists()) {
-			$text = wfMessage($line)->text;
+			$text = wfMessage($line)->text();
 		} else {
 			$text = $line;
 		}
