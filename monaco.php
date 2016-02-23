@@ -31,6 +31,7 @@ $wgMessagesDirs['Monaco'] = __DIR__ . '/i18n';
 $wgHooks['MessageCacheReplace'][] = 'MonacoSidebar::invalidateCache';
 
 $wgResourceModules['skins.monaco'] = array(
+	'position' => 'top',
 	'styles' => array(
 		'skins/monaco/style/css/monobook_modified.css' => array( 'media' => 'screen' ),
 		'skins/monaco/style/css/reset_modified.css' => array( 'media' => 'screen' ),
@@ -51,6 +52,7 @@ $wgResourceModules['skins.monaco'] = array(
 
 /* haleyjd 20140809: Widget Framework 2.0 */
 $wgResourceModules['ext.monacoWidget'] = array(
+	'position' => 'bottom',
 	'scripts' => 'skins/monaco/ext/ext.monacoWidget.js',
 	'styles'  => 'skins/monaco/ext/ext.monacoWidget.css',
 );
