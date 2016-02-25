@@ -56,9 +56,12 @@ Doing so will provide you with a `<right-sidebar>...</right-sidebar>` tag which
 will create right floated content in the page that will be moved into the right
 sidebar in monaco based skins. You can also use it with the args 
 
-`<right-sidebar with-box title="My Title">...</right-sidebar>`
+`<right-sidebar with-box="true" title="My Title">...</right-sidebar>`
 
-to include that sidebar in a sidebar box.
+to include that sidebar in a sidebar box. Note that a value is required for 
+the `with-box` attribute when this extension is used with MediaWiki 1.25 or
+later. For consistency, it is suggested that you provide this value anyway,
+since it also works with earlier versions of MediaWiki.
 
 License
 -------
