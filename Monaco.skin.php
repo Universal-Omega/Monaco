@@ -14,8 +14,6 @@ if(!defined('MEDIAWIKI')) {
 	die(-1);
 }
 
-define('STAR_RATINGS_WIDTH_MULTIPLIER', 20);
-
 class SkinMonaco extends SkinTemplate {
 
 	/**
