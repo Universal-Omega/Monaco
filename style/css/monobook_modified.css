@@ -195,6 +195,23 @@ pre {
 }
 
 /*
+** MediaWiki 1.25 page status indicator support
+*/
+
+.mw-indicators {
+  float: right;
+  line-height: 1.5em;
+  font-size: 95%;
+}
+
+.mw-indicator {
+  display: -moz-inline-block;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+
+/*
 ** the main content area
 */
 
@@ -1303,3 +1320,4 @@ div#mw-recreate-deleted-warn ul li {
 .changes-list-entry a img {
 	display: none;
 }
+

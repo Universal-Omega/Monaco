@@ -620,7 +620,7 @@ class SkinMonaco extends SkinTemplate {
 	}
 } // end SkinMonaco
 
-class MonacoTemplate extends QuickTemplate {
+class MonacoTemplate extends BaseTemplate {
 
 	/*
 	 * Build returnto parameter with new returntoquery from MW 1.16
@@ -762,8 +762,9 @@ wfProfileIn( __METHOD__ . '-body'); ?>
 <?php		wfProfileIn( __METHOD__ . '-article'); ?>
 				<article id="article" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>
-					<?php wfRunHooks('MonacoAfterArticle', array($this)); // recipes: not needed? ?>
-					<?php if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
+					<?php wfRunHooks('MonacoAfterArticle', array($this)); ?>
+					<?php if(!$wgMonacoUseSitenoticeIsland && $this->data['sitenotice']) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
+					<?php if(method_exists($this, 'getIndicators')) { echo $this->getIndicators(); } ?>
 					<?php $this->printFirstHeading(); ?>
 					<div id="bodyContent" class="body_content">
 						<h2 id="siteSub"><?php $this->msg('tagline') ?></h2>
