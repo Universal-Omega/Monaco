@@ -448,7 +448,7 @@ class SkinMonaco extends SkinTemplate {
 					$msgKey = $kk;
 					if ( $kk == "edit" ) {
 						$title = $this->getRelevantTitle();
-						$msgKey = $title->exists() || ( $title->getNamespace() == NS_MEDIAWIKI && !wfEmptyMsg( $title->getText() ) )
+						$msgKey = $title->exists() || ( $title->getNamespace() == NS_MEDIAWIKI && !wfMessage($title->getText())->inContentLanguage()->isBlank() )
 							? "edit" : "create";
 					}
 					
@@ -1006,7 +1006,7 @@ if ($custom_article_footer !== '') {
 						'tabIndex' => 2,
 						'aria-required' => 'true',
 						'aria-flowto' => "search-button",
-					) + $skin->tooltipAndAccesskeyAttribs('search') ); ?>
+					) + Linker::tooltipAndAccesskeyAttribs('search') ); ?>
 					<?php global $wgSearchDefaultFulltext; ?>
 					<input type="hidden" name="<?php echo ( $wgSearchDefaultFulltext ) ? 'fulltext' : 'go'; ?>" value="1" />
 					<input type="image" alt="<?php echo htmlspecialchars(wfMessage('search')->escaped()) ?>" src="<?php $this->text('blankimg') ?>" id="search-button" class="sprite search" tabIndex=2 />
@@ -1385,7 +1385,7 @@ wfProfileOut( __METHOD__ . '-body');
 				// haleyjd 20140420: This needs to use $key => $value syntax to get the proper style for the elements!
 				foreach( array( "username" => "userpage", "mytalk" => "mytalk", "watchlist" => "watchlist" ) as $key => $value ) {
 					echo "				" . Html::rawElement( 'span', array( 'id' => "header_$key" ),
-						Html::element( 'a', array( 'href' => $this->data['userlinks'][$value]['href'] ) + $skin->tooltipAndAccesskeyAttribs("pt-$value"), $this->data['userlinks'][$value]['text'] ) ) . "\n";
+						Html::element( 'a', array( 'href' => $this->data['userlinks'][$value]['href'] ) + Linker::tooltipAndAccesskeyAttribs("pt-$value"), $this->data['userlinks'][$value]['text'] ) ) . "\n";
 				}
 				
 			?>
@@ -1417,7 +1417,7 @@ wfProfileOut( __METHOD__ . '-body');
 <?php
 				} ?>
 				<span>
-					<?php echo Html::element( 'a', array( 'href' => $this->data['userlinks']['logout']['href'] ) + $skin->tooltipAndAccesskeyAttribs('pt-logout'), $this->data['userlinks']['logout']['text'] ); ?>
+					<?php echo Html::element( 'a', array( 'href' => $this->data['userlinks']['logout']['href'] ) + Linker::tooltipAndAccesskeyAttribs('pt-logout'), $this->data['userlinks']['logout']['text'] ); ?>
 				</span>
 <?php
 			} else {
@@ -1604,7 +1604,7 @@ wfProfileOut( __METHOD__ . '-body');
 				"href" => $link["href"],
 			);
 			if ( isset($link["id"]) ) {
-				$aAttrs += $this->data['skin']->tooltipAndAccesskeyAttribs( $link["id"] );
+				$aAttrs += Linker::tooltipAndAccesskeyAttribs( $link["id"] );
 			}
 			echo "$indent	";
 			echo Html::openElement( 'li', $liAttrs );

@@ -94,7 +94,7 @@ class MonacoSidebar {
 	 */
 	public static function getMessageAsArray($messageKey) {
         $message = trim(wfMessage($messageKey)->inContentLanguage()->text());
-        if(!wfEmptyMsg($messageKey, $message)) {
+        if(!wfMessage($messageKey)->inContentLanguage()->isBlank()) {
                 $lines = explode("\n", $message);
                 if(count($lines) > 0) {
                         return $lines;
