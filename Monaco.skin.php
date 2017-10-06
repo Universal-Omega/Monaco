@@ -548,7 +548,7 @@ class SkinMonaco extends SkinTemplate {
 				);
 
 			$data['register'] = array(
-				'text' => wfMessage('nologinlink')->text(),
+				'text' => wfMessage('pt-createaccount')->text(),
 				'href' => $signUpHref . "&type=signup"
 				);
 
@@ -980,14 +980,6 @@ if ($custom_article_footer !== '') {
 <?php		wfProfileIn( __METHOD__ . '-navigation'); ?>
 		<div id="widget_sidebar" class="reset widget_sidebar left_sidebar sidebar">
 			<div id="wiki_logo" style="background-image: url(<?php $this->html( 'logopath' ) ?>);"><a href="<?php echo htmlspecialchars($this->data['nav_urls']['mainpage']['href'])?>" accesskey="z" rel="home"><?php echo $wgSitename ?></a></div>
-			<!--[if lt IE 7]>
-			<style type="text/css">
-				#wiki_logo {
-					background-image: none !important;
-					filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo Xml::escapeJsString( $this->data['logopath'] ) ?>', sizingMethod='image');
-				}
-			</style>
-			<![endif]-->
 
 			<!-- SEARCH/NAVIGATION -->
 			<div class="widget sidebox navigation_box" id="navigation_widget" role="navigation">
