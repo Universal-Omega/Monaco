@@ -111,7 +111,6 @@ class MonacoSidebar {
 				if(empty($wgUser->mMonacoSidebar)) {
 					$wgUser->mMonacoSidebar = -1;
 				}
-				$wgUser->saveToCache();
 			}
 			if($wgUser->mMonacoSidebar != -1) {
 				return $wgUser->mMonacoSidebar;
