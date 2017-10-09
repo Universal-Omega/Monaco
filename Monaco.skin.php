@@ -863,7 +863,7 @@ if ($custom_article_footer !== '') {
 				// haleyjd 20171009: must use LinkRenderer for 1.28 and up
 				if(method_exists($skin, "getLinkRenderer")) { 
 					$linkRenderer = $skin->getLinkRenderer();
-					echo wfMessage('monaco-footer-lastedit')->rawParams($linkRenderer->makeLink($userPageTitle, new HtmlArmor($user->getName()), array('id' => 'fe_user_link')), Html::element('time', array('datetime' => wfTimestamp(TS_ISO_8601, $$timestamp)), $lastUpdate))->escaped()
+					echo wfMessage('monaco-footer-lastedit')->rawParams($linkRenderer->makeLink($userPageTitle, $user->getName(), array('id' => 'fe_user_link')), Html::element('time', array('datetime' => wfTimestamp(TS_ISO_8601, $$timestamp)), $lastUpdate))->escaped()
 				} else {
 					// TODO: remove once 1.28 is minimum supported.
 					echo wfMessage('monaco-footer-lastedit')->rawParams($skin->link($userPageTitle, htmlspecialchars($user->getName()), array( "id" => "fe_user_link" )), Html::element('time', array( 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp )), $lastUpdate))->escaped() 
