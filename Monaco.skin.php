@@ -14,6 +14,8 @@ if(!defined('MEDIAWIKI')) {
 	die(-1);
 }
 
+use MediaWiki\MediaWikiServices;
+
 class SkinMonaco extends SkinTemplate {
 
 	/**
@@ -861,10 +863,10 @@ if ($custom_article_footer !== '') {
 ?>
 								<li><?php echo $feUserIcon ?> <div><?php
 				// haleyjd 20171009: must use LinkRenderer for 1.28 and up
-				if(method_exists($skin, "getLinkRenderer")) { 
-					$linkRenderer = $skin->getLinkRenderer();
+				if(class_exists('MediaWikiServices')) { 
+					$factory = MediaWikiServices::getInstance()->getLinkRenderer();
 					echo wfMessage('monaco-footer-lastedit')->rawParams($linkRenderer->makeLink($userPageTitle, $user->getName(), array('id' => 'fe_user_link')), Html::element('time', array('datetime' => wfTimestamp(TS_ISO_8601, $$timestamp)), $lastUpdate))->escaped();
-				} else if(method_exists($skin, 'link')) {
+				} else {
 					// TODO: remove once 1.28 is minimum supported.
 					echo wfMessage('monaco-footer-lastedit')->rawParams($skin->link($userPageTitle, htmlspecialchars($user->getName()), array( "id" => "fe_user_link" )), Html::element('time', array( 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp )), $lastUpdate))->escaped();
 				} ?></div></li>
