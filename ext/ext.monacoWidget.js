@@ -197,7 +197,14 @@
   
   // Create a link to a user page
   mw.libs.monacoWidget.UserLink = function (user) {
-    return '<a href="' + mw.util.getUrl('User:' + user) + '">' + user + '</a>';
+    if(/(?:[0-9]{1,3}\.){3}[0-9]{1,3}/.test(user)) {
+      // anonymous users rarely have user pages so link to Special:Contributions
+      return '<a href="' + mw.util.getUrl('Special:Contributions') + '/' + user + '">' + user + '</a>';
+    } else {
+      // right now it's a weakness that the user page may not exist; we have no efficient way to
+      // test for that from here though (repeated API queries would be too slow/taxing on server)
+      return '<a href="' + mw.util.getUrl('User:' + user) + '">' + user + '</a>';
+    }
   };
   
   /*
