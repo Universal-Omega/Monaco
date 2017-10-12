@@ -1,8 +1,7 @@
 /**
  * Monaco Widget Framework 2.0
- * Replaces old obsolete YUI-based WidgetFramework plugin with frontend-driven
- * dynamic content. Widgets can be defined through the wiki frontend via use
- * of Extension:Gadgets.
+ * Replaces old WidgetFramework plugin with frontend-driven dynamic content. 
+ * Widgets can be defined through the wiki frontend via use of Extension:Gadgets.
  * Added to ResourceLoader as ext.monacoWidget
  *
  * @file
