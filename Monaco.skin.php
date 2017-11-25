@@ -863,7 +863,7 @@ if ($custom_article_footer !== '') {
 ?>
 								<li><?php echo $feUserIcon ?> <div><?php
 				// haleyjd 20171009: must use LinkRenderer for 1.28 and up
-				if(class_exists('\\MediaWiki\\MediaWikiServices')) { 
+				if(class_exists('\\MediaWiki\\MediaWikiServices') && method_exists('\\MediaWiki\\MediaWikiServices', 'getLinkRenderer')) {
 					$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 					echo wfMessage('monaco-footer-lastedit')->rawParams($linkRenderer->makeLink($userPageTitle, $user->getName(), array('id' => 'fe_user_link')), Html::element('time', array('datetime' => wfTimestamp(TS_ISO_8601, $$timestamp)), $lastUpdate))->escaped();
 				} else {
