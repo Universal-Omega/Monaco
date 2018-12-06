@@ -4,25 +4,22 @@ Monaco Skin for MediaWiki
 About
 -----
 
-This is an unbranded fork of the Monaco skin originally developed by Wikia
-which is being maintained for use at [DoomWiki.org](http://doomwiki.org). It was
+This is an other unbranded fork of the Monaco skin originally developed by Wikia
+which is being maintained for use for my Private Wiki. It was
 also previously deployed at the Orain non-profit wiki farm before it went 
 offline.
 
 Compared to the original version of the skin, this fork now supports MediaWiki
-versions 1.24 to 1.29 officially, with verified support for 1.30+ in the works.
+version 1.31 officially.
 This codebase will usually remain up-to-date against MediaWiki, and will drop
 support for older versions unconditionally once it becomes impractical to
 continue to support them.
 
-New features in this fork over `dantman/monaco-port` include:  
+New features in this fork over `haleyjd/monaco-port` include:  
 
-* A new Widgets framework which cooperates with [Extension:Gadgets](https://www.mediawiki.org/wiki/Extension:Gadgets) to allow sidebar content to be defined through the MediaWiki frontend.
-* Special support for [Extension:FlaggedRevs](https://www.mediawiki.org/wiki/Extension:FlaggedRevs) and [Extension:MobileFrontend](https://www.mediawiki.org/wiki/Extension:MobileFrontend) when they are installed.
-* Wiki copyright notice is displayed in the footer of every page as with WikiMedia-maintained skins.
-* Numerous bug fixes to stylesheets, JavaScript, and php HTML generation.
+* First Version that support MediaWiki verison 1.31, but not tested
 
-This fork is maintained by James Haley. I do not offer support for this
+This fork is maintained by Roger Meier. I do not offer support for this
 software beyond basic installation help, however. Please do not contact
 me requesting any customizations for your particular site. Bug reports
 are however very much welcome, as are generic feature requests that 
@@ -35,11 +32,11 @@ To install, install monaco-port into a monaco/ folder in your skins/ folder.
 From the command line you can do this by cd'ing to your skins/ folder inside
 your MediaWiki installation and running:
 
-`git clone git://github.com/haleyjd/monaco-port.git monaco`
+`git clone git://github.com/beleggrodion/monaco-port.git monaco`
 
 After you have placed the skin into that folder add:
 
-`require_once("$IP/skins/monaco/monaco.php");`
+`wfLoadSkin( 'Monaco' );`
 
 near the end of your LocalSettings.php to finish installation of the skin.
 
