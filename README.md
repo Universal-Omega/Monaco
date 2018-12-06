@@ -36,7 +36,7 @@ your MediaWiki installation and running:
 
 After you have placed the skin into that folder add:
 
-wfLoadSkin( 'Monaco' );
+`wfLoadSkin( 'Monaco' );`
 
 near the end of your LocalSettings.php to finish installation of the skin.
 
