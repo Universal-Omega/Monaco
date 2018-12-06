@@ -31,9 +31,19 @@ class SkinMonaco extends SkinTemplate {
 	function diggsLink() {}
 	function deliciousLink() {}
 
+    /**
+     * @var Config
+     */
+    private $monacoConfig;
+    
 	/** Using monaco. */
 	var $skinname = 'monaco', $stylename = 'monaco',
 		$template = 'MonacoTemplate', $useHeadElement = true;
+
+
+    public function __construct() {
+        $this->monacoConfig = \MediaWiki\MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'monaco' );
+	}
 
 	/**
 	 * @author Inez Korczynski <inez@wikia.com>
@@ -42,7 +52,7 @@ class SkinMonaco extends SkinTemplate {
 
 		wfDebugLog('monaco', '##### SkinMonaco initPage #####');
 
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		global $wgHooks, $wgJsMimeType;
 
 		SkinTemplate::initPage($out);
@@ -61,7 +71,7 @@ class SkinMonaco extends SkinTemplate {
 				'.replace(/\w+/g,function(n){document.createElement(n)})</script><![endif]-->'
 		);
 
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 	}
 
 	/**
@@ -81,20 +91,21 @@ class SkinMonaco extends SkinTemplate {
 		
 		// ResourceLoader doesn't do ie specific styles that well iirc, so we have
 		// to do those manually.
-		$out->addStyle( 'monaco/style/css/monaco_ie8.css', 'screen', 'IE 8' );
-		$out->addStyle( 'monaco/style/css/monaco_gteie8.css', 'screen', 'gte IE 8');
+		$out->addStyle( 'Monaco/style/css/monaco_ie8.css', 'screen', 'IE 8' );
+		$out->addStyle( 'Monaco/style/css/monaco_gteie8.css', 'screen', 'gte IE 8');
 		
 		// Likewise the masthead is a conditional feature so it's hard to include
 		// inside of the ResourceLoader.
 		if ( $this->showMasthead() ) {
-			$out->addStyle( 'monaco/style/css/masthead.css', 'screen' );
+			$out->addStyle( 'Monaco/style/css/masthead.css', 'screen' );
 		}
 		
-		$theme = $wgMonacoTheme;
-		if ( $wgMonacoAllowUsetheme ) {
+		$theme = $this->monacoConfig->get( 'MonacoTheme' );
+        
+		if ( $this->monacoConfig->get( 'MonacoAllowusetheme' ) ) {
 			$theme = $wgRequest->getText('usetheme', $theme);
 			if ( preg_match('/[^a-z]/', $theme) ) {
-				$theme = $wgMonacoTheme;
+				$theme = $this->monacoConfig->get( 'MonacoTheme' );
 			}
 		}
 		if ( preg_match('/[^a-z]/', $theme) ) {
@@ -103,12 +114,12 @@ class SkinMonaco extends SkinTemplate {
 		
 		// Theme is another conditional feature, we can't really resource load this
 		if ( isset($theme) && is_string($theme) && $theme != "sapphire" )
-			$out->addStyle( "monaco/style/{$theme}/css/main.css", 'screen' );
+			$out->addStyle( "Monaco/style/{$theme}/css/main.css", 'screen' );
 		
 		// TODO: explicit RTL style sheets are supposed to be obsolete w/ResourceLoader
 		// I have no way to test this currently, however. -haleyjd
 		// rtl... hmm, how do we resource load this?
-		$out->addStyle( 'monaco/style/rtl.css', 'screen', '', 'rtl' );
+		$out->addStyle( 'Monaco/style/rtl.css', 'screen', '', 'rtl' );
 	}
 
 	function showMasthead() {
@@ -180,7 +191,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	public function addVariables(&$obj, &$tpl) {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		global $wgLang, $wgContLang, $wgUser, $wgRequest, $wgTitle, $parserMemc;
 
 		// We want to cache populated data only if user language is same with wiki language
@@ -195,9 +206,9 @@ class SkinMonaco extends SkinTemplate {
 
 		if(empty($data_array)) {
 			wfDebugLog('monaco', 'There is no cached $data_array, let\'s populate');
-			wfProfileIn(__METHOD__ . ' - DATA ARRAY');
+			//wfProfileIn(__METHOD__ . ' - DATA ARRAY');
 			$data_array['toolboxlinks'] = $this->getToolboxLinks();
-			wfProfileOut(__METHOD__ . ' - DATA ARRAY');
+			//wfProfileOut(__METHOD__ . ' - DATA ARRAY');
 			if($cache) {
 				$parserMemc->set($key, $data_array, 4 * 60 * 60 /* 4 hours */);
 			}
@@ -210,7 +221,7 @@ class SkinMonaco extends SkinTemplate {
 
 				$wgUser->mMonacoData = array();
 
-				wfProfileIn(__METHOD__ . ' - DATA ARRAY');
+				//wfProfileIn(__METHOD__ . ' - DATA ARRAY');
 
 				$text = $this->getTransformedArticle('User:'.$wgUser->getName().'/Monaco-toolbox', true);
 				if(empty($text)) {
@@ -218,7 +229,7 @@ class SkinMonaco extends SkinTemplate {
 				} else {
 					$wgUser->mMonacoData['toolboxlinks'] = $this->parseToolboxLinks($text);
 				}
-				wfProfileOut(__METHOD__ . ' - DATA ARRAY');
+				//wfProfileOut(__METHOD__ . ' - DATA ARRAY');
 			}
 
 			if($wgUser->mMonacoData['toolboxlinks'] !== false && is_array($wgUser->mMonacoData['toolboxlinks'])) {
@@ -252,7 +263,7 @@ class SkinMonaco extends SkinTemplate {
 		// User actions links
 		$tpl->set('userlinks', $this->getUserLinks($tpl));
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return true;
 	}
 
@@ -311,7 +322,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function addExtraItemsToSidebarMenu(&$node, &$nodes) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 
 		$extraWords = array(
 					'#voted#' => array('highest_ratings', 'GetTopVotedArticles'),
@@ -346,14 +357,14 @@ class SkinMonaco extends SkinTemplate {
 			}
 		}
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 	}
 
 	/**
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function parseSidebarMenu($lines) {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		$nodes = array();
 		$nodes[] = array();
 		$lastDepth = 0;
@@ -390,7 +401,7 @@ class SkinMonaco extends SkinTemplate {
 				$i++;
 			}
 		}
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 		return $nodes;
 	}
 
@@ -405,7 +416,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function getTransformedArticle($name, $asArray = false) {
-		wfProfileIn(__METHOD__);
+		//wfProfileIn(__METHOD__);
 		global $wgParser, $wgMessageCache;
 		$revision = Revision::newFromTitle(Title::newFromText($name));
 		if(is_object($revision)) {
@@ -415,11 +426,11 @@ class SkinMonaco extends SkinTemplate {
 				if($asArray) {
 					$ret = explode("\n", $ret);
 				}
-				wfProfileOut(__METHOD__);
+				//wfProfileOut(__METHOD__);
 				return $ret;
 			}
 		}
-		wfProfileOut(__METHOD__);
+		//wfProfileOut(__METHOD__);
 		return null;
 	}
 
@@ -431,7 +442,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function getArticleLinks($tpl) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 		$links = array();
 
 		if ( isset($tpl->data['content_navigation']) ) {
@@ -512,7 +523,7 @@ class SkinMonaco extends SkinTemplate {
 			}
 		}
 		
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $links;
 	}
 
@@ -523,7 +534,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function getUserLinks($tpl) {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 		global $wgUser, $wgTitle, $wgRequest;
 
 		$data = array();
@@ -615,7 +626,7 @@ class SkinMonaco extends SkinTemplate {
 			}
 		}
 
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 		return $data;
 	}
 } // end SkinMonaco
@@ -671,7 +682,7 @@ class MonacoTemplate extends BaseTemplate {
 	}
 
 	function execute() {
-		wfProfileIn( __METHOD__ );
+		//wfProfileIn( __METHOD__ );
 		global $wgContLang, $wgUser, $wgLogo, $wgStyleVersion, $wgRequest, $wgTitle, $wgSitename;
 		global $wgMonacoUseSitenoticeIsland;
 
@@ -679,7 +690,7 @@ class MonacoTemplate extends BaseTemplate {
 		$action = $wgRequest->getText('action');
 		$namespace = $wgTitle->getNamespace();
 
-		$this->set( 'blankimg', $this->data['stylepath'].'/monaco/style/images/blank.gif' );
+		$this->set( 'blankimg', $this->data['stylepath'].'/Monaco/style/images/blank.gif' );
 
 		// Suppress warnings to prevent notices about missing indexes in $this->data
 		wfSuppressWarnings();
@@ -695,10 +706,10 @@ class MonacoTemplate extends BaseTemplate {
 
 	$this->printAdditionalHead(); // @fixme not valid
 ?>
-<?php		wfProfileOut( __METHOD__ . '-head');  ?>
+<?php		//wfProfileOut( __METHOD__ . '-head');  ?>
 
 <?php
-wfProfileIn( __METHOD__ . '-body'); ?>
+//wfProfileIn( __METHOD__ . '-body'); ?>
 <?php
 
 	// this hook allows adding extra HTML just after <body> opening tag
@@ -720,7 +731,7 @@ wfProfileIn( __METHOD__ . '-body'); ?>
 		// curse like cobranding
 		$this->printCustomHeader();
 
-		wfProfileIn( __METHOD__ . '-header'); ?>
+		//wfProfileIn( __METHOD__ . '-header'); ?>
 	<div id="wikia_header" class="color2">
 		<div class="monaco_shrinkwrap">
 <?php $this->printMonacoBranding(); ?>
@@ -738,10 +749,10 @@ wfProfileIn( __METHOD__ . '-body'); ?>
 		</div>
 <?php endif; ?>
 		<!-- /HEADER -->
-<?php		wfProfileOut( __METHOD__ . '-header'); ?>
+<?php		//wfProfileOut( __METHOD__ . '-header'); ?>
 
 		<!-- PAGE -->
-<?php		wfProfileIn( __METHOD__ . '-page'); ?>
+<?php		//wfProfileIn( __METHOD__ . '-page'); ?>
 
 	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar<?php if ( $this->hasRightSidebar() ) { echo ' with_right_sidebar'; } ?>">
 		<div id="page_wrapper">
@@ -759,7 +770,7 @@ wfProfileIn( __METHOD__ . '-body'); ?>
 			$this->printPageBar(); ?>
 					<!-- ARTICLE -->
 
-<?php		wfProfileIn( __METHOD__ . '-article'); ?>
+<?php		//wfProfileIn( __METHOD__ . '-article'); ?>
 				<article id="article" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>
 					<?php wfRunHooks('MonacoAfterArticle', array($this)); ?>
@@ -789,10 +800,10 @@ wfProfileIn( __METHOD__ . '-body'); ?>
 				<!-- /ARTICLE -->
 				<?php
 
-			wfProfileOut( __METHOD__ . '-article'); ?>
+			//wfProfileOut( __METHOD__ . '-article'); ?>
 
 			<!-- ARTICLE FOOTER -->
-<?php		wfProfileIn( __METHOD__ . '-articlefooter'); ?>
+<?php		//wfProfileIn( __METHOD__ . '-articlefooter'); ?>
 <?php
 global $wgTitle, $wgOut;
 $custom_article_footer = '';
@@ -968,13 +979,13 @@ if ($custom_article_footer !== '') {
 } //end else from CustomArticleFooter hook
 ?>
 				<!-- /ARTICLE FOOTER -->
-<?php		wfProfileOut( __METHOD__ . '-articlefooter'); ?>
+<?php		//wfProfileOut( __METHOD__ . '-articlefooter'); ?>
 
 			</div>
 			<!-- /PAGE -->
-<?php		wfProfileOut( __METHOD__ . '-page'); ?>
+<?php		//wfProfileOut( __METHOD__ . '-page'); ?>
 
-			<noscript><link rel="stylesheet" property="stylesheet" type="text/css" href="<?php $this->text( 'stylepath' ) ?>/monaco/style/css/noscript.css?<?php echo $wgStyleVersion ?>" /></noscript>
+			<noscript><link rel="stylesheet" property="stylesheet" type="text/css" href="<?php $this->text( 'stylepath' ) ?>/Monaco/style/css/noscript.css?<?php echo $wgStyleVersion ?>" /></noscript>
 <?php
 	if(!($wgRequest->getVal('action') != '' || $namespace == NS_SPECIAL)) {
 		$this->html('JSloader');
@@ -984,7 +995,7 @@ if ($custom_article_footer !== '') {
 		</div>
 <?php $this->printRightSidebar() ?>
 		<!-- WIDGETS -->
-<?php		wfProfileIn( __METHOD__ . '-navigation'); ?>
+<?php		//wfProfileIn( __METHOD__ . '-navigation'); ?>
 		<div id="widget_sidebar" class="reset widget_sidebar left_sidebar sidebar">
 			<div id="wiki_logo" style="background-image: url(<?php $this->html( 'logopath' ) ?>);"><a href="<?php echo htmlspecialchars($this->data['nav_urls']['mainpage']['href'])?>" accesskey="z" rel="home"><?php echo $wgSitename ?></a></div>
 
@@ -1191,16 +1202,18 @@ if ($custom_article_footer !== '') {
 				</td>
 			</tr>
 			<!-- haleyjd 20140420: FIXME: DoomWiki.org-specific; make generic! -->
+			<!--
 			<tr>
 				<td colspan="2" style="text-align:center;">
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 						<input type="hidden" name="cmd" value="_s-xclick">
 						<input type="hidden" name="hosted_button_id" value="D5MLUSDXA8HMQ">
-						<input type="image" src="<?php $this->text('stylepath') ?>/monaco/style/images/contribute-button.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
+						<input type="image" src="<?php $this->text('stylepath') ?>/Monaco/style/images/contribute-button.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
 						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;">
 					</form>
 				</td>
 			</tr>
+			-->
 		</tbody>
 <?php
 	}
@@ -1211,14 +1224,14 @@ if ($custom_article_footer !== '') {
 			<!-- /SEARCH/NAVIGATION -->
 <?php		$this->printExtraSidebar(); ?>
 <?php		wfRunHooks( 'MonacoSidebarEnd', array( $this ) ); ?>
-<?php		wfProfileOut( __METHOD__ . '-navigation'); ?>
-<?php		wfProfileIn( __METHOD__ . '-widgets'); ?>
+<?php		//wfProfileOut( __METHOD__ . '-navigation'); ?>
+<?php		//wfProfileIn( __METHOD__ . '-widgets'); ?>
 
 		</div>
 		<!-- /WIDGETS -->
 	<!--/div-->
 <?php
-wfProfileOut( __METHOD__ . '-widgets');
+//wfProfileOut( __METHOD__ . '-widgets');
 
 // curse like cobranding
 $this->printCustomFooter();
@@ -1235,13 +1248,13 @@ wfRunHooks('SpecialFooter');
 <?php
 $this->delayedPrintCSSdownload();
 $this->html('reporttime');
-wfProfileOut( __METHOD__ . '-body');
+//wfProfileOut( __METHOD__ . '-body');
 ?>
 
 	</body>
 </html>
 <?php
-		wfProfileOut( __METHOD__ );
+		//wfProfileOut( __METHOD__ );
 	} // end execute()
 
 	//@author Marooned
