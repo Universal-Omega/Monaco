@@ -1,4 +1,4 @@
-<?phpgetMenu
+<?php
 /**
  * MonacoSidebar class
  *
