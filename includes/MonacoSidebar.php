@@ -105,27 +105,14 @@ class MonacoSidebar {
 
 	public function getCode() {
 		global $wgUser, $wgTitle, $wgRequest, $wgMemc, $wgLang, $wgContLang;
-		
-		/*
-		if($wgUser->isLoggedIn()) {
-			if(empty($wgUser->mMonacoSidebar) || ($wgTitle->getNamespace() == NS_USER && $wgRequest->getText('action') == 'delete')) {
-				$wgUser->mMonacoSidebar = $this->getMenu($this->getUserLines(), true);
-				if(empty($wgUser->mMonacoSidebar)) {
-					$wgUser->mMonacoSidebar = -1;
-				}
-			}
-			if($wgUser->mMonacoSidebar != -1) {
-				return $wgUser->mMonacoSidebar;
-			}
-		} */
-
+        
 		$cache = $wgLang->getCode() == $wgContLang->getCode();
 		if($cache) {
 			$key = wfMemcKey('mMonacoSidebar', self::version);
 			$menu = $wgMemc->get($key);
 		}
 		if(empty($menu)) {
-			$menu = $this->getMenu($this->getMenuLines());
+            $menu = $this->getMenu($this->getMenuLines());
 			if($cache) {
 				$wgMemc->set($key, $menu, 60 * 60 * 8);
 			}
@@ -176,8 +163,8 @@ class MonacoSidebar {
 	public function getMenu($lines, $userMenu = false) {
 		global $wgMemc, $wgScript;
 
-		$nodes = $this->parseSidebar($lines);
-
+        $nodes = $this->parseSidebar($lines);
+        
 		if(count($nodes) > 0) {
 			
 			wfRunHooks('MonacoSidebarGetMenu', array(&$nodes));
@@ -283,38 +270,6 @@ class MonacoSidebar {
 		}
 		return false;
 	}
-/*
-	private $biggestCategories;
-
-	public function getBiggestCategory($index) {
-		global $wgMemc, $wgBiggestCategoriesBlacklist;
-		$limit = max($index, 15);
-		if($limit > count($this->biggestCategories)) {
-			$key = wfMemcKey('biggest', $limit);
-			$data = $wgMemc->get($key);
-			if(empty($data)) {
-				$filterWordsA = array();
-				foreach($wgBiggestCategoriesBlacklist as $word) {
-					$filterWordsA[] = '(cl_to not like "%'.$word.'%")';
-				}
-				$dbr =& wfGetDB( DB_SLAVE );
-				$tables = array("categorylinks");
-				$fields = array("cl_to, COUNT(*) AS cnt");
-				$where = count($filterWordsA) > 0 ? array(implode(' AND ', $filterWordsA)) : array();
-				$options = array("ORDER BY" => "cnt DESC", "GROUP BY" => "cl_to", "LIMIT" => $limit);
-				$res = $dbr->select($tables, $fields, $where, __METHOD__, $options);
-				$categories = array();
-				while ($row = $dbr->fetchObject($res)) {
-					$this->biggestCategories[] = array('name' => $row->cl_to, 'count' => $row->cnt);
-				}
-				$wgMemc->set($key, $this->biggestCategories, 60 * 60 * 24 * 7);
-			} else {
-				$this->biggestCategories = $data;
-			}
-		}
-		return isset($this->biggestCategories[$index-1]) ? $this->biggestCategories[$index-1] : null;
-	}
-*/
 
     /**
      * Grab the sidebar for the current user
@@ -567,6 +522,4 @@ class MonacoSidebar {
         $index++;
         return $index;
     }
-
 }
-
