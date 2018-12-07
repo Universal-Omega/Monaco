@@ -19,8 +19,8 @@
 		"monaco": "Monaco"
 	},
 	"AutoloadClasses": {
-		"SkinMonaco": "includes/Monaco.skin.php",
-		"MonacoTemplate": "includes/Monaco.skin.php",
+		"SkinMonaco": "includes/SkinMonaco.php",
+		"MonacoTemplate": "includes/MonacoTemplate.php",
 		"MonacoSidebar": "includes/MonacoSidebar.php"
 	},
 	"MessagesDirs": {
