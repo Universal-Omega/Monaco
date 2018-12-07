@@ -105,6 +105,8 @@ class MonacoSidebar {
 
 	public function getCode() {
 		global $wgUser, $wgTitle, $wgRequest, $wgMemc, $wgLang, $wgContLang;
+		
+		/*
 		if($wgUser->isLoggedIn()) {
 			if(empty($wgUser->mMonacoSidebar) || ($wgTitle->getNamespace() == NS_USER && $wgRequest->getText('action') == 'delete')) {
 				$wgUser->mMonacoSidebar = $this->getMenu($this->getUserLines(), true);
@@ -115,7 +117,7 @@ class MonacoSidebar {
 			if($wgUser->mMonacoSidebar != -1) {
 				return $wgUser->mMonacoSidebar;
 			}
-		}
+		} */
 
 		$cache = $wgLang->getCode() == $wgContLang->getCode();
 		if($cache) {
@@ -129,19 +131,6 @@ class MonacoSidebar {
 			}
 		}
 		return $menu;
-	}
-
-	public function getUserLines() {
-		global $wgUser,  $wgParser, $wgMessageCache;
-		$revision = Revision::newFromTitle(Title::newFromText('User:'.$wgUser->getName().'/Monaco-sidebar'));
-		if(is_object($revision)) {
-			$text = $revision->getText();
-			if(!empty($text)) {
-				$ret = explode("\n", $wgParser->transformMsg($text, $wgMessageCache->getParserOptions()));
-				return $ret;
-			}
-		}
-		return null;
 	}
 
 	public function getMenuLines() {
