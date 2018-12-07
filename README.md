@@ -18,6 +18,8 @@ continue to support them.
 New features in this fork over `haleyjd/monaco-port` include:  
 
 * First Version that support MediaWiki verison 1.31, but not tested
+* Implementation of extending the Sidebar Menu with User and Group Sidebar Elements
+  like Extension "DynamicSidebar"
 
 This fork is maintained by Roger Meier. I do not offer support for this
 software beyond basic installation help, however. Please do not contact
