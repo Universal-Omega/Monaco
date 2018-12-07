@@ -1,4 +1,4 @@
-<?php
+<?phpgetMenu
 /**
  * MonacoSidebar class
  *
@@ -187,7 +187,7 @@ class MonacoSidebar {
 	public function getMenu($lines, $userMenu = false) {
 		global $wgMemc, $wgScript;
 
-		$nodes = $this->parse($lines);
+		$nodes = $this->parseSidebar($lines);
 
 		if(count($nodes) > 0) {
 			
@@ -267,109 +267,6 @@ class MonacoSidebar {
 		}
 	}
 
-	public function parse($lines) {
-		$nodes = array();
-		$lastDepth = 0;
-		$i = 0;
-		if(is_array($lines) && count($lines) > 0) {
-			foreach($lines as $line) {
-				if(trim($line) === '') {
-					continue; // ignore empty lines
-				}
-
-				$node = $this->parseLine($line);
-				$node['depth'] = strrpos($line, '*') + 1;
-
-				if($node['depth'] == $lastDepth) {
-					$node['parentIndex'] = $nodes[$i]['parentIndex'];
-				} else if ($node['depth'] == $lastDepth + 1) {
-					$node['parentIndex'] = $i;
-				} else {
-					for($x = $i; $x >= 0; $x--) {
-						if($x == 0) {
-							$node['parentIndex'] = 0;
-							break;
-						}
-						if($nodes[$x]['depth'] == $node['depth'] - 1) {
-							$node['parentIndex'] = $x;
-							break;
-						}
-					}
-				}
-
-				if($node['original'] == 'editthispage') {
-					$node['href'] = 'editthispage';
-					if($node['depth'] == 1) {
-						$nodes[0]['editthispage'] = true; // we have to know later if there is editthispage special word used in first level
-					}
-				} else if(!empty( $node['original'] ) && $node['original']{0} == '#') {
-					if($this->handleMagicWord($node)) {
-						$nodes[0]['magicWords'][] = $node['magic'];
-						if($node['depth'] == 1) {
-							$nodes[0]['magicWord'] = true; // we have to know later if there is any magic word used if first level
-						}
-					} else {
-						continue;
-					}
-				}
-
-				$nodes[$i+1] = $node;
-				$nodes[$node['parentIndex']]['children'][] = $i+1;
-				$lastDepth = $node['depth'];
-				$i++;
-			}
-		}
-		return $nodes;
-	}
-
-	public function parseLine($line) {
-		$lineTmp = explode('|', trim($line, '* '), 2);
-		$lineTmp[0] = trim($lineTmp[0], '[]'); // for external links defined as [http://example.com] instead of just http://example.com
-
-		$internal = false;
-
-		if(count($lineTmp) == 2 && $lineTmp[1] != '') {
-			$link = trim(wfMessage($lineTmp[0])->inContentLanguage()->text());
-			$line = trim($lineTmp[1]);
-		} else {
-			$link = trim($lineTmp[0]);
-			$line = trim($lineTmp[0]);
-		}
-
-		if(wfMessage($line)->exists()) {
-			$text = wfMessage($line)->text();
-		} else {
-			$text = $line;
-		}
-
-		if(!wfMessage($lineTmp[0])->exists()) {
-			$link = $lineTmp[0];
-		}
-
-		if(preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link )) {
-			$href = $link;
-		} else {
-			if(empty($link)) {
-				$href = '#';
-			} else if($link{0} == '#') {
-				$href = '#';
-			} else {
-				$title = Title::newFromText($link);
-				if(is_object($title)) {
-					$href = $title->fixSpecialName()->getLocalURL();
-					$internal = true;
-				} else {
-					$href = '#';
-				}
-			}
-		}
-
-		$ret = array('original' => $lineTmp[0], 'text' => $text);
-		$ret['href'] = $href;
-		$ret['internal'] = $internal;
-		return $ret;
-	}
-
 	public function handleMagicWord(&$node) {
 		$original_lower = strtolower($node['original']);
 		if(in_array($original_lower, array('#voted#', '#popular#', '#visited#', '#newlychanged#', '#topusers#'))) {
@@ -429,5 +326,258 @@ class MonacoSidebar {
 		return isset($this->biggestCategories[$index-1]) ? $this->biggestCategories[$index-1] : null;
 	}
 */
+
+    /**
+     * Grab the sidebar for the current user
+     * User:<username>/Monaco-sidebar
+     *
+     * Adapted from Extension:DynamicSidebar
+     * 
+     * @param User $user
+     * @return string
+     **/
+    private function doUserSidebar( User $user ) {
+        $username = $user->getName();
+
+ 		// does 'User:<username>/Sidebar' page exist?
+		$title = Title::makeTitle( NS_USER, $username . '/Monaco-sidebar' );
+		if ( !$title->exists() ) {
+			// Remove this sidebar if not
+			return '';
+		}
+
+		$revid = $title->getLatestRevID();
+		$a = new Article( $title, $revid );
+		return explode("\n", ContentHandler::getContentText( $a->getPage()->getContent() ));
+    }
+
+	/**
+	 * Grabs the sidebar for the current user's groups
+	 *
+	 * @param User $user
+	 * @return string
+	 */
+	private static function doGroupSidebar( User $user ) {
+		// Get group membership array.
+		$groups = $user->getEffectiveGroups();
+		Hooks::run( 'DynamicSidebarGetGroups', [ &$groups ] );
+		// Did we find any groups?
+		if ( count( $groups ) == 0 ) {
+			// Remove this sidebar if not
+			return '';
+		}
+
+		$text = '';
+		foreach ( $groups as $group ) {          
+			// Form the path to the article:
+			// MediaWiki:Monaco-sidebar/<group>
+			$title = Title::makeTitle( NS_MEDIAWIKI, 'Monaco-sidebar/Group:' . $group );
+			if ( !$title->exists() ) {
+				continue;
+			}
+			$revid = $title->getLatestRevID();
+			$a = new Article( $title, $revid );
+			$text .= ContentHandler::getContentText( $a->getPage()->getContent() ) . "\n";
+
+		}
+		return explode("\n",$text);
+	}
+
+    /**
+     * Parse Sidebar Lines
+     *
+     * @param Array $lines
+     * @param Array $nodes
+     */
+    public function parseSidebar($lines) {
+        global $wgUser;
+   
+  		$nodes = array();
+		$lastDepth = 0;
+		$i = 0;
+		if(is_array($lines) && count($lines) > 0) {
+			foreach($lines as $line) {
+				if(trim($line) === '') {
+					continue; // ignore empty lines
+				}
+                
+				$node = $this->parseSidebarLine($line);
+                $node = $this->addDepthParentToNode($line,$node,$nodes,$i,$lastDepth);
+               
+                // expand to user sidebar
+                if($node['original'] == "USER-SIDEBAR")
+                    {
+                        $this->processSpecialSidebar($this->doUserSidebar($wgUser),$lastDepth, $nodes, $i);
+                        // we don't add the placeholder, we add the menu which is behind it
+                        continue;
+                    }
+                // expand to group sidebar
+                if($node['original'] == "GROUP-SIDEBAR")
+                    {
+                        $this->processSpecialSidebar($this->doGroupSidebar($wgUser),$lastDepth, $nodes, $i);
+                        // we don't add the placeholder, we add the menu which is behind it
+                        continue;
+                    }
+                
+				if($node['original'] == 'editthispage') {
+					$node['href'] = 'editthispage';
+					if($node['depth'] == 1) {
+						$nodes[0]['editthispage'] = true; // we have to know later if there is editthispage special word used in first level
+					}
+				} else if(!empty( $node['original'] ) && $node['original']{0} == '#') {
+					if($this->handleMagicWord($node)) {
+						$nodes[0]['magicWords'][] = $node['magic'];
+						if($node['depth'] == 1) {
+							$nodes[0]['magicWord'] = true; // we have to know later if there is any magic word used if first level
+						}
+					} else {
+						continue;
+					}
+				}
+
+                $i = $this->addNodeToSidebar($node,$nodes,$i,$lastDepth);
+            }
+		}
+        
+		return $nodes;      
+    }
+
+    /**
+     * Parse Line of Sidebar
+     *
+     * @param String $line
+     * @param Array $ret
+     */
+	public function parseSidebarLine($line) {
+		$lineTmp = explode('|', trim($line, '* '), 2);
+		$lineTmp[0] = trim($lineTmp[0], '[]'); // for external links defined as [http://example.com] instead of just http://example.com
+
+		$internal = false;
+
+		if(count($lineTmp) == 2 && $lineTmp[1] != '') {
+			$link = trim(wfMessage($lineTmp[0])->inContentLanguage()->text());
+			$line = trim($lineTmp[1]);
+		} else {
+			$link = trim($lineTmp[0]);
+			$line = trim($lineTmp[0]);
+		}
+
+		if(wfMessage($line)->exists()) {
+			$text = wfMessage($line)->text();
+		} else {
+			$text = $line;
+		}
+
+		if(!wfMessage($lineTmp[0])->exists()) {
+			$link = $lineTmp[0];
+		}
+
+		if(preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link )) {
+			$href = $link;
+		} else {
+			if(empty($link)) {
+				$href = '#';
+			} else if($link{0} == '#') {
+				$href = '#';
+			} else {
+				$title = Title::newFromText($link);
+				if(is_object($title)) {
+					$href = $title->fixSpecialName()->getLocalURL();
+					$internal = true;
+				} else {
+					$href = '#';
+				}
+			}
+		}
+
+		$ret = array('original' => $lineTmp[0], 'text' => $text);
+		$ret['href'] = $href;
+		$ret['internal'] = $internal;
+		return $ret;
+	}
+
+    /**
+     * Process a List of Elements and add them to the corrent position in the current menu
+     *
+     * @param Array $lines A List of Menu Elements which shoul'd be added
+     * @param Integer $lastDepth Last depth
+     * @param Array $nodes A List of Current Menu Elements
+     * @param Integer $i Index of the Newest Item in Current Menu
+     */
+    function processSpecialSidebar($lines,&$lastDepth, &$nodes, &$i) {
+        
+        if (is_array($lines) && count($lines) > 0) {
+            foreach($lines as $line) {
+                if(trim($line) === '') {
+                    continue; // skip empty lines, goto next line
+                }
+                
+                // convert line into small array
+                $node = $this->parseSidebarLine($line);
+
+                $node = $this->addDepthParentToNode($line,$node,$nodes,$i,$lastDepth);
+                $i = $this->addNodeToSidebar($node,$nodes,$i,$lastDepth);
+            }
+        }
+        return;
+    }
+
+    /**
+     * Calculate and Add the Depth of the current Node.
+     * Set the Array Index of the Parent Node to the Current Node
+     *
+     * @param String $line
+     * @param Array $node
+     * @param Array $nodes
+     * @param Integer $index
+     * @param Integer $lastDepth
+     *
+     * @return Array $node 
+     */
+    function addDepthParentToNode($line, $node, &$nodes, &$index, &$lastDepth) {
+
+        // calculate the depth of this node in the menu
+        $node['depth'] = strrpos($line, '*') + 1;
+        
+        if($node['depth'] == $lastDepth) {
+            $node['parentIndex'] = $nodes[$index]['parentIndex'];
+        } else if ($node['depth'] == $lastDepth + 1) {
+            $node['parentIndex'] = $index;
+        } else {
+            for($x = $index; $x >= 0; $x--) {
+                if($x == 0) {
+                    $node['parentIndex'] = 0;
+                    break;
+                }
+                if($nodes[$x]['depth'] == $node['depth'] - 1) {
+                    $node['parentIndex'] = $x;
+                    break;
+                }
+            }
+        }
+
+        return $node;
+    }
+
+    /**
+     * Add Node as newest Item of the Menu
+     *
+     * @param Array $node
+     * @param Array $nodes
+     * @param Integer $index
+     * @param Integer $lastDepth
+     *
+     * @return Integer $i
+     **/
+    function addNodeToSidebar($node, &$nodes, $index, &$lastDepth)
+    {
+        
+        $nodes[$index+1] = $node;
+        $nodes[$node['parentIndex']]['children'][] = $index+1;
+        $lastDepth = $node['depth'];
+        $index++;
+        return $index;
+    }
+
 }
 
