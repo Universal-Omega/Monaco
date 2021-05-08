@@ -1,58 +1,15 @@
 <?php
-/**
- * Monaco skin
- *
- * @package MediaWiki
- * @subpackage Skins
- *
- * @author Inez Korczynski <inez@wikia.com>
- * @author Christian Williams
- * @author Daniel Friesen
- * @author James Haley
- */
-if(!defined('MEDIAWIKI')) {
-	die(-1);
-}
 
 use MediaWiki\MediaWikiServices;
 
 class MonacoTemplate extends BaseTemplate {
-
-	/*
-	 * Build returnto parameter with new returntoquery from MW 1.16
-	 *
-	 * @author Marooned
-	 * @return string
-	 */
-	static function getReturntoParam($customReturnto = null) {
-		global $wgTitle, $wgRequest;
-		
-		if ($customReturnto) {
-			$returnto = "returnto=$customReturnto";
-		} else {
-			$thisurl = $wgTitle->getPrefixedURL();
-			$returnto = "returnto=$thisurl";
-		}
-		
-		if (!$wgRequest->wasPosted()) {
-			$query = $wgRequest->getValues();
-			unset($query['title']);
-			unset($query['returnto']);
-			unset($query['returntoquery']);
-			$thisquery = wfUrlencode(wfArrayToCGI($query));
-			if($thisquery != '')
-				$returnto .= "&returntoquery=$thisquery";
-		}
-		return $returnto;
-	}
-
 	/**
 	 * Shortcut for building these crappy blankimg based icons that probably could
 	 * have been implemented in a less ugly way.
 	 * @author Daniel Friesen
 	 */
-	function blankimg( $attrs = array() ) {
-		return Html::element( 'img', array( "src" => $this->data['blankimg'] ) + $attrs );
+	private function blankimg( $attrs = [] ) {
+		return Html::element( 'img', [ 'src' => $this->data['blankimg'] ] + $attrs );
 	}
 
 	/**
@@ -61,28 +18,28 @@ class MonacoTemplate extends BaseTemplate {
 	 * 
 	 * @author Daniel Friesen
 	 */
-	function useUserMore() {
+	private function useUserMore() {
 		global $wgMonacoUseMoreButton;
+
 		return $wgMonacoUseMoreButton;
 	}
 
-	function execute() {
-		//wfProfileIn( __METHOD__ );
-		global $wgContLang, $wgUser, $wgLogo, $wgStyleVersion, $wgRequest, $wgTitle, $wgSitename;
+	public function execute() {
+		global $wgContLang, $wgUser, $wgStyleVersion, $wgRequest, $wgTitle, $wgSitename;
 		global $wgMonacoUseSitenoticeIsland;
 
 		$skin = $this->data['skin'];
-		$action = $wgRequest->getText('action');
+		$action = $wgRequest->getText( 'action' );
 		$namespace = $wgTitle->getNamespace();
 
-		$this->set( 'blankimg', $this->data['stylepath'].'/Monaco/style/images/blank.gif' );
+		$this->set( 'blankimg', $this->data['stylepath'] . '/Monaco/style/images/blank.gif' );
 
 		// Suppress warnings to prevent notices about missing indexes in $this->data
 		wfSuppressWarnings();
 		
 		$this->setupRightSidebar();
 		ob_start();
-		wfRunHooks('MonacoRightSidebar', array($this));
+		wfRunHooks( 'MonacoRightSidebar', [ $this ] );
 		$this->addToRightSidebar( ob_get_contents() );
 		ob_end_clean();
 		
@@ -90,17 +47,11 @@ class MonacoTemplate extends BaseTemplate {
 
 
 	$this->printAdditionalHead(); // @fixme not valid
-?>
-<?php		//wfProfileOut( __METHOD__ . '-head');  ?>
-
-<?php
-//wfProfileIn( __METHOD__ . '-body'); ?>
-<?php
 
 	// this hook allows adding extra HTML just after <body> opening tag
 	// append your content to $html variable instead of echoing
 	$html = '';
-	wfRunHooks('GetHTMLAfterBody', array ($this, &$html));
+	wfRunHooks( 'GetHTMLAfterBody', [ $this, &$html ] );
 	echo $html;
 ?>
 <div id="skiplinks"> 
@@ -112,19 +63,15 @@ class MonacoTemplate extends BaseTemplate {
 	<div id="background_accent2"></div>
 
 	<!-- HEADER -->
-<?php
-		// curse like cobranding
-		$this->printCustomHeader();
-
-		//wfProfileIn( __METHOD__ . '-header'); ?>
+	<?php $this->printCustomHeader(); ?>
 	<div id="wikia_header" class="color2">
 		<div class="monaco_shrinkwrap">
-<?php $this->printMonacoBranding(); ?>
-<?php $this->printUserData(); ?>
+			<?php $this->printMonacoBranding(); ?>
+			<?php $this->printUserData(); ?>
 		</div>
 	</div>
 
-<?php if (wfRunHooks('AlternateNavLinks')): ?>
+<?php if ( wfRunHooks( 'AlternateNavLinks' ) ): ?>
 		<div id="background_strip" class="reset">
 			<div class="monaco_shrinkwrap">
 
@@ -134,14 +81,12 @@ class MonacoTemplate extends BaseTemplate {
 		</div>
 <?php endif; ?>
 		<!-- /HEADER -->
-<?php		//wfProfileOut( __METHOD__ . '-header'); ?>
 
 		<!-- PAGE -->
-<?php		//wfProfileIn( __METHOD__ . '-page'); ?>
 
 	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar<?php if ( $this->hasRightSidebar() ) { echo ' with_right_sidebar'; } ?>">
 		<div id="page_wrapper">
-<?php wfRunHooks('MonacoBeforePage', array($this)); ?>
+<?php wfRunHooks( 'MonacoBeforePage', [ $this ] ); ?>
 <?php $this->printBeforePage(); ?>
 <?php if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { ?>
 			<div class="page">
@@ -151,67 +96,63 @@ class MonacoTemplate extends BaseTemplate {
 			<div id="wikia_page" class="page">
 <?php
 			$this->printMasthead();
-			wfRunHooks('MonacoBeforePageBar', array($this));
+			wfRunHooks( 'MonacoBeforePageBar', [ $this ] );
 			$this->printPageBar(); ?>
 					<!-- ARTICLE -->
 
-<?php		//wfProfileIn( __METHOD__ . '-article'); ?>
 				<article id="article" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>
-					<?php wfRunHooks('MonacoAfterArticle', array($this)); ?>
-					<?php if(!$wgMonacoUseSitenoticeIsland && $this->data['sitenotice']) { ?><div id="siteNotice"><?php $this->html('sitenotice') ?></div><?php } ?>
-					<?php if(method_exists($this, 'getIndicators')) { echo $this->getIndicators(); } ?>
+					<?php wfRunHooks( 'MonacoAfterArticle', [ $this ] ); ?>
+					<?php if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { ?><div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div><?php } ?>
+					<?php if ( method_exists( $this, 'getIndicators' ) ) { echo $this->getIndicators(); } ?>
 					<?php $this->printFirstHeading(); ?>
 					<div id="bodyContent" class="body_content">
-						<h2 id="siteSub"><?php $this->msg('tagline') ?></h2>
-						<?php if($this->data['subtitle']) { ?><div id="contentSub"><?php $this->html('subtitle') ?></div><?php } ?>
-						<?php if($this->data['undelete']) { ?><div id="contentSub2"><?php     $this->html('undelete') ?></div><?php } ?>
-						<?php if($this->data['newtalk'] ) { ?><div class="usermessage noprint"><?php $this->html('newtalk')  ?></div><?php } ?>
-						<?php if(!empty($skin->newuemsg)) { echo $skin->newuemsg; } ?>
+						<h2 id="siteSub"><?php $this->msg( 'tagline' ) ?></h2>
+						<?php if ( $this->data['subtitle'] ) { ?><div id="contentSub"><?php $this->html( 'subtitle' ) ?></div><?php } ?>
+						<?php if ( $this->data['undelete'] ) { ?><div id="contentSub2"><?php $this->html( 'undelete' ) ?></div><?php } ?>
+						<?php if ( $this->data['newtalk'] ) { ?><div class="usermessage noprint"><?php $this->html( 'newtalk' )  ?></div><?php } ?>
+						<?php if ( !empty( $skin->newuemsg ) ) { echo $skin->newuemsg; } ?>
 
 						<!-- start content -->
-<?php
+
+						<?php
 						// Display content
 						$this->printContent();
 
 						$this->printCategories();
 						?>
 						<!-- end content -->
-						<?php if($this->data['dataAfterContent']) { $this->html('dataAfterContent'); } ?>
+						<?php if ( $this->data['dataAfterContent'] ) { $this->html( 'dataAfterContent' ); } ?>
 						<div class="visualClear"></div>
 					</div>
 
 				</article>
 				<!-- /ARTICLE -->
-				<?php
-
-			//wfProfileOut( __METHOD__ . '-article'); ?>
 
 			<!-- ARTICLE FOOTER -->
-<?php		//wfProfileIn( __METHOD__ . '-articlefooter'); ?>
 <?php
 global $wgTitle, $wgOut;
 $custom_article_footer = '';
 $namespaceType = '';
-wfRunHooks( 'CustomArticleFooter', array( &$this, &$tpl, &$custom_article_footer ));
+wfRunHooks( 'CustomArticleFooter', [ &$this, &$tpl, &$custom_article_footer ] );
 if ($custom_article_footer !== '') {
 	echo $custom_article_footer;
 } else {
-	//default footer
-	if ($wgTitle->exists() && $wgTitle->isContentPage() && !$wgTitle->isTalkPage()) {
+	// default footer
+	if ( $wgTitle->exists() && $wgTitle->isContentPage() && !$wgTitle->isTalkPage() ) {
 		$namespaceType = 'content';
 	}
-	//talk footer
-	elseif ($wgTitle->isTalkPage()) {
+	// talk footer
+	elseif ( $wgTitle->isTalkPage() ) {
 		$namespaceType = 'talk';
 	}
-	//disable footer on some namespaces
-	elseif ($namespace == NS_SPECIAL) {
+	// disable footer on some namespaces
+	elseif ( $namespace == NS_SPECIAL ) {
 		$namespaceType = 'none';
 	}
 
 	$action = $wgRequest->getVal('action', 'view');
-	if ($namespaceType != 'none' && in_array($action, array('view', 'purge', 'edit', 'history', 'delete', 'protect'))) {
+	if ( $namespaceType != 'none' && in_array( $action, [ 'view', 'purge', 'edit', 'history', 'delete', 'protect' ] ) ) {
 		$nav_urls = $this->data['nav_urls'];
 		global $wgLang;
 ?>
@@ -337,20 +278,20 @@ if ($custom_article_footer !== '') {
 							</ul>
 <?php
 		}
-		$feRandIcon = $this->blankimg(array("id" => "fe_random_img", "class" => "sprite random", "alt" => ""));
-		$feRandIcon = Html::rawElement("a", array("id" => "fe_random_icon", "href" => Skin::makeSpecialUrl('Randompage')), $feRandIcon);
-		$feRandLink = Html::rawElement("a", array("id" => "fe_random_link", "href" => Skin::makeSpecialUrl('Randompage')), wfMessage('viewrandompage')->escaped());
+		$feRandIcon = $this->blankimg( [ 'id' => 'fe_random_img', 'class' => 'sprite random', 'alt' => '' ] );
+		$feRandIcon = Html::rawElement( 'a', [ 'id' => 'fe_random_icon', 'href' => Skin::makeSpecialUrl( 'Randompage' ) ], $feRandIcon );
+		$feRandLink = Html::rawElement( 'a', [ 'id' => 'fe_random_link', 'href' => Skin::makeSpecialUrl( 'Randompage' ) ], wfMessage( 'viewrandompage' )->escaped() );
 ?>
 							<ul class="actions clearfix" id="articleFooterActions2">
 								<li id="fe_randompage"><?php echo $feRandIcon ?> <div><?php echo $feRandLink ?></div></li>
 <?php
 		// haleyjd 20140426: support for Extension:MobileFrontend
-		if($this->get('mobileview') !== null)
+		if($this->get( 'mobileview' ) !== null)
 		{
-			$feMobileIcon = $this->blankimg(array("id" => "fe_mobile_img", "class" => "sprite mobile", "alt" => ""));
-			$this->set('mobileview', preg_replace('/(<a[^>]*?href[^>]*?)>/', '$1 rel="nofollow">', $this->get('mobileview')));
+			$feMobileIcon = $this->blankimg( [ 'id' => 'fe_mobile_img', 'class' => 'sprite mobile', 'alt' => '' ] );
+			$this->set( 'mobileview', preg_replace( '/(<a[^>]*?href[^>]*?)>/', '$1 rel="nofollow">', $this->get( 'mobileview' ) ) );
 ?>
-								<li id="fe_mobile"><?php echo $feMobileIcon ?> <div><?php $this->html('mobileview') ?></div></li>
+								<li id="fe_mobile"><?php echo $feMobileIcon ?> <div><?php $this->html( 'mobileview' ) ?></div></li>
 <?php
 		}
 ?>
@@ -364,11 +305,9 @@ if ($custom_article_footer !== '') {
 } //end else from CustomArticleFooter hook
 ?>
 				<!-- /ARTICLE FOOTER -->
-<?php		//wfProfileOut( __METHOD__ . '-articlefooter'); ?>
 
 			</div>
 			<!-- /PAGE -->
-<?php		//wfProfileOut( __METHOD__ . '-page'); ?>
 
 			<noscript><link rel="stylesheet" property="stylesheet" type="text/css" href="<?php $this->text( 'stylepath' ) ?>/Monaco/style/css/noscript.css?<?php echo $wgStyleVersion ?>" /></noscript>
 <?php
@@ -380,7 +319,7 @@ if ($custom_article_footer !== '') {
 		</div>
 <?php $this->printRightSidebar() ?>
 		<!-- WIDGETS -->
-<?php		//wfProfileIn( __METHOD__ . '-navigation'); 
+<?php 
 			global $wgScriptPath; ?>
 		<div id="widget_sidebar" class="reset widget_sidebar left_sidebar sidebar">
 			<div id="wiki_logo" style="background-image: url(<?php echo htmlspecialchars($wgScriptPath); ?>/<? $this->html( 'logopath' ) ?>);"><a href="<?php echo htmlspecialchars($this->data['nav_urls']['mainpage']['href'])?>" accesskey="z" rel="home"><?php echo $wgSitename ?></a></div>
@@ -603,21 +542,18 @@ if ($custom_article_footer !== '') {
 		</tbody>
 <?php
 	}
-	//END: create static box
+	// END: create static box
 ?>
 	</table>
 			</div>
 			<!-- /SEARCH/NAVIGATION -->
 <?php		$this->printExtraSidebar(); ?>
-<?php		wfRunHooks( 'MonacoSidebarEnd', array( $this ) ); ?>
-<?php		//wfProfileOut( __METHOD__ . '-navigation'); ?>
-<?php		//wfProfileIn( __METHOD__ . '-widgets'); ?>
+<?php		wfRunHooks( 'MonacoSidebarEnd', [ $this ] ); ?>
 
 		</div>
 		<!-- /WIDGETS -->
 	<!--/div-->
 <?php
-//wfProfileOut( __METHOD__ . '-widgets');
 
 // curse like cobranding
 $this->printCustomFooter();
@@ -633,14 +569,12 @@ wfRunHooks('SpecialFooter');
 		<div id="positioned_elements" class="reset"></div>
 <?php
 $this->delayedPrintCSSdownload();
-$this->html('reporttime');
-//wfProfileOut( __METHOD__ . '-body');
+$this->html( 'reporttime' );
 ?>
 
 	</body>
 </html>
-<?php 
-		//wfProfileOut( __METHOD__ );
+<?php
 	} // end execute()
 
 	//@author Marooned
