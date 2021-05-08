@@ -1,5 +1,6 @@
 <?php
 
+use MediaWiki\MediaWikiServices;
 
 class MonacoSidebar {
 
@@ -61,8 +62,9 @@ class MonacoSidebar {
 				$title = Title::newFromText( $link );
 				if($title) {
 					if ($title->getNamespace() == NS_SPECIAL) {
+						$specialPageFactory = MediaWikiServices::getInstance()->getSpecialPageFactory();
 						$dbkey = $title->getDBkey();
-						list($specialCanonicalName, /*$par*/) = SpecialPageFactory::resolveAlias($dbkey);
+						list($specialCanonicalName, /*$par*/) = $specialPageFactory->resolveAlias( $dbkey );
 						if (!$specialCanonicalName) $specialCanonicalName = $dbkey;
 					}
 					$title = $title->fixSpecialName();
@@ -234,7 +236,7 @@ class MonacoSidebar {
 	public function handleMagicWord(&$node) {
 		$original_lower = strtolower($node['original']);
 		if(in_array($original_lower, array('#voted#', '#popular#', '#visited#', '#newlychanged#', '#topusers#'))) {
-			if($node['text']{0} == '#') {
+			if($node['text'][0] == '#') {
 				$node['text'] = wfMessage(trim($node['original'], ' *'))->text(); // TODO: That doesn't make sense to me
 			}
 			$node['magic'] = trim($original_lower, '#');
@@ -249,7 +251,7 @@ class MonacoSidebar {
 			}
 			if($name) {
 				$node['href'] = Title::makeTitle(NS_CATEGORY, $name)->getLocalURL();
-				if($node['text']{0} == '#') {
+				if($node['text'][0] == '#') {
 					$node['text'] = str_replace('_', ' ', $name);
 				}
 				$node['magic'] = 'category'.$name;
@@ -356,7 +358,7 @@ class MonacoSidebar {
 					if($node['depth'] == 1) {
 						$nodes[0]['editthispage'] = true; // we have to know later if there is editthispage special word used in first level
 					}
-				} else if(!empty( $node['original'] ) && $node['original']{0} == '#') {
+				} else if(!empty( $node['original'] ) && $node['original'][0] == '#') {
 					if($this->handleMagicWord($node)) {
 						$nodes[0]['magicWords'][] = $node['magic'];
 						if($node['depth'] == 1) {
@@ -409,7 +411,7 @@ class MonacoSidebar {
 		} else {
 			if(empty($link)) {
 				$href = '#';
-			} else if($link{0} == '#') {
+			} else if($link[0] == '#') {
 				$href = '#';
 			} else {
 				$title = Title::newFromText($link);
