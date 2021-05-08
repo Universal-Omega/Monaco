@@ -14,9 +14,24 @@
 	"type": "skin",
 	"ConfigRegistry": {
 		"monaco": "GlobalVarConfig::newInstance"
-	},	
+	},
 	"ValidSkinNames": {
-		"monaco": "Monaco"
+		"monaco": {
+			"displayname": "Monaco",
+			"class": "SkinMonaco",
+			"args": [ {
+				"name": "monaco",
+				"template": "MonacoTemplate",
+				"styles": [
+					"mediawiki.skinning.content",
+					"mediawiki.skinning.content.externallinks",
+					"skins.monaco"
+				],
+				"scripts": [
+					"skins.monaco.scripts"
+				]
+			} ]
+		}
 	},
 	"AutoloadClasses": {
 		"SkinMonaco": "includes/SkinMonaco.php",
