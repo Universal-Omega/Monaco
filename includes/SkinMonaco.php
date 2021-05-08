@@ -80,7 +80,7 @@ class SkinMonaco extends SkinTemplate {
 		
 		$theme = $this->monacoConfig->get( 'MonacoTheme' );
         
-		if ( $this->monacoConfig->get( 'MonacoAllowusetheme' ) ) {
+		if ( $this->monacoConfig->get( 'MonacoAllowUseTheme' ) ) {
 			$theme = $this->getRequest()->getText( 'usetheme', $theme );
 			if ( preg_match( '/[^a-z]/', $theme ) ) {
 				$theme = $this->monacoConfig->get( 'MonacoTheme' );
