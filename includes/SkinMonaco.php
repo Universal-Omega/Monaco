@@ -148,31 +148,6 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @param OutputPage $out
-	 * @param array &$bodyAttrs
-	 */
-	public function addToBodyAttributes( $out, &$bodyAttrs ) {
-		$bodyAttrs['class'] .= ' color2';
-		
-		$action = $this->getRequest()->getVal( 'action' );
-		if ( in_array( $action, [ 'edit', 'history', 'diff', 'delete', 'protect', 'unprotect', 'submit' ] ) ) {
-			$bodyAttrs['class'] .= ' action_' . $action;
-		} elseif ( empty( $action ) || in_array( $action, [ 'view', 'purge' ] ) ) {
-			$bodyAttrs['class'] .= ' action_view';
-		}
-		
-		if ( $this->showMasthead() ) {
-			if ( $this->isMastheadTitleVisible() ) {
-				$bodyAttrs['class'] .= ' masthead-special';
-			} else {
-				$bodyAttrs['class'] .= ' masthead-regular';
-			}
-		}
-		
-		$bodyAttrs['id'] = 'body';
-	}
-
-	/**
 	 * @param SkinTemplate &$skin
 	 * @param QuickTemplate &$tpl
 	 */
