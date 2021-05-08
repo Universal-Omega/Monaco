@@ -55,18 +55,17 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * Add specific styles for this skin
-	 *
-	 * Don't add common/shared.css as it's kept in allinone.css
-	 *
-	 * @param $out OutputPage
+	 * @return array
 	 */
-	public function setupSkinUserCss( OutputPage $out ) {
-		parent::setupSkinUserCss( $out );
-		
+	public function getDefaultModules() {
+		$modules = parent::getDefaultModules();
+		$out = $this->getOutput();
+
 		// Load the bulk of our styles with the MediaWiki 1.17+ resource loader
-		$out->addModuleStyles( [ 'skins.monaco', 'mediawiki.skinning.content', 'mediawiki.skinning.content.externallinks' ] );
-		
+		$modules['styles']['skin'][] = 'skins.monaco';
+		$modules['styles']['skin'][] = 'mediawiki.skinning.content';
+		$modules['styles']['skin'][] = 'mediawiki.skinning.content.externallinks';
+
 		// ResourceLoader doesn't do ie specific styles that well iirc, so we have
 		// to do those manually.
 		$out->addStyle( 'Monaco/style/css/monaco_ie8.css', 'screen', 'IE 8' );
@@ -100,6 +99,8 @@ class SkinMonaco extends SkinTemplate {
 		// I have no way to test this currently, however. -haleyjd
 		// rtl... hmm, how do we resource load this?
 		$out->addStyle( 'Monaco/style/rtl.css', 'screen', '', 'rtl' );
+
+		return $modules;
 	}
 
 	/**
