@@ -1,15 +1,4 @@
 <?php
-/**
- * Monaco skin
- *
- * @package MediaWiki
- * @subpackage Skins
- *
- * @author Inez Korczynski <inez@wikia.com>
- * @author Christian Williams
- * @author Daniel Friesen
- * @author James Haley
- */
 
 use MediaWiki\MediaWikiServices;
 
@@ -43,7 +32,7 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @param OutputPage $out
 	 */
 	public function initPage( OutputPage $out ) {
 		global $wgHooks, $wgJsMimeType;
@@ -113,14 +102,20 @@ class SkinMonaco extends SkinTemplate {
 		$out->addStyle( 'Monaco/style/rtl.css', 'screen', '', 'rtl' );
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function showMasthead() {
 		if ( !$this->monacoConfig->get( 'MonacoUseMasthead' ) ) {
 			return false;
 		}
 
-		return !!$this->getMastheadUser();
+		return (bool)$this->getMastheadUser();
 	}
-	
+
+	/**
+	 * @return User
+	 */
 	public function getMastheadUser() {
 		$title = $this->getTitle();
 
@@ -137,7 +132,10 @@ class SkinMonaco extends SkinTemplate {
 
 		return $this->mMastheadUser;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public function isMastheadTitleVisible() {
 		if ( !$this->showMasthead() ) {
 			return true;
@@ -149,15 +147,8 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
-	 * @author Christian Williams
- 	 * @author Daniel Friesen <http://daniel.friesen.name/>
-	 * Added this functionality to MediaWiki, may need to add a patch to MW 1.16 and older
-	 * This allows the skin to add body attributes while still integrating with
-	 * MediaWiki's new headelement code. I modified the original Monaco code to
-	 * use this cleaner method. I did not port loggedout or mainpage as these are
-	 * generic, I added a separate hook so that a generic extension can be made
-	 * to add those universally to all new skins.
+	 * @param OutputPage $out
+	 * @param array &$bodyAttrs
 	 */
 	public function addToBodyAttributes( $out, &$bodyAttrs ) {
 		$bodyAttrs['class'] .= ' color2';
@@ -181,9 +172,10 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @param SkinTemplate &$skin
+	 * @param QuickTemplate &$tpl
 	 */
-	public function addVariables( &$obj, &$tpl ) {
+	public function addVariables( &$skin, &$tpl ) {
 		$user = $this->getUser();
 
 		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
@@ -249,23 +241,22 @@ class SkinMonaco extends SkinTemplate {
 
 		// User actions links
 		$tpl->set( 'userlinks', $this->getUserLinks( $tpl ) );
-
-		return true;
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @param array $lines
+	 * @return array
 	 */
 	private function parseToolboxLinks( $lines ) {
 		$nodes = [];
 		if ( is_array( $lines ) ) {
 			foreach ( $lines as $line ) {
-				$trimmed = trim($line, ' *');
+				$trimmed = trim( $line, ' *' );
 				if ( strlen( $trimmed ) == 0 ) { # ignore empty lines
 					continue;
 				}
 
-				$item = MonacoSidebar::parseItem($trimmed);
+				$item = MonacoSidebar::parseItem( $trimmed );
 
 				$nodes[] = $item;
 			}
@@ -275,7 +266,8 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @param string $message_key
+	 * @return array
 	 */
 	private function getLines( $message_key ) {
 		$revision = Revision::newFromTitle( Title::newFromText( $message_key, NS_MEDIAWIKI ) );
@@ -288,7 +280,7 @@ class SkinMonaco extends SkinTemplate {
 			}
 		}
 
-		if ( empty($lines ) ) {
+		if ( empty( $lines ) ) {
 			$lines = MonacoSidebar::getMessageAsArray( $message_key );
 		}
 
@@ -296,16 +288,17 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @return array
 	 */
 	private function getToolboxLinks() {
-		return $this->parseToolboxLinks($this->getLines('Monaco-toolbox'));
+		return $this->parseToolboxLinks( $this->getLines( 'Monaco-toolbox' ) );
 	}
 
 	var $lastExtraIndex = 1000;
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @param array &$node
+	 * @param array &$nodes
 	 */
 	private function addExtraItemsToSidebarMenu( &$node, &$nodes ) {
 		$extraWords = [
@@ -349,7 +342,8 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @param array $lines
+	 * @return array
 	 */
 	private function parseSidebarMenu( $lines ) {
 		$nodes = [];
@@ -399,14 +393,16 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @return array
 	 */
 	private function getSidebarLinks() {
 		return $this->parseSidebarMenu( $this->getLines( 'Monaco-sidebar' ) );
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
+	 * @param string $name
+	 * @param bool $asArray|false
+	 * @return array|string|null
 	 */
 	private function getTransformedArticle( $name, $asArray = false ) {
 		$revision = Revision::newFromTitle( Title::newFromText( $name ) );
@@ -433,8 +429,8 @@ class SkinMonaco extends SkinTemplate {
 	 * Create arrays containing articles links (separated arrays for left and right part)
 	 * Based on data['content_actions']
 	 *
+	 * @param QuickTemplate $tpl
 	 * @return array
-	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function getArticleLinks( $tpl ) {
 		$links = [];
@@ -462,7 +458,7 @@ class SkinMonaco extends SkinTemplate {
 					if ( $tabText && $tabText != '-' && wfMessage( "monaco-tab-{$msgKey}" )->exists() ) {
 						$val['text'] = $tabText;
 					}
-					
+
 					switch ( $section ) {
 						case 'namespaces':
 							$side = 'right';
@@ -531,8 +527,8 @@ class SkinMonaco extends SkinTemplate {
 	/**
 	 * Generate links for user menu - depends on if user is logged in or not
 	 *
+	 * @param QuickTemplate $tpl
 	 * @return array
-	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function getUserLinks( $tpl ) {
 		$data = [];
