@@ -9,16 +9,17 @@
  * @author James Haley
  */
 
-if(!defined('MEDIAWIKI'))
-  die( "This is an extension to the MediaWiki package and cannot be run standalone." );
+if ( !defined( 'MEDIAWIKI' ) ) {
+	die( 'This is an extension to the MediaWiki package and cannot be run standalone.' );
+}
 
-$wgExtensionCredits['parserhook'][] = array (
-  'path' => __FILE__,
-  'name' => 'ContentRightSidebar',
-  'author' => array('[http://mediawiki.org/wiki/User:Dantman Daniel Friesen]', '[http://doomwiki.org/wiki/User:Quasar James Haley]'),
-  'descriptionmsg' => 'contentrightsidebar-desc',
-  'url' => "https://github.com/haleyjd/monaco-port",
-);
+$wgExtensionCredits['parserhook'][] = [
+	'path' => __FILE__,
+	'name' => 'ContentRightSidebar',
+	'author' => [ 'Daniel Friesen', 'James Haley' ],
+	'descriptionmsg' => 'contentrightsidebar-desc',
+	'url' => 'https://www.mediawiki.org/wiki/Skin:Monaco',
+];
 
 $wgMessagesDirs['ContentRightSidebar'] = __DIR__ . '/crs.i18n';
 
@@ -26,48 +27,44 @@ $wgMessagesDirs['ContentRightSidebar'] = __DIR__ . '/crs.i18n';
  * Resource module for ContentRightSidebar
  * haleyjd 20140423
  */
-$wgResourceModules['skins.monaco.ContentRightSidebar'] = array (
-  'scripts' => 'skins/monaco/style/js/ContentRightSidebar.js',
-);
+$wgResourceModules['skins.monaco.ContentRightSidebar'] = [
+	'scripts' => 'skins/monaco/style/js/ContentRightSidebar.js',
+];
 
-define('RIGHT_SIDEBAR_START_TOKEN', "<!-- RIGHT SIDEBAR START -->");
-define('RIGHT_SIDEBAR_END_TOKEN', "<!-- RIGHT SIDEBAR END -->");
-define('RIGHT_SIDEBAR_WITHBOX_TOKEN', "<!-- RIGHT SIDEBAR WITHBOX -->");
-define('RIGHT_SIDEBAR_TITLE_START_TOKEN', "<!-- RIGHT SIDEBAR TITLE START>");
-define('RIGHT_SIDEBAR_TITLE_END_TOKEN', "<RIGHT SIDEBAR TITLE END -->");
-define('RIGHT_SIDEBAR_CLASS_START_TOKEN', "<!-- RIGHT SIDEBAR CLASS START>");
-define('RIGHT_SIDEBAR_CLASS_END_TOKEN', "<RIGHT SIDEBAR CLASS END -->");
-define('RIGHT_SIDEBAR_CONTENT_START_TOKEN', "<!-- RIGHT SIDEBAR CONTENT START -->");
-define('RIGHT_SIDEBAR_CONTENT_END_TOKEN', "<!-- RIGHT SIDEBAR CONTENT END -->");
+define( 'RIGHT_SIDEBAR_START_TOKEN', '<!-- RIGHT SIDEBAR START -->' );
+define( 'RIGHT_SIDEBAR_END_TOKEN', '<!-- RIGHT SIDEBAR END -->' );
+define( 'RIGHT_SIDEBAR_WITHBOX_TOKEN', '<!-- RIGHT SIDEBAR WITHBOX -->' );
+define( 'RIGHT_SIDEBAR_TITLE_START_TOKEN', '<!-- RIGHT SIDEBAR TITLE START>' );
+define( 'RIGHT_SIDEBAR_TITLE_END_TOKEN', '<RIGHT SIDEBAR TITLE END -->');
+define( 'RIGHT_SIDEBAR_CLASS_START_TOKEN', '<!-- RIGHT SIDEBAR CLASS START>' );
+define( 'RIGHT_SIDEBAR_CLASS_END_TOKEN', '<RIGHT SIDEBAR CLASS END -->' );
+define( 'RIGHT_SIDEBAR_CONTENT_START_TOKEN', '<!-- RIGHT SIDEBAR CONTENT START -->' );
+define( 'RIGHT_SIDEBAR_CONTENT_END_TOKEN', '<!-- RIGHT SIDEBAR CONTENT END -->' );
 
-class MonacoContentRightSidebar
-{
-  /**
-   * BeforePageDisplay hook handler
-   * @author James Haley
-   */
-  public static function BeforePageDisplay(&$out, &$skin)
-  {
-    if($skin->getSkinName() == 'monaco')
-      $out->addModules(array('skins.monaco.ContentRightSidebar'));
-  }
+class MonacoContentRightSidebar {
+	/**
+	 * @param OutputPage $out
+	 * @param Skin $skin
+	 */
+	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
+		if ( $skin->getSkinName() == 'monaco' ) {
+			$out->addModules( [ 'skins.monaco.ContentRightSidebar' ] );
+		}
+	}
 
-  /**
-   * Register parser extensions
-   */
-  public static function ContentRightSidebarRegisterParser(&$parser) 
-  {
-    $parser->setHook('right-sidebar', 'MonacoContentRightSidebar::ContentRightSidebarTag');
-    return true;
-  }
+	/**
+	 * @param Parser $parser
+	 */
+	public static function onParserFirstCallInit( Parser $parser )  {
+		$parser->setHook( 'right-sidebar', [ __CLASS__, 'contentRightSidebarTag' ] );
+	}
 
   /**
    * Parser extension callback
    */
-  public static function ContentRightSidebarTag($input, $arg, $parser, $frame) 
-  {
+  public static function contentRightSidebarTag( $input, $arg, $parser, $frame )  {
     $isContentTagged = false;
-    $m = array();
+    $m = [];
     if(preg_match( '#^(.*)<content>(.*?)</content>(.*)$#is', $input, $m)) 
     {
       $isContentTagged = true;
@@ -117,9 +114,9 @@ class MonacoContentRightSidebar
   /**
    * Private function for extraction of the right sidebar content from an article
    */
-  private static function ExtractRightSidebarBoxes(&$html)
+  private static function extractRightSidebarBoxes(&$html)
   {
-    $boxes = array();
+    $boxes = [];
 
     while(true) 
     {
@@ -178,9 +175,9 @@ class MonacoContentRightSidebar
    * to add the right sidebar. If this hook is not invoked, then right sidebar 
    * content renders as a right-floating box inside the article.
    */
-  public static function ContentRightSidebarMonacoRightSidebar( $sk )
+  public static function onMonacoRightSidebar( $sk )
   {
-    $boxes = self::ExtractRightSidebarBoxes($sk->data['bodytext']);
+    $boxes = self::extractRightSidebarBoxes($sk->data['bodytext']);
 
     foreach($boxes as $box)
     {
@@ -198,13 +195,11 @@ class MonacoContentRightSidebar
         echo $box["content"];
       }
     }
-
-    return true;
   }
 }
 
 // Register hooks
-$wgHooks['BeforePageDisplay'  ][] = 'MonacoContentRightSidebar::BeforePageDisplay';
-$wgHooks['ParserFirstCallInit'][] = 'MonacoContentRightSidebar::ContentRightSidebarRegisterParser'; 
-$wgHooks['MonacoRightSidebar' ][] = 'MonacoContentRightSidebar::ContentRightSidebarMonacoRightSidebar';
+$wgHooks['BeforePageDisplay'][] = 'MonacoContentRightSidebar::onBeforePageDisplay';
+$wgHooks['ParserFirstCallInit'][] = 'MonacoContentRightSidebar::onParserFirstCallInit'; 
+$wgHooks['MonacoRightSidebar'][] = 'MonacoContentRightSidebar::onMonacoRightSidebar';
 
