@@ -43,7 +43,7 @@ class SkinMonaco extends SkinTemplate {
 		$wgHooks['SkinTemplateOutputPageBeforeExec'][] = [ &$this, 'addVariables' ];
 
 		// Load the bulk of our scripts with the MediaWiki 1.17+ resource loader
-		$out->addModuleScripts( 'skins.monaco' );
+		$out->addModules( 'skins.monaco' );
 		
 		$out->addScript(
 			'<!--[if IE]><script type="' . htmlspecialchars( $wgJsMimeType ) .
