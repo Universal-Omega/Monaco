@@ -1,17 +1,5 @@
 <?php
-/**
- * MonacoSidebar class
- *
- * @package MediaWiki
- * @subpackage Skins
- *
- * @author Inez Korczynski <inez@wikia.com>
- * @author Christian Williams
- * @author James Haley
- */
-if(!defined('MEDIAWIKI')) {
-	die(-1);
-}
+
 
 class MonacoSidebar {
 
