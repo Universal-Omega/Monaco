@@ -1,15 +1,19 @@
 <?php
 
 $wgHooks['OutputPageBodyAttributes'][] = 'egExtendedOutputPageBodyAttributes';
-function egExtendedOutputPageBodyAttributes( $out, $sk, &$bodyAttrs ) {
-	global $wgUser;
-	
-	if ( !$wgUser->isLoggedIn() )
+
+/**
+ * @param OutputPage $out
+ * @param Skin $skin
+ * @param array &$bodyAttrs
+ */
+function egExtendedOutputPageBodyAttributes( OutputPage $out, Skin $skin, &$bodyAttrs ) {
+	if ( !$skin->getUser()->isRegistered() ) {
 		$bodyAttrs['class'] .= ' loggedout';
-	
-	if ( $out->getTitle()->equals(Title::newMainPage()) )
+	}
+
+	if ( $out->getTitle()->isMainPage() ) {
 		$bodyAttrs['class'] .= ' mainpage';
-	
-	return true;
+	}
 }
 
