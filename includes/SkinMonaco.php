@@ -270,7 +270,8 @@ class SkinMonaco extends SkinTemplate {
 	 * @return array
 	 */
 	private function getLines( $message_key ) {
-		$revision = Revision::newFromTitle( Title::newFromText( $message_key, NS_MEDIAWIKI ) );
+		$revisionStore = MediaWikiServices::getInstance()->getRevisionStore();
+		$revision = $revisionStore->getRevisionByTitle( Title::newFromText( $message_key, NS_MEDIAWIKI ) );
 		if ( is_object( $revision ) ) {
 			if ( trim( $revision->getText() ) != '' ) {
 				$temp = MonacoSidebar::getMessageAsArray( $message_key );
@@ -405,7 +406,8 @@ class SkinMonaco extends SkinTemplate {
 	 * @return array|string|null
 	 */
 	private function getTransformedArticle( $name, $asArray = false ) {
-		$revision = Revision::newFromTitle( Title::newFromText( $name ) );
+		$revisionStore = MediaWikiServices::getInstance()->getRevisionStore();
+		$revision = $revisionStore->getRevisionByTitle( Title::newFromText( $name ) );
 		$parser = MediaWikiServices::getInstance()->getParser();
 
 		if ( is_object( $revision ) ) {
