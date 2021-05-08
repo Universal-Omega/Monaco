@@ -36,36 +36,12 @@ class SkinMonaco extends SkinTemplate {
 	 * @param OutputPage $out
 	 */
 	public function initPage( OutputPage $out ) {
-		global $wgHooks, $wgJsMimeType;
+		global $wgHooks;
 
-		SkinTemplate::initPage( $out );
+		parent::initPage( $out );
 
 		// Function addVariables will be called to populate all needed data to render skin
 		$wgHooks['SkinTemplateOutputPageBeforeExec'][] = [ &$this, 'addVariables' ];
-
-		// Load the bulk of our scripts with the MediaWiki 1.17+ resource loader
-		$out->addModules( 'skins.monaco' );
-		
-		$out->addScript(
-			'<!--[if IE]><script type="' . htmlspecialchars( $wgJsMimeType ) .
-				'">\'abbr article aside audio canvas details figcaption figure ' .
-				'footer header hgroup mark menu meter nav output progress section ' .
-				'summary time video\'' .
-				'.replace(/\w+/g,function(n){document.createElement(n)})</script><![endif]-->'
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getDefaultModules() {
-		$modules = parent::getDefaultModules();
-		$out = $this->getOutput();
-
-		// Load the bulk of our styles with the MediaWiki 1.17+ resource loader
-		$modules['styles']['skin'][] = 'skins.monaco';
-		$modules['styles']['skin'][] = 'mediawiki.skinning.content';
-		$modules['styles']['skin'][] = 'mediawiki.skinning.content.externallinks';
 
 		// ResourceLoader doesn't do ie specific styles that well iirc, so we have
 		// to do those manually.
@@ -100,6 +76,22 @@ class SkinMonaco extends SkinTemplate {
 		// I have no way to test this currently, however. -haleyjd
 		// rtl... hmm, how do we resource load this?
 		$out->addStyle( 'Monaco/style/rtl.css', 'screen', '', 'rtl' );
+
+		
+		$out->addScript(
+			'<!--[if IE]><script type="text/javascript' .
+				'">\'abbr article aside audio canvas details figcaption figure ' .
+				'footer header hgroup mark menu meter nav output progress section ' .
+				'summary time video\'' .
+				'.replace(/\w+/g,function(n){document.createElement(n)})</script><![endif]-->'
+		);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getDefaultModules() {
+		$modules = parent::getDefaultModules();
 
 		return $modules;
 	}
@@ -357,7 +349,7 @@ class SkinMonaco extends SkinTemplate {
 				}
 
 				if ( substr( $node['org'],0,1 ) == '#' ) {
-					$this->addExtraItemsToSidebarMenu( $node, $nodes );
+					//$this->addExtraItemsToSidebarMenu( $node, $nodes );
 				}
 
 				$nodes[$i+1] = $node;
