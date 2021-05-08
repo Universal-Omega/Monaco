@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use Wikimedia\AtEase\AtEase;
 
 class MonacoTemplate extends BaseTemplate {
 	/**
@@ -35,11 +36,11 @@ class MonacoTemplate extends BaseTemplate {
 		$this->set( 'blankimg', $this->data['stylepath'] . '/Monaco/style/images/blank.gif' );
 
 		// Suppress warnings to prevent notices about missing indexes in $this->data
-		wfSuppressWarnings();
+		AtEase::suppressWarnings();
 		
 		$this->setupRightSidebar();
 		ob_start();
-		wfRunHooks( 'MonacoRightSidebar', [ $this ] );
+		Hooks::run( 'MonacoRightSidebar', [ $this ] );
 		$this->addToRightSidebar( ob_get_contents() );
 		ob_end_clean();
 		
@@ -51,7 +52,7 @@ class MonacoTemplate extends BaseTemplate {
 	// this hook allows adding extra HTML just after <body> opening tag
 	// append your content to $html variable instead of echoing
 	$html = '';
-	wfRunHooks( 'GetHTMLAfterBody', [ $this, &$html ] );
+	Hooks::run( 'GetHTMLAfterBody', [ $this, &$html ] );
 	echo $html;
 ?>
 <div id="skiplinks"> 
@@ -71,7 +72,7 @@ class MonacoTemplate extends BaseTemplate {
 		</div>
 	</div>
 
-<?php if ( wfRunHooks( 'AlternateNavLinks' ) ): ?>
+<?php if ( Hooks::run( 'AlternateNavLinks' ) ): ?>
 		<div id="background_strip" class="reset">
 			<div class="monaco_shrinkwrap">
 
@@ -86,7 +87,7 @@ class MonacoTemplate extends BaseTemplate {
 
 	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar<?php if ( $this->hasRightSidebar() ) { echo ' with_right_sidebar'; } ?>">
 		<div id="page_wrapper">
-<?php wfRunHooks( 'MonacoBeforePage', [ $this ] ); ?>
+<?php Hooks::run( 'MonacoBeforePage', [ $this ] ); ?>
 <?php $this->printBeforePage(); ?>
 <?php if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { ?>
 			<div class="page">
@@ -96,13 +97,13 @@ class MonacoTemplate extends BaseTemplate {
 			<div id="wikia_page" class="page">
 <?php
 			$this->printMasthead();
-			wfRunHooks( 'MonacoBeforePageBar', [ $this ] );
+			Hooks::run( 'MonacoBeforePageBar', [ $this ] );
 			$this->printPageBar(); ?>
 					<!-- ARTICLE -->
 
 				<article id="article" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>
-					<?php wfRunHooks( 'MonacoAfterArticle', [ $this ] ); ?>
+					<?php Hooks::run( 'MonacoAfterArticle', [ $this ] ); ?>
 					<?php if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { ?><div id="siteNotice"><?php $this->html( 'sitenotice' ) ?></div><?php } ?>
 					<?php if ( method_exists( $this, 'getIndicators' ) ) { echo $this->getIndicators(); } ?>
 					<?php $this->printFirstHeading(); ?>
@@ -134,7 +135,7 @@ class MonacoTemplate extends BaseTemplate {
 global $wgTitle, $wgOut;
 $custom_article_footer = '';
 $namespaceType = '';
-wfRunHooks( 'CustomArticleFooter', [ &$this, &$tpl, &$custom_article_footer ] );
+Hooks::run( 'CustomArticleFooter', [ &$this, &$tpl, &$custom_article_footer ] );
 if ($custom_article_footer !== '') {
 	echo $custom_article_footer;
 } else {
@@ -164,7 +165,7 @@ if ($custom_article_footer !== '') {
 <?php
 		if ($namespaceType == 'talk') {
 			$custom_article_footer = '';
-			wfRunHooks('AddNewTalkSection', array( &$this, &$tpl, &$custom_article_footer ));
+			Hooks::run('AddNewTalkSection', array( &$this, &$tpl, &$custom_article_footer ));
 			if ($custom_article_footer != '')
 				echo $custom_article_footer;
 		} else {
@@ -405,7 +406,7 @@ if ($custom_article_footer !== '') {
 		}
 		
 		$this->extendDynamicLinks( $dynamicLinksInternal );
-		wfRunHooks( 'MonacoDynamicLinks', array( $this, &$dynamicLinksInternal ) );
+		Hooks::run( 'MonacoDynamicLinks', array( $this, &$dynamicLinksInternal ) );
 		$this->extendDynamicLinksAfterHook( $dynamicLinksInternal );
 		
 		$dynamicLinksUser = array();
@@ -548,7 +549,7 @@ if ($custom_article_footer !== '') {
 			</div>
 			<!-- /SEARCH/NAVIGATION -->
 <?php		$this->printExtraSidebar(); ?>
-<?php		wfRunHooks( 'MonacoSidebarEnd', [ $this ] ); ?>
+<?php		Hooks::run( 'MonacoSidebarEnd', [ $this ] ); ?>
 
 		</div>
 		<!-- /WIDGETS -->
@@ -564,7 +565,7 @@ $this->printCustomFooter();
 echo '</div>';
 
 $this->html('bottomscripts'); /* JS call to runBodyOnloadHook */
-wfRunHooks('SpecialFooter');
+Hooks::run('SpecialFooter');
 ?>
 		<div id="positioned_elements" class="reset"></div>
 <?php
@@ -667,7 +668,7 @@ $this->html( 'reporttime' );
 		<!-- RIGHT SIDEBAR -->
 		<div id="right_sidebar" class="sidebar right_sidebar">
 <?php $this->lateRightSidebar(); ?>
-<?php wfRunHooks('MonacoRightSidebar::Late', array($this)); ?>
+<?php Hooks::run('MonacoRightSidebar::Late', array($this)); ?>
 <?php echo $this->mRightSidebar ?>
 		</div>
 		<!-- /RIGHT SIDEBAR -->
@@ -677,7 +678,7 @@ $this->html( 'reporttime' );
 	
 	function printMonacoBranding() {
 		ob_start();
-		wfRunHooks( 'MonacoBranding', array( $this ) );
+		Hooks::run( 'MonacoBranding', array( $this ) );
 		$branding = ob_get_contents();
 		ob_end_clean();
 		
@@ -696,7 +697,7 @@ $this->html( 'reporttime' );
 <?php
 		
 		$custom_user_data = "";
-		if( !wfRunHooks( 'CustomUserData', array( &$this, &$tpl, &$custom_user_data ) ) ){
+		if( !Hooks::run( 'CustomUserData', array( &$this, &$tpl, &$custom_user_data ) ) ){
 			wfDebug( __METHOD__ . ": CustomUserData messed up skin!\n" );
 		}
 		
@@ -955,7 +956,7 @@ $this->html( 'reporttime' );
 			echo "\n";
 		}
 		if ( $hook ) {
-			wfRunHooks( $hook );
+			Hooks::run( $hook );
 		}
 		echo "$indent</ul>\n";
 	}
@@ -966,7 +967,7 @@ $this->html( 'reporttime' );
 			return;
 		}
 		?><h1 id="firstHeading" class="firstHeading" aria-level="1"><?php $this->html('title');
-		wfRunHooks( 'MonacoPrintFirstHeading' );
+		Hooks::run( 'MonacoPrintFirstHeading' );
 		?></h1><?php
 	}
 
