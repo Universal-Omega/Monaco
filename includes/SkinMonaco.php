@@ -184,23 +184,26 @@ class SkinMonaco extends SkinTemplate {
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	public function addVariables( &$obj, &$tpl ) {
-		global $wgLang, $wgContLang, $parserMemc;
-
 		$user = $this->getUser();
 
+		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+		$lang = $this->getContext()->getLanguage();
+
+		$parserCache = MediaWikiServices::getInstance()->getParserCache();
+
 		// We want to cache populated data only if user language is same with wiki language
-		$cache = $wgLang->getCode() == $wgContLang->getCode();
+		$cache = $lang->getCode() == $contLang->getCode();
 
 		if ( $cache ) {
-			$key = wfMemcKey( 'MonacoDataOld' );
-			$data_array = $parserMemc->get( $key );
+			$key = ObjectCache::getLocalClusterInstance()->makeKey( 'MonacoDataOld' );
+			$data_array = $parserCache->getCacheStorage()->get( $key );
 		}
 
 		if ( empty( $data_array ) ) {
 			$data_array['toolboxlinks'] = $this->getToolboxLinks();
 
 			if ( $cache ) {
-				$parserMemc->set( $key, $data_array, 4 * 60 * 60 /* 4 hours */ );
+				$parserCache->getCacheStorage()->set( $key, $data_array, 4 * 60 * 60 /* 4 hours */ );
 			}
 		}
 
@@ -406,15 +409,14 @@ class SkinMonaco extends SkinTemplate {
 	 * @author Inez Korczynski <inez@wikia.com>
 	 */
 	private function getTransformedArticle( $name, $asArray = false ) {
-		global $wgParser, $wgMessageCache;
-
 		$revision = Revision::newFromTitle( Title::newFromText( $name ) );
+		$parser = MediaWikiServices::getInstance()->getParser();
 
 		if ( is_object( $revision ) ) {
 			$text = $revision->getText();
 
 			if ( !empty( $text ) ) {
-				$ret = $wgParser->transformMsg( $text, $wgMessageCache->getParserOptions() );
+				$ret = $parser->transformMsg( $text, $parser->getOptions() );
 
 				if ( $asArray ) {
 					$ret = explode( "\n", $ret );
