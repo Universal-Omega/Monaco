@@ -36,12 +36,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @param OutputPage $out
 	 */
 	public function initPage( OutputPage $out ) {
-		global $wgHooks;
-
 		parent::initPage( $out );
-
-		// Function addVariables will be called to populate all needed data to render skin
-		$wgHooks['SkinTemplateOutputPageBeforeExec'][] = [ &$this, 'addVariables' ];
 
 		// ResourceLoader doesn't do ie specific styles that well iirc, so we have
 		// to do those manually.
@@ -154,82 +149,10 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @param SkinTemplate &$skin
-	 * @param QuickTemplate &$tpl
-	 */
-	public function addVariables( &$skin, &$tpl ) {
-		$user = $this->getUser();
-
-		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-		$lang = $this->getContext()->getLanguage();
-
-		$parserCache = MediaWikiServices::getInstance()->getParserCache();
-
-		// We want to cache populated data only if user language is same with wiki language
-		$cache = $lang->getCode() == $contLang->getCode();
-
-		if ( $cache ) {
-			$key = ObjectCache::getLocalClusterInstance()->makeKey( 'MonacoDataOld' );
-			$data_array = $parserCache->getCacheStorage()->get( $key );
-		}
-
-		if ( empty( $data_array ) ) {
-			$data_array['toolboxlinks'] = $this->getToolboxLinks();
-
-			if ( $cache ) {
-				$parserCache->getCacheStorage()->set( $key, $data_array, 4 * 60 * 60 /* 4 hours */ );
-			}
-		}
-
-		if ( $user->isRegistered() ) {
-			if ( empty( $user->mMonacoData ) || ( $this->getTitle()->getNamespace() == NS_USER && $this->getRequest()->getText( 'action' ) == 'delete' ) ) {
-				$user->mMonacoData = [];
-
-				$text = $this->getTransformedArticle( 'User:' . $user->getName() . '/Monaco-toolbox', true );
-				if ( empty( $text ) ) {
-					$user->mMonacoData['toolboxlinks'] = false;
-				} else {
-					$user->mMonacoData['toolboxlinks'] = $this->parseToolboxLinks( $text );
-				}
-			}
-
-			if ( $user->mMonacoData['toolboxlinks'] !== false && is_array( $user->mMonacoData['toolboxlinks'] ) ) {
-				$data_array['toolboxlinks'] = $user->mMonacoData['toolboxlinks'];
-			}
-		}
-
-		foreach ( $data_array['toolboxlinks'] as $key => $val ) {
-			if ( isset( $val['org'] ) && $val['org'] == 'whatlinkshere' ) {
-				if ( isset( $tpl->data['nav_urls']['whatlinkshere'] ) ) {
-					$data_array['toolboxlinks'][$key]['href'] = $tpl->data['nav_urls']['whatlinkshere']['href'];
-				} else {
-					unset( $data_array['toolboxlinks'][$key] );
-				}
-			}
-
-			if ( isset( $val['org'] ) && $val['org'] == 'permalink' ) {
-				if ( isset( $tpl->data['nav_urls']['permalink'] ) ) {
-					$data_array['toolboxlinks'][$key]['href'] = $tpl->data['nav_urls']['permalink']['href'];
-				} else {
-					unset( $data_array['toolboxlinks'][$key] );
-				}
-			}
-		}
-
-		$tpl->set( 'data', $data_array );
-
-		// Article content links (View, Edit, Delete, Move, etc.)
-		$tpl->set( 'articlelinks', $this->getArticleLinks( $tpl ) );
-
-		// User actions links
-		$tpl->set( 'userlinks', $this->getUserLinks( $tpl ) );
-	}
-
-	/**
 	 * @param array $lines
 	 * @return array
 	 */
-	private function parseToolboxLinks( $lines ) {
+	public function parseToolboxLinks( $lines ) {
 		$nodes = [];
 		if ( is_array( $lines ) ) {
 			foreach ( $lines as $line ) {
@@ -251,7 +174,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @param string $message_key
 	 * @return array
 	 */
-	private function getLines( $message_key ) {
+	public function getLines( $message_key ) {
 		$revisionStore = MediaWikiServices::getInstance()->getRevisionStore();
 		$revision = $revisionStore->getRevisionByTitle( Title::newFromText( $message_key, NS_MEDIAWIKI ) );
 		if ( is_object( $revision ) ) {
@@ -273,7 +196,7 @@ class SkinMonaco extends SkinTemplate {
 	/**
 	 * @return array
 	 */
-	private function getToolboxLinks() {
+	public function getToolboxLinks() {
 		return $this->parseToolboxLinks( $this->getLines( 'Monaco-toolbox' ) );
 	}
 
@@ -283,7 +206,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @param array &$node
 	 * @param array &$nodes
 	 */
-	private function addExtraItemsToSidebarMenu( &$node, &$nodes ) {
+	public function addExtraItemsToSidebarMenu( &$node, &$nodes ) {
 		$extraWords = [
 			'#voted#' => [ 'highest_ratings', 'GetTopVotedArticles' ],
 			'#popular#' => [ 'most_popular', 'GetMostPopularArticles' ],
@@ -328,7 +251,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @param array $lines
 	 * @return array
 	 */
-	private function parseSidebarMenu( $lines ) {
+	public function parseSidebarMenu( $lines ) {
 		$nodes = [];
 		$nodes[] = [];
 		$lastDepth = 0;
@@ -378,7 +301,7 @@ class SkinMonaco extends SkinTemplate {
 	/**
 	 * @return array
 	 */
-	private function getSidebarLinks() {
+	public function getSidebarLinks() {
 		return $this->parseSidebarMenu( $this->getLines( 'Monaco-sidebar' ) );
 	}
 
@@ -387,7 +310,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @param bool $asArray|false
 	 * @return array|string|null
 	 */
-	private function getTransformedArticle( $name, $asArray = false ) {
+	public function getTransformedArticle( $name, $asArray = false ) {
 		$revisionStore = MediaWikiServices::getInstance()->getRevisionStore();
 		$revision = $revisionStore->getRevisionByTitle( Title::newFromText( $name ) );
 		$parser = MediaWikiServices::getInstance()->getParser();
@@ -407,205 +330,5 @@ class SkinMonaco extends SkinTemplate {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Create arrays containing articles links (separated arrays for left and right part)
-	 * Based on data['content_actions']
-	 *
-	 * @param QuickTemplate $tpl
-	 * @return array
-	 */
-	private function getArticleLinks( $tpl ) {
-		$links = [];
-
-		if ( isset( $tpl->data['content_navigation'] ) ) {
-			// Use MediaWiki 1.18's better vector based content_navigation structure
-			// to organize our tabs better
-			foreach ( $tpl->data['content_navigation'] as $section => $nav ) {
-				foreach ( $nav as $key => $val ) {
-					if ( isset( $val['redundant'] ) && $val['redundant'] ) {
-						continue;
-					}
-					
-					$kk = ( isset( $val['id'] ) && substr( $val['id'], 0, 3 ) == 'ca-' ) ? substr( $val['id'], 3 ) : $key;
-					
-					$msgKey = $kk;
-					if ( $kk == 'edit' ) {
-						$title = $this->getRelevantTitle();
-						$msgKey = $title->exists() || ( $title->getNamespace() == NS_MEDIAWIKI && !wfMessage( $title->getText() )->inContentLanguage()->isBlank() )
-							? 'edit' : 'create';
-					}
-					
-					// @note We know we're in 1.18 so we don't need to pass the second param to wfEmptyMsg anymore
-					$tabText = wfMessage( "monaco-tab-{$msgKey}" )->text();
-					if ( $tabText && $tabText != '-' && wfMessage( "monaco-tab-{$msgKey}" )->exists() ) {
-						$val['text'] = $tabText;
-					}
-
-					switch ( $section ) {
-						case 'namespaces':
-							$side = 'right';
-							break;
-						case 'variants':
-							$side = 'variants';
-							break;
-						default:
-							$side = 'left';
-							break;
-					}
-
-					$links[$side][$kk] = $val;
-				}
-			}
-		} else {
-			// rarely ever happens, but it does
-			if ( empty( $tpl->data['content_actions'] ) ) {
-				return $links;
-			}
-
-			# @todo: might actually be useful to move this to a global var and handle this in extension files --TOR
-			$force_right = [ 'userprofile', 'talk', 'TheoryTab' ];
-			foreach ( $tpl->data['content_actions'] as $key => $val ) {
-				$msgKey = $key;
-				if ( $key == 'edit' ) {
-					$msgKey = $this->mTitle->exists() || ( $this->mTitle->getNamespace() == NS_MEDIAWIKI && wfMessage( $this->mTitle->getText() )->exists() )
-						? 'edit' : 'create';
-				}
-
-				$tabText = wfMessage( "monaco-tab-{$msgKey}" )->text();
-				if ( $tabText && $tabText != '-' && wfMessage( "monaco-tab-{$msgKey}" )->exists() ) {
-					$val['text'] = $tabText;
-				}
-
-				if ( strpos( $key, 'varlang-' ) === 0 ) {
-					$links['variants'][$key] = $val;
-				} elseif ( strpos( $key, 'nstab-' ) === 0 || in_array( $key, $force_right ) ) {
-					$links['right'][$key] = $val;
-				} else {
-					$links['left'][$key] = $val;
-				}
-			}
-		}
-
-		if ( isset( $links['left'] ) ) {
-			foreach ( $links['left'] as $key => &$v ) {
-				/* Fix icons */
-				if ( $key == 'unprotect' ) {
-					// unprotect uses the same icon as protect
-					$v['icon'] = 'protect';
-				} elseif ( $key == 'undelete' ) {
-					// undelete uses the same icon as delelte
-					$v['icon'] = 'delete';
-				} elseif ( $key == 'purge' ) {
-					$v['icon'] = 'refresh';
-				} elseif ( $key == 'addsection' ) {
-					$v['icon'] = 'talk';
-				}
-			}
-		}
-
-		return $links;
-	}
-
-	/**
-	 * Generate links for user menu - depends on if user is logged in or not
-	 *
-	 * @param QuickTemplate $tpl
-	 * @return array
-	 */
-	private function getUserLinks( $tpl ) {
-		$data = [];
-		$request = $this->getRequest();
-		$user = $this->getUser();
-
-		$page = Title::newFromURL( $request->getVal( 'title', '' ) );
-		$page = $request->getVal( 'returnto', $page );
-		$a = [];
-
-		if ( strval( $page ) !== '' ) {
-			$a['returnto'] = $page;
-			$query = $request->getVal( 'returntoquery', $this->thisquery );
-			if( $query != '' ) {
-				$a['returntoquery'] = $query;
-			}
-		}
-		$returnto = wfArrayToCGI( $a );
-
-		if ( !$user->isRegistered() ) {
-			$signUpHref = Skin::makeSpecialUrl( 'UserLogin', $returnto );
-			$data['login'] = [
-				'text' => wfMessage( 'login' )->text(),
-				'href' => $signUpHref . '&type=login'
-			];
-
-			$data['register'] = [
-				'text' => wfMessage( 'pt-createaccount' )->text(),
-				'href' => $signUpHref . '&type=signup'
-			];
-
-		} else {
-			$data['userpage'] = [
-				'text' => $user->getName(),
-				'href' => $tpl->data['personal_urls']['userpage']['href']
-			];
-
-			$data['mytalk'] = [
-				'text' => $tpl->data['personal_urls']['mytalk']['text'],
-				'href' => $tpl->data['personal_urls']['mytalk']['href']
-			];
-
-			if ( isset( $tpl->data['personal_urls']['watchlist'] ) ) {
-				$data['watchlist'] = [
-					/*'text' => $tpl->data['personal_urls']['watchlist']['text'],*/
-					'text' => wfMessage( 'prefs-watchlist' )->text(),
-					'href' => $tpl->data['personal_urls']['watchlist']['href']
-				];
-			}
-
-			// In some cases, logout will be removed explicitly (such as when it is replaced by fblogout).
-			if ( isset( $tpl->data['personal_urls']['logout'] ) ) {
-				$data['logout'] = [
-					'text' => $tpl->data['personal_urls']['logout']['text'],
-					'href' => $tpl->data['personal_urls']['logout']['href']
-				];
-			}
-
-
-			$data['more']['userpage'] = [
-				'text' => wfMessage( 'mypage' )->text(),
-				'href' => $tpl->data['personal_urls']['userpage']['href']
-			];
-
-			if ( isset ( $tpl->data['personal_urls']['userprofile'] ) ) {
-				$data['more']['userprofile'] = [
-					'text' => $tpl->data['personal_urls']['userprofile']['text'],
-					'href' => $tpl->data['personal_urls']['userprofile']['href']
-				];
-			}
-
-			$data['more']['mycontris'] = [
-				'text' => wfMessage( 'mycontris' )->text(),
-				'href' => $tpl->data['personal_urls']['mycontris']['href']
-			];
-
-			$data['more']['preferences'] = [
-				'text' => $tpl->data['personal_urls']['preferences']['text'],
-				'href' => $tpl->data['personal_urls']['preferences']['href']
-			];
-		}
-
-		// This function ignores anything from PersonalUrls hook which it doesn't expect.  This
-		// loops lets it expect anything starting with "fb*" (because we need that for facebook connect).
-		// Perhaps we should have some system to let PersonalUrls hook work again on its own?
-		// - Sean Colombo
-		
-		foreach ( $tpl->data['personal_urls'] as $urlName => $urlData ) {
-			if ( strpos( $urlName, 'fb' ) === 0 ) {
-				$data[$urlName] = $urlData;
-			}
-		}
-
-		return $data;
 	}
 }
