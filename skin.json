@@ -13,6 +13,9 @@
 	"descriptionmsg": "monaco-desc",
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
+	},
 	"ValidSkinNames": {
 		"monaco": {
 			"displayname": "Monaco",
