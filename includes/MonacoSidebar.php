@@ -96,11 +96,14 @@ class MonacoSidebar {
 	}
 
 	public function getCode() {
-		global $wgUser, $wgTitle, $wgRequest, $wgLang, $wgContLang;
+		global $wgUser, $wgTitle, $wgRequest;
 
 		$memc = ObjectCache::getLocalClusterInstance();
+
+		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+		$lang = RequestContext::getMain()->getLanguage();
         
-		$cache = $wgLang->getCode() == $wgContLang->getCode();
+		$cache = $lang->getCode() == $contLang->getCode();
 		if ( $cache ) {
 			$key = $memc->makeKey( 'mMonacoSidebar', self::version );
 			$menu = $memc->get( $key );
