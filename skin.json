@@ -62,17 +62,17 @@
 	},
 	"ResourceModules": {
 		"skins.monaco": {
-			"position": "top",
-			"targets": [ "desktop", "mobile" ],
-			"class": "ResourceLoaderSkinModule",		
+			"class": "ResourceLoaderSkinModule",
+			"targets": [
+				"desktop",
+				"mobile"
+			],
+			"position": "top",		
 			"styles": {
 				"style/css/print.css": {
 					"media": "print"
 				},
 				"style/css/monobook_modified.css": {
-					"media": "screen"
-				},
-				"../../resources/src/mediawiki.skinning/content.css": {
 					"media": "screen"
 				},
 				"style/css/reset_modified.css": {
