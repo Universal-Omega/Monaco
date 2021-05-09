@@ -20,10 +20,10 @@ class SkinMonaco extends SkinTemplate {
 	/**
 	 * @var Config
 	 */
- 	private $monacoConfig;
+ 	private $config;
 
 	public function __construct( array $options = [] ) {
-		$this->monacoConfig = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'monaco' );
+		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'monaco' );
 
 		if ( version_compare( MW_VERSION, '1.36', '<' ) ) {
 			// Associate template - this is replaced by `template` option in 1.36
@@ -63,12 +63,12 @@ class SkinMonaco extends SkinTemplate {
 			$out->addStyle( 'Monaco/style/css/masthead.css', 'screen' );
 		}
 		
-		$theme = $this->monacoConfig->get( 'MonacoTheme' );
+		$theme = $this->config->get( 'MonacoTheme' );
         
-		if ( $this->monacoConfig->get( 'MonacoAllowUseTheme' ) ) {
+		if ( $this->config->get( 'MonacoAllowUseTheme' ) ) {
 			$theme = $this->getRequest()->getText( 'usetheme', $theme );
 			if ( preg_match( '/[^a-z]/', $theme ) ) {
-				$theme = $this->monacoConfig->get( 'MonacoTheme' );
+				$theme = $this->config->get( 'MonacoTheme' );
 			}
 		}
 
@@ -109,7 +109,7 @@ class SkinMonaco extends SkinTemplate {
 	 * @return bool
 	 */
 	public function showMasthead() {
-		if ( !$this->monacoConfig->get( 'MonacoUseMasthead' ) ) {
+		if ( !$this->config->get( 'MonacoUseMasthead' ) ) {
 			return false;
 		}
 
