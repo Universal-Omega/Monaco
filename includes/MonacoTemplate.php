@@ -537,11 +537,11 @@ echo $html;
 		//regular download
 		if ($wgRequest->getVal('printable')) {
 			// RT #18411
-			$this->get('mergedCSSprint');
+			$html = $this->get('mergedCSSprint');
 			// RT #25638
-			echo "\n\t\t";
-			$this->get('csslinksbottom');
-		} else {
+			$html .= "\n\t\t";
+			$html .= $this->get('csslinksbottom');
+			return $html;
 		}
 	}
 
@@ -596,14 +596,14 @@ echo $html;
 	}
 	
 	function customBox( $bar, $cont ) {
-		$this->sidebarBox( $bar, $cont );
+		return $this->sidebarBox( $bar, $cont );
 	}
 	
 	// hook for subskins
 	function setupRightSidebar() {}
 	
 	function addToRightSidebar($html) {
-		$this->mRightSidebar .= $html;
+		return $this->mRightSidebar .= $html;
 	}
 	
 	function hasRightSidebar() {
@@ -633,27 +633,19 @@ return $html;
 		$branding = ob_get_contents();
 		ob_end_clean();
 		
-		if ( trim($branding) ) { ?>
-			<div id="monacoBranding">
-<?php echo $branding; ?>
-			</div>
-<?php
+		if ( trim($branding) ) {
+			return '<div id="monacoBranding">' . $branding . '</div>';
 		}
 	}
 	
 	function printUserData() {
 		$skin = $this->data['skin'];
-		?>
-			<div id="userData">
-<?php
+			$html = '<div id="userData">';
 		
 		$custom_user_data = "";
-		if( !Hooks::run( 'CustomUserData', array( &$this, &$tpl, &$custom_user_data ) ) ){
-			wfDebug( __METHOD__ . ": CustomUserData messed up skin!\n" );
-		}
 		
 		if( $custom_user_data ) {
-			echo $custom_user_data;
+			$html .= $custom_user_data;
 		} else {
 			global $wgUser;
 			
@@ -662,62 +654,57 @@ return $html;
 			foreach($this->data['userlinks'] as $linkName => $linkData){
 				// 
 				if( !empty($linkData['html']) ){
-					echo $linkData['html']; 
+					$html .= $linkData['html']; 
 				}
 			}
 			
 			if ($wgUser->isLoggedIn()) {
 				// haleyjd 20140420: This needs to use $key => $value syntax to get the proper style for the elements!
 				foreach( array( "username" => "userpage", "mytalk" => "mytalk", "watchlist" => "watchlist" ) as $key => $value ) {
-					echo "				" . Html::rawElement( 'span', array( 'id' => "header_$key" ),
+					$html .= "				" . Html::rawElement( 'span', array( 'id' => "header_$key" ),
 						Html::element( 'a', array( 'href' => $this->data['userlinks'][$value]['href'] ) + Linker::tooltipAndAccesskeyAttribs("pt-$value"), $this->data['userlinks'][$value]['text'] ) ) . "\n";
 				}
 				
-			?>
-<?php
-				if ( $this->useUserMore() ) { ?>
-				<span class="more hovermenu">
-					<button id="headerButtonUser" class="header-button color1" tabIndex="-1"><?php echo trim(wfMessage('moredotdotdot')->escaped(), ' .') ?><img src="<?php $this->text('blankimg') ?>" /></button>
+				if ( $this->useUserMore() ) {
+				$html .= '<span class="more hovermenu">
+					<button id="headerButtonUser" class="header-button color1" tabIndex="-1">' . trim(wfMessage('moredotdotdot')->escaped(), ' .') . '<img src="' . $this->text('blankimg') . '" /></button>
 					<span class="invisibleBridge"></span>
 					<div id="headerMenuUser" class="headerMenu color1 reset">
-						<ul>
-<?php
+						<ul>';
+
 				foreach ( $this->data['userlinks']['more'] as $key => $link ) {
 					if($key != 'userpage') { // haleyjd 20140420: Do not repeat user page here.
-						echo Html::rawElement( 'li', array( 'id' => "header_$key" ),
+						$html .= Html::rawElement( 'li', array( 'id' => "header_$key" ),
 							Html::element( 'a', array( 'href' => $link['href'] ), $link['text'] ) ) . "\n";
 					}
-				} ?>
-						</ul>
+				}
+						$html .= '</ul>
 					</div>
-				</span>
-<?php
+				</span>';
+
 				} else {
 					foreach ( $this->data['userlinks']['more'] as $key => $link ) {
 						if($key != 'userpage') { // haleyjd 20140420: Do not repeat user page here.
-							echo Html::rawElement( 'span', array( 'id' => "header_$key" ),
+							$html .= Html::rawElement( 'span', array( 'id' => "header_$key" ),
 								Html::element( 'a', array( 'href' => $link['href'] ), $link['text'] ) ) . "\n";
 						}
-					} ?>
-<?php
-				} ?>
-				<span>
-					<?php echo Html::element( 'a', array( 'href' => $this->data['userlinks']['logout']['href'] ) + Linker::tooltipAndAccesskeyAttribs('pt-logout'), $this->data['userlinks']['logout']['text'] ); ?>
-				</span>
-<?php
+					}
+				}
+				$html .= '<span>' .
+					Html::element( 'a', array( 'href' => $this->data['userlinks']['logout']['href'] ) + Linker::tooltipAndAccesskeyAttribs('pt-logout'), $this->data['userlinks']['logout']['text'] ) .
+				'</span>';
 			} else {
-?>
-				<span id="userLogin">
-					<a class="wikia-button" id="login" href="<?php echo htmlspecialchars($this->data['userlinks']['login']['href']) ?>"><?php echo htmlspecialchars($this->data['userlinks']['login']['text']) ?></a>
+				$html .= '<span id="userLogin">
+					<a class="wikia-button" id="login" href="' . htmlspecialchars($this->data['userlinks']['login']['href']) . '">' . htmlspecialchars($this->data['userlinks']['login']['text']) . '</a>
 				</span>
 
-					<a class="wikia-button" id="register" href="<?php echo htmlspecialchars($this->data['userlinks']['register']['href']) ?>"><?php echo htmlspecialchars($this->data['userlinks']['register']['text']) ?></a>
+					<a class="wikia-button" id="register" href="' . htmlspecialchars($this->data['userlinks']['register']['href']) . '">' . htmlspecialchars($this->data['userlinks']['register']['text']) . '</a>';
 
-<?php
 			}
-		} ?>
-			</div>
-<?php
+		}
+			$html .= '</div>';
+			
+			return $html;
 	}
 	
 	// allow subskins to add pre-page islands
@@ -740,37 +727,37 @@ return $html;
 		$user = $skin->getMastheadUser();
 		$username = $user->isAnon() ? wfMessage('masthead-anonymous-user')->text() : $user->getName();
 		$editcount = $wgLang->formatNum($user->isAnon() ? 0 : $user->getEditcount());
-		?>
+		$html = '
 			<div id="user_masthead" class="accent reset clearfix">
 				<div id="user_masthead_head" class="clearfix">
-					<h2><?php echo htmlspecialchars($username); ?>
-<?php if ( $user->isAnon() ) { ?>
-						<small id="user_masthead_anon"><?php echo $user->getName(); ?></small>
-<?php } else { ?>
-						<div id="user_masthead_scorecard" class="dark_text_1"><?php echo htmlspecialchars($editcount); ?></div>
-<?php } ?>
-					</h2>
+					<h2>' . htmlspecialchars($username);
+if ( $user->isAnon() ) {
+						$html .= '<small id="user_masthead_anon">' . $user->getName() . '</small>';
+} else {
+						$html .= '<div id="user_masthead_scorecard" class="dark_text_1">' . htmlspecialchars($editcount) . '</div>';
+}
+					$html .= '</h2>
 				</div>
-				<ul id="user_masthead_tabs" class="nav_links">
-<?php
+				<ul id="user_masthead_tabs" class="nav_links">';
+
 				foreach ( $this->data['articlelinks']['right'] as $navLink ) {
 					$class = "color1";
 					if ( isset($navLink["class"]) ) {
 						$class .= " {$navLink["class"]}";
 					}
-					echo Html::rawElement( 'li', array( "class" => $class ),
+					$html .= Html::rawElement( 'li', array( "class" => $class ),
 						Html::element( 'a', array( "href" => $navLink["href"] ), $navLink["text"] ) );
-				} ?>
-				</ul>
-			</div>
-<?php
+				}
+				$html .= '</ul>
+			</div>';
 		unset($this->data['articlelinks']['right']); // hide the right articlelinks since we've already displayed them
+		return $html;
 	}
 
 	// Made a separate method so recipes, answers, etc can override. Notably, answers turns it off.
 	function printPageBar(){
 		// Allow for other skins to conditionally include it
-		$this->realPrintPageBar();
+		return $this->realPrintPageBar();
 	}
 	function realPrintPageBar(){
 		foreach ( $this->data['articlelinks'] as $side => $links ) {
@@ -815,7 +802,7 @@ return $html;
 			"bad_hook" => "MonacoAfterArticleLinks",
 			"links" => $this->data['articlelinks']['left'],
 		);
-		$this->printCustomPageBar( $bar );
+		return $this->printCustomPageBar( $bar );
 	}
 
 	var $primaryPageBarPrinted = false;
@@ -843,18 +830,20 @@ return $html;
 			}
 		}
 		
-		echo "		";
-		echo Html::openElement( 'div', array( "id" => $isPrimary ? "page_bar" : null, "class" => $divClass ) );
-		echo "\n";
+		$html = "		";
+		$html .= Html::openElement( 'div', array( "id" => $isPrimary ? "page_bar" : null, "class" => $divClass ) );
+		$html .= "\n";
 		if ( !$useCompactBar || !isset($deferredList) ) {
 			foreach ( $bar as $list ) {
-				$this->printCustomPageBarList( $list );
+				$html .= $this->printCustomPageBarList( $list );
 			}
 		}
-		echo "		</div>\n";
+		$html .= "		</div>\n";
 		if ( isset($deferredList) ) {
-			$this->printCustomPageBarList( $deferredList );
+			$html .= $this->printCustomPageBarList( $deferredList );
 		}
+
+		return $html;
 	}
 
 	function printCustomPageBarList( $list ) {
@@ -870,13 +859,13 @@ return $html;
 			$attrs["class"] .= " {$list["class"]}";
 		}
 		
-		$this->printCustomPageBarListLinks( $list["links"], $attrs, "			", $list["bad_hook"] );
+		return $this->printCustomPageBarListLinks( $list["links"], $attrs, "			", $list["bad_hook"] );
 	}
 	
 	function printCustomPageBarListLinks( $links, $attrs=array(), $indent='', $hook=null ) {
-		echo $indent;
-		echo Html::openElement( 'ul', $attrs );
-		echo "\n";
+		$html = $indent;
+		$html .= Html::openElement( 'ul', $attrs );
+		$html .= "\n";
 		foreach ( $links as $link ) {
 			if ( isset($link["links"]) ) {
 				$link["class"] = trim("{$link["class"]} hovermenu");
@@ -891,25 +880,27 @@ return $html;
 			if ( isset($link["id"]) ) {
 				$aAttrs += Linker::tooltipAndAccesskeyAttribs( $link["id"] );
 			}
-			echo "$indent	";
-			echo Html::openElement( 'li', $liAttrs );
+			$html .= "$indent	";
+			$html .= Html::openElement( 'li', $liAttrs );
 			if ( isset($link["icon"]) ) {
-				echo $this->blankimg( array( "class" => "sprite {$link["icon"]}", "alt" => "" ) );
+				$html .= $this->blankimg( array( "class" => "sprite {$link["icon"]}", "alt" => "" ) );
 			}
-			echo Html::element( 'a', $aAttrs, $link["text"] );
+			$html .= Html::element( 'a', $aAttrs, $link["text"] );
 			
 			if ( isset($link["links"]) ) {
-				echo $this->blankimg();
-				$this->printCustomPageBarListLinks( $link["links"], array(), "$indent	" );
+				$html .= $this->blankimg();
+				$html .= $this->printCustomPageBarListLinks( $link["links"], array(), "$indent	" );
 			}
 			
-			echo Xml::closeElement( 'li' );
-			echo "\n";
+			$html .= Xml::closeElement( 'li' );
+			$html .= "\n";
 		}
 		if ( $hook ) {
 			Hooks::run( $hook );
 		}
-		echo "$indent</ul>\n";
+		$html .= "$indent</ul>\n";
+		
+		return $html;
 	}
 
 	// Made a separate method so recipes, answers, etc can override. Notably, answers turns it off.
@@ -917,21 +908,22 @@ return $html;
 		if ( !$this->data['skin']->isMastheadTitleVisible() ) {
 			return;
 		}
-		?><h1 id="firstHeading" class="firstHeading" aria-level="1"><?php $this->get('title');
+		$html = '<h1 id="firstHeading" class="firstHeading" aria-level="1">' . $this->get('title');
 		Hooks::run( 'MonacoPrintFirstHeading' );
-		?></h1><?php
+		$html .= '</h1>';
+		return $html;
 	}
 
 	// Made a separate method so recipes, answers, etc can override.
 	function printContent(){
-		$this->get('bodytext');
+		return $this->get('bodytext');
 	}
 
 	// Made a separate method so recipes, answers, etc can override.
 	function printCategories(){
 		// Display categories
 		if($this->data['catlinks']) {
-			$this->get('catlinks');
+			return $this->get('catlinks');
 		}
 	}
 
