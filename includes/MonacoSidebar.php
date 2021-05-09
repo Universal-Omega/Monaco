@@ -185,15 +185,12 @@ class MonacoSidebar {
 	}
 
 	public function getMenu($lines, $userMenu = false) {
-		global $wgScript;
-
-        $nodes = $this->parseSidebar( $lines );
+        	$nodes = $this->parseSidebar( $lines );
         
 		if ( count( $nodes ) > 0 ) {
-			
 			Hooks::run( 'MonacoSidebarGetMenu', [ &$nodes ] );
 			
-			$mainMenu = array();
+			$mainMenu = [];
 			foreach($nodes[0]['children'] as $key => $val) {
 				if(isset($nodes[$val]['children'])) {
 					$mainMenu[$val] = $nodes[$val]['children'];
@@ -222,7 +219,7 @@ class MonacoSidebar {
 				if(isset($nodes[$val]['href']) && $nodes[$val]['href'] == 'editthispage') $menu .= '<!--e-->';
 			}
 			
-			$classes = array();
+			$classes = [];
 			if ( $userMenu )
 				$classes[] = 'userMenu';
 			$classes[] = 'hover-navigation';
