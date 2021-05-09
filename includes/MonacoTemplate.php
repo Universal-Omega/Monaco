@@ -313,7 +313,7 @@ $this->printRightSidebar() . '
 						'aria-flowto' => "search-button",
 					) + Linker::tooltipAndAccesskeyAttribs('search') );
 					global $wgSearchDefaultFulltext;
-					$html .= '<input type="hidden" name="' . ( $wgSearchDefaultFulltext ) ? 'fulltext' : 'go' . '" value="1" />
+					$html .= '<input type="hidden" name="' . ( $wgSearchDefaultFulltext ? 'fulltext' : 'go' ) . '" value="1" />
 					<input type="image" alt="' . htmlspecialchars(wfMessage('search')->escaped()) . '" src="' . $this->text('blankimg') . '" id="search-button" class="sprite search" tabIndex=2 />
 				</form>
 			</div>';
