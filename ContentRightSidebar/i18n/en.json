@@ -1,0 +1,9 @@
+{
+	"@metadata": {
+		"authors": [
+			"Daniel Friesen",
+			"Universal Omega"
+		]
+	},
+	"contentrightsidebar-desc": "Adds a parser tag with the ability to add right sidebar content to the Monaco skin."
+}
