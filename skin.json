@@ -1,6 +1,6 @@
 {
 	"name": "Monaco",
-	"version": "0.0.1",
+	"version": "2.6.4",
 	"author": [
 		"'''Universal Omega'''",
 		"Inez Korczyński",
@@ -13,9 +13,6 @@
 	"descriptionmsg": "monaco-desc",
 	"license-name": "GPLv2",
 	"type": "skin",
-	"ConfigRegistry": {
-		"monaco": "GlobalVarConfig::newInstance"
-	},
 	"ValidSkinNames": {
 		"monaco": {
 			"displayname": "Monaco",
@@ -34,32 +31,18 @@
 			} ]
 		}
 	},
-	"AutoloadClasses": {
-		"SkinMonaco": "includes/SkinMonaco.php",
-		"MonacoTemplate": "includes/MonacoTemplate.php",
-		"MonacoSidebar": "includes/MonacoSidebar.php"
-	},
 	"MessagesDirs": {
 		"Monaco": [
 			"i18n"
 		]
 	},
-	"config": {
-		"MonacoAllowUseTheme": true,
-		"MonacoTheme" : "sapphire",
-		"MonacoDynamicCreateOverride" : false,
-		"MonacoUseMoreButton" : true,
-		"MonacoUseSitenoticeIsland" : false,
-		"MonacoUseMasthead" : true,
-		"MonacoCompactSpecialPages" : false
-	},		
-	"Hooks": {
-		"PageContentSaveComplete": [
-			"SkinMonaco::onPageContentSaveComplete"
-		],
-		"MessageCacheReplace": [
-			"MonacoSidebar::invalidateCache"
-		]
+	"AutoloadClasses": {
+		"SkinMonaco": "includes/SkinMonaco.php",
+		"MonacoTemplate": "includes/MonacoTemplate.php",
+		"MonacoSidebar": "includes/MonacoSidebar.php"
+	},
+	"ConfigRegistry": {
+		"monaco": "GlobalVarConfig::newInstance"
 	},
 	"ResourceModules": {
 		"skins.monaco": {
@@ -145,5 +128,36 @@
 			"+mediawiki.special.version": "style/css/mediawiki.special.version.css"
 		}
 	},
-	"manifest_version": 1
+	"config": {
+		"MonacoAllowUseTheme": {
+			"value": true
+		},
+		"MonacoTheme": {
+			"value": "sapphire"
+		},
+		"MonacoDynamicCreateOverride" {
+			"value": false
+		},
+		"MonacoUseMoreButton": {
+			"value": true
+		},
+		"MonacoUseSitenoticeIsland": {
+			"value": false
+		},
+		"MonacoUseMasthead": {
+			"value": true
+		},
+		"MonacoCompactSpecialPages": {
+			"value": false
+		},
+	},
+	"Hooks": {
+		"PageContentSaveComplete": [
+			"SkinMonaco::onPageContentSaveComplete"
+		],
+		"MessageCacheReplace": [
+			"MonacoSidebar::invalidateCache"
+		]
+	},
+	"manifest_version": 2
 }
