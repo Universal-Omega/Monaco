@@ -4,6 +4,10 @@ use MediaWiki\MediaWikiServices;
 
 class MonacoSidebar {
 
+	public $biggestCategories;
+
+	public $editUrl = false;
+
 	const version = '0.10';
 
  	/**
@@ -15,8 +19,6 @@ class MonacoSidebar {
 
 		$memc->delete( $memc->makeKey( 'mMonacoSidebar', self::version ) );
 	}
-
-	public $editUrl = false;
 
 	/**
 	 * Parse one line from MediaWiki message to array with indexes 'text' and 'href'
@@ -545,8 +547,6 @@ class MonacoSidebar {
 
 		return $index;
 	}
-
-	private $biggestCategories;
 
 	public function getBiggestCategory( $index ) {
 		global $wgBiggestCategoriesBlacklist;
