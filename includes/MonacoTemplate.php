@@ -84,7 +84,7 @@ if ( Hooks::run( 'AlternateNavLinks' ) ) {
 	$html .= '<!-- /HEADER -->
 
 		<!-- PAGE -->
-	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar' . $this->hasRightSidebar() ? ' with_right_sidebar' : null . '">
+	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar' . ( $this->hasRightSidebar() ? ' with_right_sidebar' : null ) . '">
 		<div id="page_wrapper">';
 Hooks::run( 'MonacoBeforePage', [ $this ] );
 $html .= $this->printBeforePage();
