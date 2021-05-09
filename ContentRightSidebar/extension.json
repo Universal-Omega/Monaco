@@ -1,0 +1,47 @@
+{
+	"name": "MonacoContentRightSidebar",
+	"author": [
+		"'''Universal Omega'''",
+		"Daniel Friesen",
+		"James Haley"
+	],
+	"url": "https://www.mediawiki.org/wiki/Skin:Monaco",
+	"descriptionmsg": "monacocontentrightsidebar-desc",
+	"license-name": "GPL-2.0-or-later",
+	"type": "parserhook",
+	"requires": {
+		"MediaWiki": ">= 1.35.0",
+		"skins": {
+			"Monaco": "*"
+		}
+	},
+	"AutoloadClasses": {
+		"MonacoContentRightSidebarHooks": "MonacoContentRightSidebarHooks.php"
+	},
+	"MessagesDirs": {
+		"MonacoContentRightSidebar": [
+			"i18n"
+		]
+	},
+	"Hooks": {
+		"BeforePageDisplay": [
+			"MonacoContentRightSidebarHooks::onBeforePageDisplay"
+		],
+		"MonacoRightSidebar": [
+			"MonacoContentRightSidebarHooks::onMonacoRightSidebar"
+		],
+		"ParserFirstCallInit": [
+			"MonacoContentRightSidebarHooks::onParserFirstCallInit"
+		]
+	},
+	"ResourceModules": {
+		"ext.MonacoContentRightSidebar": {
+			"scripts": "resources/MonacoContentRightSidebar.js"
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "MonacoContentRightSidebar"
+	},
+	"manifest_version": 2
+}
