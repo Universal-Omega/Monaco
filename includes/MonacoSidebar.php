@@ -520,4 +520,41 @@ class MonacoSidebar {
         $index++;
         return $index;
     }
+
+	private $biggestCategories;
+
+	public function getBiggestCategory( $index ) {
+		global $wgBiggestCategoriesBlacklist;
+
+		$memc = ObjectCache::getLocalClusterInstance();
+
+		$limit = max( $index, 15 );
+		if ( $limit > count( $this->biggestCategories ) ) {
+			$key = $memc->makeKey( 'biggest', $limit );
+			$data = $memc->get( $key );
+			if ( empty( $data ) ) {
+				$filterWordsA = [];
+				foreach ( $wgBiggestCategoriesBlacklist as $word ) {
+					$filterWordsA[] = '(cl_to not like "%'.$word.'%")';
+				}
+
+				$dbr =& wfGetDB( DB_REPLICA );
+				$tables = [ 'categorylinks' ];
+				$fields = [ 'cl_to, COUNT(*) AS cnt' ];
+				$where = count( $filterWordsA ) > 0 ? [ implode( ' AND ', $filterWordsA ) ] : [];
+				$options = [ 'ORDER BY' => 'cnt DESC', 'GROUP BY' => 'cl_to', 'LIMIT' => $limit ];
+				$res = $dbr->select( $tables, $fields, $where, __METHOD__, $options );
+				$categories = [];
+				while ( $row = $dbr->fetchObject( $res ) ) {
+					$this->biggestCategories[] = [ 'name' => $row->cl_to, 'count' => $row->cnt ];
+				}
+
+				$memc->set( $key, $this->biggestCategories, 60 * 60 * 24 * 7 );
+			} else {
+				$this->biggestCategories = $data;
+			}
+		}
+
+		return isset( $this->biggestCategories[$index-1] ) ? $this->biggestCategories[$index-1] : null;
+	}
 }
