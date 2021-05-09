@@ -419,40 +419,40 @@ class MonacoSidebar {
 	 * @param string $line
 	 * @param array $ret
 	 */
-	public function parseSidebarLine($line) {
-		$lineTmp = explode('|', trim($line, '* '), 2);
-		$lineTmp[0] = trim($lineTmp[0], '[]'); // for external links defined as [http://example.com] instead of just http://example.com
+	public function parseSidebarLine( $line ) {
+		$lineTmp = explode( '|', trim( $line, '* ' ), 2 );
+		$lineTmp[0] = trim( $lineTmp[0], '[]' ); // for external links defined as [http://example.com] instead of just http://example.com
 
 		$internal = false;
 
-		if(count($lineTmp) == 2 && $lineTmp[1] != '') {
-			$link = trim(wfMessage($lineTmp[0])->inContentLanguage()->text());
-			$line = trim($lineTmp[1]);
+		if ( count( $lineTmp ) == 2 && $lineTmp[1] != '' ) {
+			$link = trim( wfMessage( $lineTmp[0] )->inContentLanguage()->text() );
+			$line = trim( $lineTmp[1] );
 		} else {
-			$link = trim($lineTmp[0]);
-			$line = trim($lineTmp[0]);
+			$link = trim ( $lineTmp[0] );
+			$line = trim ( $lineTmp[0] );
 		}
 
-		if(wfMessage($line)->exists()) {
-			$text = wfMessage($line)->text();
+		if ( wfMessage( $line )->exists() ) {
+			$text = wfMessage( $line )->text();
 		} else {
 			$text = $line;
 		}
 
-		if(!wfMessage($lineTmp[0])->exists()) {
+		if ( !wfMessage( $lineTmp[0] )->exists() ) {
 			$link = $lineTmp[0];
 		}
 
-		if(preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link )) {
+		if ( preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link ) ) {
 			$href = $link;
 		} else {
-			if(empty($link)) {
+			if ( empty( $link ) ) {
 				$href = '#';
-			} else if($link[0] == '#') {
+			} elseif ( $link[0] == '#' ) {
 				$href = '#';
 			} else {
-				$title = Title::newFromText($link);
-				if(is_object($title)) {
+				$title = Title::newFromText( $link );
+				if ( is_object( $title ) ) {
 					$href = $title->fixSpecialName()->getLocalURL();
 					$internal = true;
 				} else {
@@ -461,7 +461,7 @@ class MonacoSidebar {
 			}
 		}
 
-		$ret = array('original' => $lineTmp[0], 'text' => $text);
+		$ret = [ 'original' => $lineTmp[0], 'text' => $text ];
 		$ret['href'] = $href;
 		$ret['internal'] = $internal;
 
@@ -469,14 +469,14 @@ class MonacoSidebar {
 	}
 
     /**
-     * Process a List of Elements and add them to the corrent position in the current menu
+     * Process a list of elements and add them to the corrent position in the current menu
      *
      * @param array $lines
      * @param int
      * @param array $nodes
      * @param int $i
      */
-    function processSpecialSidebar( $lines, &$lastDepth, &$nodes, &$i ) {
+    public function processSpecialSidebar( $lines, &$lastDepth, &$nodes, &$i ) {
         if ( is_array( $lines ) && count( $lines) > 0 ) {
             foreach ( $lines as $line ) {
                 if ( trim( $line ) === '' ) {
@@ -495,8 +495,8 @@ class MonacoSidebar {
     }
 
     /**
-     * Calculate and Add the Depth of the current Node.
-     * Set the Array Index of the Parent Node to the Current Node
+     * Calculate and add the depth of the current node.
+     * Set the array index of the parent node to the current node
      *
      * @param string $line
      * @param array $node
@@ -505,22 +505,21 @@ class MonacoSidebar {
      * @param int $lastDepth
      * @return array $node 
      */
-    function addDepthParentToNode($line, $node, &$nodes, &$index, &$lastDepth) {
-
+    public function addDepthParentToNode( $line, $node, &$nodes, &$index, &$lastDepth ) {
         // calculate the depth of this node in the menu
-        $node['depth'] = strrpos($line, '*') + 1;
+        $node['depth'] = strrpos( $line, '*' ) + 1;
         
-        if($node['depth'] == $lastDepth) {
+        if ( $node['depth'] == $lastDepth ) {
             $node['parentIndex'] = $nodes[$index]['parentIndex'];
-        } else if ($node['depth'] == $lastDepth + 1) {
+        } elseif ( $node['depth'] == $lastDepth + 1 ) {
             $node['parentIndex'] = $index;
         } else {
-            for($x = $index; $x >= 0; $x--) {
-                if($x == 0) {
+            for ( $x = $index; $x >= 0; $x-- ) {
+                if ( $x == 0 ) {
                     $node['parentIndex'] = 0;
                     break;
                 }
-                if($nodes[$x]['depth'] == $node['depth'] - 1) {
+                if ( $nodes[$x]['depth'] == $node['depth'] - 1 ) {
                     $node['parentIndex'] = $x;
                     break;
                 }
@@ -539,9 +538,9 @@ class MonacoSidebar {
 	 * @param int $lastDepth
 	 * @return int $i
 	 */
-	function addNodeToSidebar( $node, &$nodes, $index, &$lastDepth ) {
+	public function addNodeToSidebar( $node, &$nodes, $index, &$lastDepth ) {
 		$nodes[$index+1] = $node;
-		$nodes[$node['parentIndex']]['children'][] = $index+1;
+		$nodes[ $node['parentIndex'] ]['children'][] = $index+1;
 		$lastDepth = $node['depth'];
 		$index++;
 
@@ -565,7 +564,7 @@ class MonacoSidebar {
 					$filterWordsA[] = '(cl_to not like "%'.$word.'%")';
 				}
 
-				$dbr =& wfGetDB( DB_REPLICA );
+				$dbr = wfGetDB( DB_REPLICA );
 				$tables = [ 'categorylinks' ];
 				$fields = [ 'cl_to, COUNT(*) AS cnt' ];
 				$where = count( $filterWordsA ) > 0 ? [ implode( ' AND ', $filterWordsA ) ] : [];
