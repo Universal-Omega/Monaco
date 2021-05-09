@@ -41,7 +41,7 @@
 	},
 	"ResourceFileModulePaths": {
 		"localBasePath": "",
-		"remoteExtPath": "MonacoContentRightSidebar"
+		"remoteSkinPath": "Monaco/ContentRightSidebar"
 	},
 	"manifest_version": 2
 }
