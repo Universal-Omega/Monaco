@@ -7,14 +7,13 @@ class MonacoSidebar {
 	const version = '0.10';
 
  	/**
-	 * @return bool
+	 * @param Title $title
+	 * @param string $text
 	 */
-	public static function invalidateCache() {
+	public static function invalidateCache( $title, $text ) {
 		$memc = ObjectCache::getLocalClusterInstance();
 
 		$memc->delete( $memc->makeKey( 'mMonacoSidebar', self::version ) );
-
-		return true;
 	}
 
 	public $editUrl = false;
