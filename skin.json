@@ -11,7 +11,7 @@
 	],
 	"url": "https://www.mediawiki.org/wiki/Skin:Monaco",
 	"descriptionmsg": "monaco-desc",
-	"license-name": "GPLv2",
+	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"ValidSkinNames": {
 		"monaco": {
