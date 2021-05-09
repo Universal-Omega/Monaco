@@ -135,7 +135,7 @@
 		"MonacoTheme": {
 			"value": "sapphire"
 		},
-		"MonacoDynamicCreateOverride" {
+		"MonacoDynamicCreateOverride": {
 			"value": false
 		},
 		"MonacoUseMoreButton": {
