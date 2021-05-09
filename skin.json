@@ -39,7 +39,7 @@
 		"MonacoSidebar": "includes/MonacoSidebar.php"
 	},
 	"MessagesDirs": {
-		"SkinMonaco": [
+		"Monaco": [
 			"i18n"
 		]
 	},
