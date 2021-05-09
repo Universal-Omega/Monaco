@@ -544,7 +544,7 @@ class MonacoSidebar {
 	}
 
 	public function getBiggestCategory( $index ) {
-		global $wgBiggestCategoriesBlacklist;
+		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'monaco' );
 
 		$memc = ObjectCache::getLocalClusterInstance();
 
@@ -554,7 +554,7 @@ class MonacoSidebar {
 			$data = $memc->get( $key );
 			if ( empty( $data ) ) {
 				$filterWordsA = [];
-				foreach ( $wgBiggestCategoriesBlacklist as $word ) {
+				foreach ( $config->get( 'MonacoBiggestCategoriesBlacklist' ) as $word ) {
 					$filterWordsA[] = '(cl_to not like "%'.$word.'%")';
 				}
 
