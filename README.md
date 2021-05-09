@@ -28,9 +28,9 @@ After you have placed the skin into that folder add:
 
 near the end of your LocalSettings.php to finish installation of the skin.
 
-Additionally you can install the ContentRightSidebar extension using:
+Additionally you can install the Monaco/ContentRightSidebar extension using:
 
-`require_once( "$IP/skins/Monaco/ContentRightSiebar.php" );`
+`wfLoadSkin( 'Monaco/ContentRightSidebar' );`
 
 Doing so will provide you with a `<right-sidebar>...</right-sidebar>` tag which 
 will create right floated content in the page that will be moved into the right
