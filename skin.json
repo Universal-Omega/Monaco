@@ -101,11 +101,11 @@
 		"skins.monaco.scripts": {
 			"scripts": "style/js/monaco.js"
 		},
-		"ext.monacoWidget": {
+		"skins.monaco.widget": {
 			"position" : "bottom",
-			"scripts": "ext/ext.monacoWidget.js",
+			"scripts": "style/js/monacoWidget.js",
 			"styles": {
-				"ext/ext.monacoWidget.css": {
+				"style/css/monacoWidget.css": {
 					"media": "screen"
 				}
 			}
