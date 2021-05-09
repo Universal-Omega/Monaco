@@ -110,8 +110,6 @@ class MonacoSidebar {
 	 * @return string
 	 */
 	public function getCode() {
-		global $wgUser, $wgTitle, $wgRequest;
-
 		$memc = ObjectCache::getLocalClusterInstance();
 
 		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
