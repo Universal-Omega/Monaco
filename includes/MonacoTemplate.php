@@ -280,7 +280,7 @@ if ($custom_article_footer !== '') {
 			</div>
 			<!-- /PAGE -->
 
-			<noscript><link rel="stylesheet" property="stylesheet" type="text/css" href="' . $this->text( 'stylepath' ) . '/Monaco/style/css/noscript.css?' . $wgStyleVersion . '" /></noscript>';
+			<noscript><link rel="stylesheet" property="stylesheet" type="text/css" href="' . $this->get( 'stylepath' ) . '/Monaco/style/css/noscript.css?' . $wgStyleVersion . '" /></noscript>';
 	if(!($wgRequest->getVal('action') != '' || $namespace == NS_SPECIAL)) {
 		$html .= $this->get('JSloader');
 		$html .= $this->get('headscripts');
@@ -301,7 +301,7 @@ $this->printRightSidebar() . '
 	$searchLabel = wfMessage('Tooltip-search')->isDisabled() ? (wfMessage('ilsubmit')->escaped().' '.$wgSitename.'...') : $msgSearchLabel;
 
 			$html .= '<div id="search_box" class="color1" role="search">
-				<form action="' . $this->text('searchaction') . '" id="searchform">
+				<form action="' . $this->get('searchaction') . '" id="searchform">
 					<label style="display: none;" for="searchInput">' . htmlspecialchars($searchLabel) . '</label>' .
 					Html::input( 'search', '', 'search', array(
 						'id' => "searchInput",
@@ -314,7 +314,7 @@ $this->printRightSidebar() . '
 					) + Linker::tooltipAndAccesskeyAttribs('search') );
 					global $wgSearchDefaultFulltext;
 					$html .= '<input type="hidden" name="' . ( $wgSearchDefaultFulltext ? 'fulltext' : 'go' ) . '" value="1" />
-					<input type="image" alt="' . htmlspecialchars(wfMessage('search')->escaped()) . '" src="' . $this->text('blankimg') . '" id="search-button" class="sprite search" tabIndex=2 />
+					<input type="image" alt="' . htmlspecialchars(wfMessage('search')->escaped()) . '" src="' . $this->get('blankimg') . '" id="search-button" class="sprite search" tabIndex=2 />
 				</form>
 			</div>';
 	$monacoSidebar = new MonacoSidebar();
@@ -493,7 +493,7 @@ $this->printRightSidebar() . '
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 						<input type="hidden" name="cmd" value="_s-xclick">
 						<input type="hidden" name="hosted_button_id" value="D5MLUSDXA8HMQ">
-						<input type="image" src="' . $this->text('stylepath') . '/Monaco/style/images/contribute-button.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
+						<input type="image" src="' . $this->get('stylepath') . '/Monaco/style/images/contribute-button.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
 						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;">
 					</form>
 				</td>
@@ -667,7 +667,7 @@ return $html;
 				
 				if ( $this->useUserMore() ) {
 				$html .= '<span class="more hovermenu">
-					<button id="headerButtonUser" class="header-button color1" tabIndex="-1">' . trim(wfMessage('moredotdotdot')->escaped(), ' .') . '<img src="' . $this->text('blankimg') . '" /></button>
+					<button id="headerButtonUser" class="header-button color1" tabIndex="-1">' . trim(wfMessage('moredotdotdot')->escaped(), ' .') . '<img src="' . $this->get('blankimg') . '" /></button>
 					<span class="invisibleBridge"></span>
 					<div id="headerMenuUser" class="headerMenu color1 reset">
 						<ul>';
