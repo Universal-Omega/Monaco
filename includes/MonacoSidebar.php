@@ -356,7 +356,7 @@ class MonacoSidebar {
 	 * @return array
 	 */
 	public function parseSidebar( $lines ) {
-        	global $wgUser;
+        	$context = RequestContext::getMain();
    
   		$nodes = [];
 		$lastDepth = 0;
@@ -373,14 +373,14 @@ class MonacoSidebar {
                 // expand to user sidebar
                 if($node['original'] == "USER-SIDEBAR")
                     {
-                        $this->processSpecialSidebar($this->doUserSidebar($wgUser),$lastDepth, $nodes, $i);
+                        $this->processSpecialSidebar($this->doUserSidebar( $context->getUser() ),$lastDepth, $nodes, $i);
                         // we don't add the placeholder, we add the menu which is behind it
                         continue;
                     }
                 // expand to group sidebar
                 if($node['original'] == "GROUP-SIDEBAR")
                     {
-                        $this->processSpecialSidebar($this->doGroupSidebar($wgUser),$lastDepth, $nodes, $i);
+                        $this->processSpecialSidebar($this->doGroupSidebar( $context->getUser() ),$lastDepth, $nodes, $i);
                         // we don't add the placeholder, we add the menu which is behind it
                         continue;
                     }
