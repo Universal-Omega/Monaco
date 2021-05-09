@@ -17,10 +17,11 @@ class SkinMonaco extends SkinTemplate {
 	function diggsLink() {}
 	function deliciousLink() {}
 
-    /**
-     * @var Config
-     */
-    private $monacoConfig;
+	/**
+	 * @var Config
+	 */
+ 	private $monacoConfig;
+
 	public function __construct( array $options = [] ) {
 		$this->monacoConfig = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'monaco' );
 
