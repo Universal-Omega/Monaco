@@ -17,7 +17,7 @@ class MonacoContentRightSidebarHooks {
 	 */
 	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
 		if ( $skin->getSkinName() == 'monaco' ) {
-			$out->addModules( [ 'skins.monaco.ContentRightSidebar' ] );
+			$out->addModules( [ 'ext.MonacoContentRightSidebar' ] );
 		}
 	}
 
