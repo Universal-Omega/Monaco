@@ -880,7 +880,7 @@ echo $html;
 		$html .= '<!-- RIGHT SIDEBAR -->
 		 <div id="right_sidebar" class="sidebar right_sidebar">' .
 $this->lateRightSidebar();
-Hooks::run('MonacoRightSidebar::Late', [ $this ] )
+Hooks::run('MonacoRightSidebar::Late', [ $this ] );
 $html .= $this->mRightSidebar . '
 		</div>
 		<!-- /RIGHT SIDEBAR -->';
