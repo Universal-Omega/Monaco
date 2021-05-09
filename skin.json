@@ -38,8 +38,9 @@
 	},
 	"AutoloadClasses": {
 		"SkinMonaco": "includes/SkinMonaco.php",
-		"MonacoTemplate": "includes/MonacoTemplate.php",
-		"MonacoSidebar": "includes/MonacoSidebar.php"
+		"MonacoHooks": "includes/MonacoHooks.php",
+		"MonacoSidebar": "includes/MonacoSidebar.php",
+		"MonacoTemplate": "includes/MonacoTemplate.php"
 	},
 	"ConfigRegistry": {
 		"monaco": "GlobalVarConfig::newInstance"
@@ -157,6 +158,9 @@
 		],
 		"MessageCacheReplace": [
 			"MonacoSidebar::invalidateCache"
+		],
+		"OutputPageBodyAttributes": [
+			"MonacoHooks::onOutputPageBodyAttributes"
 		]
 	},
 	"manifest_version": 2
