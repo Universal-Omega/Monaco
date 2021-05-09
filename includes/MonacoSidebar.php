@@ -471,26 +471,26 @@ class MonacoSidebar {
     /**
      * Process a List of Elements and add them to the corrent position in the current menu
      *
-     * @param array $lines A List of Menu Elements which shoul'd be added
-     * @param int $lastDepth Last depth
-     * @param array $nodes A List of Current Menu Elements
-     * @param int $i Index of the Newest Item in Current Menu
+     * @param array $lines
+     * @param int
+     * @param array $nodes
+     * @param int $i
      */
     function processSpecialSidebar( $lines, &$lastDepth, &$nodes, &$i ) {
-        
-        if (is_array($lines) && count($lines) > 0) {
-            foreach($lines as $line) {
-                if(trim($line) === '') {
+        if ( is_array( $lines ) && count( $lines) > 0 ) {
+            foreach ( $lines as $line ) {
+                if ( trim( $line ) === '' ) {
                     continue; // skip empty lines, goto next line
                 }
                 
                 // convert line into small array
-                $node = $this->parseSidebarLine($line);
+                $node = $this->parseSidebarLine( $line );
 
-                $node = $this->addDepthParentToNode($line,$node,$nodes,$i,$lastDepth);
-                $i = $this->addNodeToSidebar($node,$nodes,$i,$lastDepth);
+                $node = $this->addDepthParentToNode( $line, $node, $nodes, $i, $lastDepth );
+                $i = $this->addNodeToSidebar( $node, $nodes, $i, $lastDepth );
             }
         }
+
         return;
     }
 
