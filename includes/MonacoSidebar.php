@@ -3,12 +3,11 @@
 use MediaWiki\MediaWikiServices;
 
 class MonacoSidebar {
-
+	/** @var array */
 	public $biggestCategories;
 
-	public $editUrl = false;
-
-	const version = '0.10';
+	/** @var string */
+	public $editUrl = '';
 
  	/**
 	 * @param Title $title
@@ -17,7 +16,7 @@ class MonacoSidebar {
 	public static function invalidateCache( $title, $text ) {
 		$memc = ObjectCache::getLocalClusterInstance();
 
-		$memc->delete( $memc->makeKey( 'mMonacoSidebar', self::version ) );
+		$memc->delete( $memc->makeKey( 'mMonacoSidebar', 'monacoSidebar' ) );
 	}
 
 	/**
@@ -117,7 +116,7 @@ class MonacoSidebar {
         
 		$cache = $lang->getCode() == $contLang->getCode();
 		if ( $cache ) {
-			$key = $memc->makeKey( 'mMonacoSidebar', self::version );
+			$key = $memc->makeKey( 'mMonacoSidebar', 'monacoSidebar' );
 			$menu = $memc->get( $key );
 		}
 
@@ -226,7 +225,7 @@ class MonacoSidebar {
 			$menu = Html::rawElement( 'ul', null, $menu );
 			$menu = Html::rawElement( 'nav', array( 'id' => 'navigation', 'class' => implode(' ', $classes) ), $menu );
 
-			if($this->editUrl) {
+			if ( $this->editUrl ) {
 				$menu = str_replace('href="editthispage"', 'href="'.$this->editUrl.'"', $menu);
 			} else {
 				$menu = preg_replace('/<!--b-->(.*)<!--e-->/U', '', $menu);
@@ -350,14 +349,14 @@ class MonacoSidebar {
 		return explode( "\n", $text );
 	}
 
-    /**
-     * Parse Sidebar Lines
-     *
-     * @param array $lines
-     * @return array
-     */
-    public function parseSidebar( $lines ) {
-        global $wgUser;
+	/**
+	 * Parse Sidebar Lines
+	 *
+	 * @param array $lines
+	 * @return array
+	 */
+	public function parseSidebar( $lines ) {
+        	global $wgUser;
    
   		$nodes = [];
 		$lastDepth = 0;
