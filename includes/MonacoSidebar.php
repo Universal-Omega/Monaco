@@ -7,8 +7,10 @@ class MonacoSidebar {
 	const version = '0.10';
 
 	static function invalidateCache() {
-		global $wgMemc;
-		$wgMemc->delete(wfMemcKey('mMonacoSidebar', self::version));
+		$memc = ObjectCache::getLocalClusterInstance();
+
+		$memc->delete( $memc->makeKey( 'mMonacoSidebar', self::version ) );
+
 		return true;
 	}
 
@@ -26,7 +28,7 @@ class MonacoSidebar {
 
 		$line_temp = explode('|', trim($line, '* '), 3);
 		$line_temp[0] = trim($line_temp[0], '[]');
-		if(count($line_temp) >= 2 && $line_temp[1] != '') {
+		if ( count( $line_temp ) >= 2 && $line_temp[1] != '' ) {
 			$line = trim($line_temp[1]);
 			$link = trim(wfMessage($line_temp[0])->inContentLanguage()->text());
 		} else {
@@ -94,17 +96,19 @@ class MonacoSidebar {
 	}
 
 	public function getCode() {
-		global $wgUser, $wgTitle, $wgRequest, $wgMemc, $wgLang, $wgContLang;
+		global $wgUser, $wgTitle, $wgRequest, $wgLang, $wgContLang;
+
+		$memc = ObjectCache::getLocalClusterInstance();
         
 		$cache = $wgLang->getCode() == $wgContLang->getCode();
-		if($cache) {
-			$key = wfMemcKey('mMonacoSidebar', self::version);
-			$menu = $wgMemc->get($key);
+		if ( $cache ) {
+			$key = $memc->makeKey( 'mMonacoSidebar', self::version );
+			$menu = $memc->get( $key );
 		}
 		if(empty($menu)) {
             $menu = $this->getMenu($this->getMenuLines());
 			if($cache) {
-				$wgMemc->set($key, $menu, 60 * 60 * 8);
+				$memc->set( $key, $menu, 60 * 60 * 8 );
 			}
 		}
 		return $menu;
@@ -151,13 +155,13 @@ class MonacoSidebar {
 	}
 
 	public function getMenu($lines, $userMenu = false) {
-		global $wgMemc, $wgScript;
+		global $wgScript;
 
         $nodes = $this->parseSidebar($lines);
         
 		if(count($nodes) > 0) {
 			
-			wfRunHooks('MonacoSidebarGetMenu', array(&$nodes));
+			Hooks::run( 'MonacoSidebarGetMenu', [ &$nodes ] );
 			
 			$mainMenu = array();
 			foreach($nodes[0]['children'] as $key => $val) {
@@ -223,7 +227,9 @@ class MonacoSidebar {
 				$nodes['magicWords'] = $magicWords;
 			}
 
-			$wgMemc->set($menuHash, $nodes, 60 * 60 * 24 * 3); // three days
+			$memc = ObjectCache::getLocalClusterInstance();
+
+			$memc->set( $menuHash, $nodes, 60 * 60 * 24 * 3 ); // three days
 
 			// use AJAX request method to fetch JS code asynchronously
 			//$menuJSurl = Xml::encodeJsVar("{$wgScript}?action=ajax&v=" . self::version. "&rs=getMenu&id={$menuHash}");
@@ -460,13 +466,12 @@ class MonacoSidebar {
      * Calculate and Add the Depth of the current Node.
      * Set the Array Index of the Parent Node to the Current Node
      *
-     * @param String $line
-     * @param Array $node
-     * @param Array $nodes
-     * @param Integer $index
-     * @param Integer $lastDepth
-     *
-     * @return Array $node 
+     * @param string $line
+     * @param array $node
+     * @param array $nodes
+     * @param int $index
+     * @param int $lastDepth
+     * @return array $node 
      */
     function addDepthParentToNode($line, $node, &$nodes, &$index, &$lastDepth) {
 
