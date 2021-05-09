@@ -216,7 +216,7 @@ class SkinMonaco extends SkinTemplate {
 		];
 
 		if ( isset( $extraWords[ strtolower( $node['org'] ) ] ) ) {
-			if ( substr( $node['org'],0,1 ) == '#' ) {
+			if ( substr( $node['org'], 0, 1 ) == '#' ) {
 				if ( strtolower( $node['org'] ) == strtolower( $node['text'] ) ) {
 					$node['text'] = wfMessage( trim( strtolower( $node['org'] ), ' *' ) )->text();
 				}
@@ -285,7 +285,7 @@ class SkinMonaco extends SkinTemplate {
 				}
 
 				if ( substr( $node['org'],0,1 ) == '#' ) {
-					//$this->addExtraItemsToSidebarMenu( $node, $nodes );
+					$this->addExtraItemsToSidebarMenu( $node, $nodes );
 				}
 
 				$nodes[$i+1] = $node;
