@@ -47,6 +47,19 @@ class SkinMonaco extends SkinTemplate {
 		// to do those manually.
 		$out->addStyle( 'Monaco/style/css/monaco_ie8.css', 'screen', 'IE 8' );
 		$out->addStyle( 'Monaco/style/css/monaco_gteie8.css', 'screen', 'gte IE 8');
+		$out->addStyle( 'Monaco/style/css/monobook_modified.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/reset_modified.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/buttons.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/root.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/header.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/article.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/widgets.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/modal.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/footer.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/star_rating.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/ny.css', 'screen' );
+		$out->addStyle( 'Monaco/style/css/print.css', 'print' );
+		$out->addScript( 'Monaco/style/js/monaco.js' );
 		
 		// Likewise the masthead is a conditional feature so it's hard to include
 		// inside of the ResourceLoader.
