@@ -6,7 +6,10 @@ class MonacoSidebar {
 
 	const version = '0.10';
 
-	static function invalidateCache() {
+ 	/**
+	 * @return bool
+	 */
+	public static function invalidateCache() {
 		$memc = ObjectCache::getLocalClusterInstance();
 
 		$memc->delete( $memc->makeKey( 'mMonacoSidebar', self::version ) );
@@ -19,56 +22,60 @@ class MonacoSidebar {
 	/**
 	 * Parse one line from MediaWiki message to array with indexes 'text' and 'href'
 	 *
+	 * @param string $line
 	 * @return array
-	 * @author Inez Korczynski <inez@wikia.com>
 	 */
-	public static function parseItem($line) {
-
+	public static function parseItem( $line ) {
 		$href = $specialCanonicalName = false;
 
-		$line_temp = explode('|', trim($line, '* '), 3);
-		$line_temp[0] = trim($line_temp[0], '[]');
+		$line_temp = explode( '|', trim( $line, '* ' ), 3 );
+		$line_temp[0] = trim( $line_temp[0], '[]' );
 		if ( count( $line_temp ) >= 2 && $line_temp[1] != '' ) {
-			$line = trim($line_temp[1]);
-			$link = trim(wfMessage($line_temp[0])->inContentLanguage()->text());
+			$line = trim( $line_temp[1] );
+			$link = trim( wfMessage( $line_temp[0] )->inContentLanguage()->text() );
 		} else {
-			$line = trim($line_temp[0]);
-			$link = trim($line_temp[0]);
+			$line = trim( $line_temp[0] );
+			$link = trim( $line_temp[0] );
 		}
 
 
 		$descText = null;
 
-		if(count($line_temp) > 2 && $line_temp[2] != '') {
+		if ( count( $line_temp ) > 2 && $line_temp[2] != '' ) {
 			$desc = $line_temp[2];
-			if (wfMessage($desc)->exists()) {
-				$descText = wfMessage($desc)->text();
+			if ( wfMessage( $desc )->exists() ) {
+				$descText = wfMessage( $desc )->text();
 			} else {
 				$descText = $desc;
 			}
 		}
 
-		if (wfMessage($line)->exists()) {
-			$text = wfMessage($line)->text();
+		if ( wfMessage( $line )->exists() ) {
+			$text = wfMessage( $line )->text();
 		} else {
 			$text = $line;
 		}
 
-		if($link != null) {
-			if (!wfMessage($line_temp[0])->exists()) {
+		if ( $link != null ) {
+			if ( !wfMessage( $line_temp[0] )->exists() ) {
 				$link = $line_temp[0];
 			}
-			if (preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link )) {
+			if ( preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link ) ) {
 				$href = $link;
 			} else {
 				$title = Title::newFromText( $link );
-				if($title) {
-					if ($title->getNamespace() == NS_SPECIAL) {
+				if ( $title ) {
+					if ( $title->getNamespace() == NS_SPECIAL ) {
 						$specialPageFactory = MediaWikiServices::getInstance()->getSpecialPageFactory();
 						$dbkey = $title->getDBkey();
-						list($specialCanonicalName, /*$par*/) = $specialPageFactory->resolveAlias( $dbkey );
-						if (!$specialCanonicalName) $specialCanonicalName = $dbkey;
+
+						list( $specialCanonicalName, /*$par*/ ) = $specialPageFactory->resolveAlias( $dbkey );
+
+						if ( !$specialCanonicalName ) {
+							$specialCanonicalName = $dbkey;
+						}
 					}
+
 					$title = $title->fixSpecialName();
 					$href = $title->getLocalURL();
 				} else {
@@ -77,24 +84,30 @@ class MonacoSidebar {
 			}
 		}
 
-		return array('text' => $text, 'href' => $href, 'org' => $line_temp[0], 'desc' => $descText, 'specialCanonicalName' => $specialCanonicalName);
+		return [ 'text' => $text, 'href' => $href, 'org' => $line_temp[0], 'desc' => $descText, 'specialCanonicalName' => $specialCanonicalName ];
 	}
 
 	/**
-	 * @author Inez Korczynski <inez@wikia.com>
-	 * @return array
+	 * @param string $messageKey
+	 * @return array|null
 	 */
-	public static function getMessageAsArray($messageKey) {
-        $message = trim(wfMessage($messageKey)->inContentLanguage()->text());
-        if(!wfMessage($messageKey)->inContentLanguage()->isBlank()) {
-                $lines = explode("\n", $message);
-                if(count($lines) > 0) {
-                        return $lines;
-                }
-        }
-        return null;
+	public static function getMessageAsArray( $messageKey ) {
+		$message = trim( wfMessage( $messageKeyv)->inContentLanguage()->text() );
+
+		if ( !wfMessage( $messageKey )->inContentLanguage()->isBlank() ) {
+			$lines = explode( "\n", $message );
+
+			if ( count( $lines ) > 0) {
+				return $lines;
+			}
+		}
+
+		return null;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getCode() {
 		global $wgUser, $wgTitle, $wgRequest;
 
@@ -108,61 +121,76 @@ class MonacoSidebar {
 			$key = $memc->makeKey( 'mMonacoSidebar', self::version );
 			$menu = $memc->get( $key );
 		}
-		if(empty($menu)) {
-            $menu = $this->getMenu($this->getMenuLines());
-			if($cache) {
+
+		if ( empty( $menu ) ) {
+			$menu = $this->getMenu( $this->getMenuLines() );
+
+			if ( $cache ) {
 				$memc->set( $key, $menu, 60 * 60 * 8 );
 			}
 		}
+
 		return $menu;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getMenuLines() {
-/*		# if a local copy exists, try to use that first
-		$revision = Revision::newFromTitle(Title::newFromText('Monaco-sidebar', NS_MEDIAWIKI));
-		if(is_object($revision) && trim($revision->getText()) != '') {
-			$lines = MonacoSidebar::getMessageAsArray('Monaco-sidebar');
-		}
-*/
+		/* # if a local copy exists, try to use that first
+		$revision = Revision::newFromTitle( Title::newFromText( 'Monaco-sidebar', NS_MEDIAWIKI ) );
+		if ( is_object( $revision ) && trim( $revision->getText() ) != '' ) {
+			$lines = self::getMessageAsArray( 'Monaco-sidebar' );
+		} */
+
 		# if we STILL have no menu lines, fall back to just loading the default from the message system
-		if(empty($lines)) {
-			$lines = MonacoSidebar::getMessageAsArray('Monaco-sidebar');
+		if ( empty( $lines ) ) {
+			$lines = self::getMessageAsArray( 'Monaco-sidebar' );
 		}
 
 		return $lines;
 	}
 
-	public function getSubMenu($nodes, $children) {
+	/**
+	 * @param array $nodes
+	 * @param array $children
+	 * @return string
+	 */
+	public function getSubMenu( $nodes, $children ) {
 		$menu = '';
-		foreach($children as $key => $val) {
+
+		foreach ( $children as $key => $val ) {
 			$link_html = htmlspecialchars($nodes[$val]['text']);
 			if ( !empty( $nodes[$val]['children'] ) ) {
 				$link_html .= '<em>&rsaquo;</em>';
 			}
 			
 			$menu_item =
-				Html::rawElement( 'a', array(
-						'href' => !empty($nodes[$val]['href']) ? $nodes[$val]['href'] : '#',
+				Html::rawElement( 'a', [
+						'href' => !empty( $nodes[$val]['href'] ) ? $nodes[$val]['href'] : '#',
 						'class' => $nodes[$val]['class'],
 						'tabIndex' => 3,
 						'rel' => $nodes[$val]['internal'] ? null : 'nofollow'
-					), $link_html ) . "\n";
+					], $link_html ) . "\n";
 			if ( !empty( $nodes[$val]['children'] ) ) {
 				$menu_item .= $this->getSubMenu( $nodes, $nodes[$val]['children'] );
 			}
+
 			$menu .=
-				Html::rawElement( 'li', array( "class" => "menu-item" ), $menu_item );
+				Html::rawElement( 'li', [ 'class' => 'menu-item' ], $menu_item );
 		}
-		$menu = Html::rawElement( 'ul', array( 'class' => 'sub-menu widget' ), $menu );
+
+		$menu = Html::rawElement( 'ul', [ 'class' => 'sub-menu widget' ], $menu );
+
 		return $menu;
 	}
 
 	public function getMenu($lines, $userMenu = false) {
 		global $wgScript;
 
-        $nodes = $this->parseSidebar($lines);
+        $nodes = $this->parseSidebar( $lines );
         
-		if(count($nodes) > 0) {
+		if ( count( $nodes ) > 0 ) {
 			
 			Hooks::run( 'MonacoSidebarGetMenu', [ &$nodes ] );
 			
@@ -234,10 +262,6 @@ class MonacoSidebar {
 
 			$memc->set( $menuHash, $nodes, 60 * 60 * 24 * 3 ); // three days
 
-			// use AJAX request method to fetch JS code asynchronously
-			//$menuJSurl = Xml::encodeJsVar("{$wgScript}?action=ajax&v=" . self::version. "&rs=getMenu&id={$menuHash}");
-			//$menu .= "<script type=\"text/javascript\">/*<![CDATA[*/wsl.loadScriptAjax({$menuJSurl});/*]]>*/</script>";
-
 			return $menu;
 		}
 	}
@@ -267,6 +291,7 @@ class MonacoSidebar {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -277,10 +302,10 @@ class MonacoSidebar {
      * Adapted from Extension:DynamicSidebar
      * 
      * @param User $user
-     * @return string
+     * @return array|string
      **/
     private function doUserSidebar( User $user ) {
-        $username = $user->getName();
+		$username = $user->getName();
 
  		// does 'User:<username>/Sidebar' page exist?
 		$title = Title::makeTitle( NS_USER, $username . '/Monaco-sidebar' );
@@ -291,14 +316,15 @@ class MonacoSidebar {
 
 		$revid = $title->getLatestRevID();
 		$a = new Article( $title, $revid );
-		return explode("\n", ContentHandler::getContentText( $a->getPage()->getContent() ));
+
+		return explode( "\n", ContentHandler::getContentText( $a->getPage()->getContent() ) );
     }
 
 	/**
 	 * Grabs the sidebar for the current user's groups
 	 *
 	 * @param User $user
-	 * @return string
+	 * @return array|string
 	 */
 	private static function doGroupSidebar( User $user ) {
 		// Get group membership array.
@@ -318,24 +344,26 @@ class MonacoSidebar {
 			if ( !$title->exists() ) {
 				continue;
 			}
+
 			$revid = $title->getLatestRevID();
 			$a = new Article( $title, $revid );
 			$text .= ContentHandler::getContentText( $a->getPage()->getContent() ) . "\n";
 
 		}
-		return explode("\n",$text);
+
+		return explode( "\n", $text );
 	}
 
     /**
      * Parse Sidebar Lines
      *
-     * @param Array $lines
-     * @param Array $nodes
+     * @param array $lines
+     * @return array
      */
-    public function parseSidebar($lines) {
+    public function parseSidebar( $lines ) {
         global $wgUser;
    
-  		$nodes = array();
+  		$nodes = [];
 		$lastDepth = 0;
 		$i = 0;
 		if(is_array($lines) && count($lines) > 0) {
@@ -385,12 +413,12 @@ class MonacoSidebar {
 		return $nodes;      
     }
 
-    /**
-     * Parse Line of Sidebar
-     *
-     * @param String $line
-     * @param Array $ret
-     */
+	/**
+	 * Parse Line of Sidebar
+	 *
+	 * @param string $line
+	 * @param array $ret
+	 */
 	public function parseSidebarLine($line) {
 		$lineTmp = explode('|', trim($line, '* '), 2);
 		$lineTmp[0] = trim($lineTmp[0], '[]'); // for external links defined as [http://example.com] instead of just http://example.com
@@ -436,18 +464,19 @@ class MonacoSidebar {
 		$ret = array('original' => $lineTmp[0], 'text' => $text);
 		$ret['href'] = $href;
 		$ret['internal'] = $internal;
+
 		return $ret;
 	}
 
     /**
      * Process a List of Elements and add them to the corrent position in the current menu
      *
-     * @param Array $lines A List of Menu Elements which shoul'd be added
-     * @param Integer $lastDepth Last depth
-     * @param Array $nodes A List of Current Menu Elements
-     * @param Integer $i Index of the Newest Item in Current Menu
+     * @param array $lines A List of Menu Elements which shoul'd be added
+     * @param int $lastDepth Last depth
+     * @param array $nodes A List of Current Menu Elements
+     * @param int $i Index of the Newest Item in Current Menu
      */
-    function processSpecialSidebar($lines,&$lastDepth, &$nodes, &$i) {
+    function processSpecialSidebar( $lines, &$lastDepth, &$nodes, &$i ) {
         
         if (is_array($lines) && count($lines) > 0) {
             foreach($lines as $line) {
@@ -501,25 +530,23 @@ class MonacoSidebar {
         return $node;
     }
 
-    /**
-     * Add Node as newest Item of the Menu
-     *
-     * @param Array $node
-     * @param Array $nodes
-     * @param Integer $index
-     * @param Integer $lastDepth
-     *
-     * @return Integer $i
-     **/
-    function addNodeToSidebar($node, &$nodes, $index, &$lastDepth)
-    {
-        
-        $nodes[$index+1] = $node;
-        $nodes[$node['parentIndex']]['children'][] = $index+1;
-        $lastDepth = $node['depth'];
-        $index++;
-        return $index;
-    }
+	/**
+	 * Add Node as newest Item of the Menu
+	 *
+	 * @param array $node
+	 * @param array $nodes
+	 * @param int $index
+	 * @param int $lastDepth
+	 * @return int $i
+	 */
+	function addNodeToSidebar( $node, &$nodes, $index, &$lastDepth ) {
+		$nodes[$index+1] = $node;
+		$nodes[$node['parentIndex']]['children'][] = $index+1;
+		$lastDepth = $node['depth'];
+		$index++;
+
+		return $index;
+	}
 
 	private $biggestCategories;
 
