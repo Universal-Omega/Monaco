@@ -53,9 +53,7 @@ class MonacoTemplate extends BaseTemplate {
 
 	// this hook allows adding extra HTML just after <body> opening tag
 	// append your content to $html variable instead of echoing
-	//$html = '';
-	// Hooks::run( 'GetHTMLAfterBody', [ $this, &$html ] );
-	// echo $html;
+	Hooks::run( 'GetHTMLAfterBody', [ $this, &$html ] );
 
 $html .= '<div id="skiplinks"> 
 	<a class="skiplink" href="#article" tabIndex=1>Skip to Content</a> 
@@ -865,7 +863,7 @@ echo $html;
 	// hook for subskins
 	function setupRightSidebar() {}
 	
-	function addToRightSidebar($html) {
+	function addToRightSidebar( $html ) {
 		return $this->mRightSidebar .= $html;
 	}
 	
@@ -881,9 +879,9 @@ echo $html;
 		if ( $this->hasRightSidebar() ) {
 		$html .= '<!-- RIGHT SIDEBAR -->
 		 <div id="right_sidebar" class="sidebar right_sidebar">' .
-$this->lateRightSidebar() .
-Hooks::run('MonacoRightSidebar::Late', array($this)) .
- $this->mRightSidebar . '
+$this->lateRightSidebar();
+Hooks::run('MonacoRightSidebar::Late', [ $this ] )
+$html .= $this->mRightSidebar . '
 		</div>
 		<!-- /RIGHT SIDEBAR -->';
 return $html;
