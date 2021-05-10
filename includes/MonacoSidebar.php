@@ -183,6 +183,11 @@ class MonacoSidebar {
 		return $menu;
 	}
 
+	/**
+	 * @param array $lines
+	 * @param bool $userMenu
+	 * @return bool
+	 */
 	public function getMenu($lines, $userMenu = false) {
         	$nodes = $this->parseSidebar( $lines );
         
@@ -261,6 +266,10 @@ class MonacoSidebar {
 		}
 	}
 
+	/**
+	 * @param array &$node
+	 * @return bool
+	 */
 	public function handleMagicWord(&$node) {
 		$original_lower = strtolower($node['original']);
 		if(in_array($original_lower, array('#voted#', '#popular#', '#visited#', '#newlychanged#', '#topusers#'))) {
@@ -412,7 +421,7 @@ class MonacoSidebar {
 	 * Parse Line of Sidebar
 	 *
 	 * @param string $line
-	 * @param array $ret
+	 * @return array
 	 */
 	public function parseSidebarLine( $line ) {
 		$lineTmp = explode( '|', trim( $line, '* ' ), 2 );
@@ -424,8 +433,8 @@ class MonacoSidebar {
 			$link = trim( wfMessage( $lineTmp[0] )->inContentLanguage()->text() );
 			$line = trim( $lineTmp[1] );
 		} else {
-			$link = trim ( $lineTmp[0] );
-			$line = trim ( $lineTmp[0] );
+			$link = trim( $lineTmp[0] );
+			$line = trim( $lineTmp[0] );
 		}
 
 		if ( wfMessage( $line )->exists() ) {
@@ -467,12 +476,13 @@ class MonacoSidebar {
      * Process a list of elements and add them to the corrent position in the current menu
      *
      * @param array $lines
+     * @param int &$lastDepth
+     * @param array &$nodes
+     * @param int &$index
      * @param int
-     * @param array $nodes
-     * @param int $i
      */
-    public function processSpecialSidebar( $lines, &$lastDepth, &$nodes, &$i ) {
-        if ( is_array( $lines ) && count( $lines) > 0 ) {
+    public function processSpecialSidebar( $lines, &$lastDepth, &$nodes, &$index ) {
+        if ( is_array( $lines ) && count( $lines ) > 0 ) {
             foreach ( $lines as $line ) {
                 if ( trim( $line ) === '' ) {
                     continue; // skip empty lines, goto next line
@@ -481,8 +491,8 @@ class MonacoSidebar {
                 // convert line into small array
                 $node = $this->parseSidebarLine( $line );
 
-                $node = $this->addDepthParentToNode( $line, $node, $nodes, $i, $lastDepth );
-                $i = $this->addNodeToSidebar( $node, $nodes, $i, $lastDepth );
+                $node = $this->addDepthParentToNode( $line, $node, $nodes, $index, $lastDepth );
+                $index = $this->addNodeToSidebar( $node, $nodes, $index, $lastDepth );
             }
         }
 
@@ -495,10 +505,10 @@ class MonacoSidebar {
      *
      * @param string $line
      * @param array $node
-     * @param array $nodes
-     * @param int $index
-     * @param int $lastDepth
-     * @return array $node 
+     * @param array &$nodes
+     * @param int &$index
+     * @param int &$lastDepth
+     * @return array
      */
     public function addDepthParentToNode( $line, $node, &$nodes, &$index, &$lastDepth ) {
         // calculate the depth of this node in the menu
@@ -528,14 +538,14 @@ class MonacoSidebar {
 	 * Add Node as newest Item of the Menu
 	 *
 	 * @param array $node
-	 * @param array $nodes
+	 * @param array &$nodes
 	 * @param int $index
-	 * @param int $lastDepth
-	 * @return int $i
+	 * @param int &$lastDepth
+	 * @return int
 	 */
 	public function addNodeToSidebar( $node, &$nodes, $index, &$lastDepth ) {
 		$nodes[$index+1] = $node;
-		$nodes[ $node['parentIndex'] ]['children'][] = $index+1;
+		$nodes[ $node['parentIndex'] ]['children'][] = $index + 1;
 		$lastDepth = $node['depth'];
 		$index++;
 
@@ -554,7 +564,7 @@ class MonacoSidebar {
 			if ( empty( $data ) ) {
 				$filterWordsA = [];
 				foreach ( $config->get( 'MonacoBiggestCategoriesBlacklist' ) as $word ) {
-					$filterWordsA[] = '(cl_to not like "%'.$word.'%")';
+					$filterWordsA[] = '(cl_to not like "%' . $word . '%")';
 				}
 
 				$dbr = wfGetDB( DB_REPLICA );
