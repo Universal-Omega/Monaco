@@ -1,63 +1,66 @@
 {
 	"name": "Monaco",
-	"version": "0.0.1",
+	"version": "2.6.4",
 	"author": [
+		"'''Universal Omega'''",
 		"Inez Korczyński",
 		"Christian Williams",
-		"[http://mediawiki.org/wiki/User:Dantman Daniel Friesen]",
-		"[http://doomwiki.org/wiki/User:Quasar James Haley]",
+		"Daniel Friesen",
+		"James Haley",
 		"Roger Meier"
 	],
-	"url": "https://github.com/beleggrodion/monaco-port",
+	"url": "https://www.mediawiki.org/wiki/Skin:Monaco",
 	"descriptionmsg": "monaco-desc",
-	"license-name": "GPLv2",
+	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
-    "ConfigRegistry": {
-	"monaco": "GlobalVarConfig::newInstance"
-    },	
-	"ValidSkinNames": {
-		"monaco": "Monaco"
+	"requires": {
+		"MediaWiki": ">= 1.35.0"
 	},
-	"AutoloadClasses": {
-		"SkinMonaco": "includes/SkinMonaco.php",
-		"MonacoTemplate": "includes/MonacoTemplate.php",
-		"MonacoSidebar": "includes/MonacoSidebar.php"
+	"ValidSkinNames": {
+		"monaco": {
+			"displayname": "Monaco",
+			"class": "SkinMonaco",
+			"args": [ {
+				"name": "monaco",
+				"template": "MonacoTemplate",
+				"styles": [
+					"mediawiki.skinning.content",
+					"mediawiki.skinning.content.externallinks",
+					"skins.monaco"
+				],
+				"scripts": [
+					"skins.monaco.scripts"
+				]
+			} ]
+		}
 	},
 	"MessagesDirs": {
-		"SkinMonaco": [
+		"Monaco": [
 			"i18n"
 		]
 	},
-	"config": {
-		"MonacoAllowusetheme": true,
-		"MonacoTheme" : "sapphire",
-		"MonacoDynamicCreateOverride" : false,
-		"MonacoUseMoreButton" : true,
-		"MonacoUseSitenoticeIsland" : false,
-		"MonacoUseMasthead" : true,
-		"MonacoCompactSpecialPages" : false
-    },		
-	"Hooks": {
-		"PageContentSaveComplete": [
-			"SkinMonaco::onPageContentSaveComplete"
-		],
-		"MessageCacheReplace": [
-			"MonacoSidebar::invalidateCache"
-		]
+	"AutoloadClasses": {
+		"SkinMonaco": "includes/SkinMonaco.php",
+		"MonacoHooks": "includes/MonacoHooks.php",
+		"MonacoSidebar": "includes/MonacoSidebar.php",
+		"MonacoTemplate": "includes/MonacoTemplate.php"
+	},
+	"ConfigRegistry": {
+		"monaco": "GlobalVarConfig::newInstance"
 	},
 	"ResourceModules": {
 		"skins.monaco": {
-			"position": "top",
-			"targets": [ "desktop", "mobile" ],
-            "class": "ResourceLoaderSkinModule",		
+			"class": "ResourceLoaderSkinModule",
+			"targets": [
+				"desktop",
+				"mobile"
+			],
+			"position": "top",		
 			"styles": {
 				"style/css/print.css": {
 					"media": "print"
 				},
 				"style/css/monobook_modified.css": {
-					"media": "screen"
-				},
-				"../../resources/src/mediawiki.skinning/content.css": {
 					"media": "screen"
 				},
 				"style/css/reset_modified.css": {
@@ -98,20 +101,20 @@
 		"skins.monaco.scripts": {
 			"scripts": "style/js/monaco.js"
 		},
-		"ext.monacoWidget": {
+		"skins.monaco.widget": {
 			"position" : "bottom",
-			"scripts": "ext/ext.monacoWidget.js",
+			"scripts": "style/js/monacoWidget.js",
 			"styles": {
-				"ext/ext.monacoWidget.css": {
+				"style/css/monacoWidget.css": {
 					"media": "screen"
 				}
 			}
 		}
 	},
-    "ResourceFileModulePaths": {
-	"localBasePath": "",
-	"remoteSkinPath": "Monaco"
-    },
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteSkinPath": "Monaco"
+	},
 	"ResourceModuleSkinStyles": {
 		"monaco": {
 			"+ext.comments.css": "style/css/ext.comments.css",
@@ -129,5 +132,42 @@
 			"+mediawiki.special.version": "style/css/mediawiki.special.version.css"
 		}
 	},
-	"manifest_version": 1
+	"config": {
+		"MonacoAllowUseTheme": {
+			"value": true
+		},
+		"MonacoTheme": {
+			"value": "sapphire"
+		},
+		"MonacoDynamicCreateOverride": {
+			"value": false
+		},
+		"MonacoUseMoreButton": {
+			"value": true
+		},
+		"MonacoUseSitenoticeIsland": {
+			"value": false
+		},
+		"MonacoUseMasthead": {
+			"value": true
+		},
+		"MonacoCompactSpecialPages": {
+			"value": false
+		},
+		"MonacoBiggestCategoriesBlacklist": {
+			"value": []
+		}
+	},
+	"Hooks": {
+		"PageContentSaveComplete": [
+			"SkinMonaco::onPageContentSaveComplete"
+		],
+		"MessageCacheReplace": [
+			"MonacoSidebar::invalidateCache"
+		],
+		"OutputPageBodyAttributes": [
+			"MonacoHooks::onOutputPageBodyAttributes"
+		]
+	},
+	"manifest_version": 2
 }
