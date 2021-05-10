@@ -7,6 +7,10 @@ class MonacoHooks {
 	 * @param array &$bodyAttrs
 	 */
 	public static function onOutputPageBodyAttributes( OutputPage $out, Skin $skin, &$bodyAttrs ) {
+		if ( $skin->getSkinName() !== 'monaco' ) {
+			return;
+		}
+
 		$bodyAttrs['class'] .= ' color2';
 		
 		$action = $skin->getRequest()->getVal( 'action' );
