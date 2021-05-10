@@ -153,6 +153,9 @@
 		},
 		"MonacoCompactSpecialPages": {
 			"value": false
+		},
+		"MonacoBiggestCategoriesBlacklist": {
+			"value": []
 		}
 	},
 	"Hooks": {
