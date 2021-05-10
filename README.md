@@ -4,7 +4,7 @@ Monaco Skin for MediaWiki
 About
 -----
 
-This is an unbranded fork of the Monaco skin originally developed by Wikia.
+This is an unbranded fork of the Monaco skin originally developed by Fandom.
 offline.
 
 Compared to the original version of the skin, this fork now supports MediaWiki
@@ -45,5 +45,5 @@ since it also works with earlier versions of MediaWiki.
 
 License
 -------
-All of the code released by Wikia was made available under GPL v2.0 or later.
+All of the code released by Fandom was made available under GPL v2.0 or later.
 This license can be found in the LICENSE file.
