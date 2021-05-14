@@ -106,7 +106,7 @@ if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 					if ( method_exists( $this, 'getIndicators' ) ) { $html .= $this->getIndicators(); }
 					$html .= $this->printFirstHeading() . '
 					<div id="bodyContent" class="body_content">
-						<h2 id="siteSub">' . $this->msg( 'tagline' ) . '</h2>';
+						<h2 id="siteSub">' . $this->getMsg( 'tagline' )->parse() . '</h2>';
 						if ( $this->data['subtitle'] ) { $html .= '<div id="contentSub">' . $this->get( 'subtitle' ) . '</div>'; }
 						if ( $this->data['undelete'] ) { $html .= '<div id="contentSub2">' . $this->get( 'undelete' ) . '</div>'; }
 						if ( $this->data['newtalk'] ) { $html .= '<div class="usermessage noprint">' . $this->get( 'newtalk' )  . '</div>'; }
@@ -291,7 +291,7 @@ $this->printRightSidebar() . '
 		<!-- WIDGETS -->';
 			global $wgScriptPath;
 		$html .= '<div id="widget_sidebar" class="reset widget_sidebar left_sidebar sidebar">
-			<div id="wiki_logo" style="background-image: url(' . htmlspecialchars($wgScriptPath) . '/' . $this->get( 'logopath' ) . ');"><a href="' . htmlspecialchars($this->data['nav_urls']['mainpage']['href']) . '" accesskey="z" rel="home">' . $wgSitename . '</a></div>
+			<div id="wiki_logo" style="background-image: url(' . $this->get( 'logopath' ) . ');"><a href="' . htmlspecialchars($this->data['nav_urls']['mainpage']['href']) . '" accesskey="z" rel="home">' . $wgSitename . '</a></div>
 
 			<!-- SEARCH/NAVIGATION -->
 			<div class="widget sidebox navigation_box" id="navigation_widget" role="navigation">';
