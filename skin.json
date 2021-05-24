@@ -159,9 +159,6 @@
 		}
 	},
 	"Hooks": {
-		"PageContentSaveComplete": [
-			"SkinMonaco::onPageContentSaveComplete"
-		],
 		"MessageCacheReplace": [
 			"MonacoSidebar::invalidateCache"
 		],
