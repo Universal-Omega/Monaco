@@ -115,23 +115,6 @@
 		"localBasePath": "",
 		"remoteSkinPath": "Monaco"
 	},
-	"ResourceModuleSkinStyles": {
-		"monaco": {
-			"+ext.comments.css": "style/css/ext.comments.css",
-			"+ext.pollNY.css": "style/css/ext.pollNY.css",
-			"+ext.randomuserswithavatars": "style/css/ext.randomuserswithavatars.css",
-			"+ext.socialprofile.userwelcome.css": "style/css/ext.socialprofile.userwelcome.css",
-			"+ext.voteNY.styles": "style/css/ext.voteNY.styles.css",
-			"+mediawiki.action.history.styles": "style/css/mediawiki.action.history.styles.css",
-			"+mediawiki.action.view.filepage": "style/css/mediawiki.action.view.filepage.css",
-			"+mediawiki.action.view.redirectPage": "style/css/mediawiki.action.view.redirectPage.css",
-			"+mediawiki.page.gallery.styles": "style/css/mediawiki.page.gallery.styles.css",
-			"+mediawiki.pager.tablePager": "style/css/mediawiki.pager.tablePager.css",
-			"+mediawiki.special.preferences.styles": "style/css/mediawiki.special.preferences.styles.css",
-			"+mediawiki.special.search.styles": "style/css/mediawiki.special.search.styles.css",
-			"+mediawiki.special.version": "style/css/mediawiki.special.version.css"
-		}
-	},
 	"config": {
 		"MonacoAllowUseTheme": {
 			"value": true
