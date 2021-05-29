@@ -26,7 +26,7 @@ class MonacoTemplate extends BaseTemplate {
 	}
 
 	public function execute() {
-		global $wgContLang, $wgUser, $wgStyleVersion, $wgRequest, $wgTitle, $wgSitename;
+		global $wgUser, $wgStyleVersion, $wgRequest, $wgTitle, $wgSitename;
 		global $wgMonacoUseSitenoticeIsland;
 
 		$this->addVariables();
@@ -1040,8 +1040,9 @@ if ( $user->isAnon() ) {
 			);
 		}
 		if ( isset($this->data['articlelinks']['variants']) ) {
-			global $wgContLang;
-			$preferred = $wgContLang->getPreferredVariant();
+			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
+
+			$preferred = $contLang->getPreferredVariant();
 			$bar[] = array(
 				"id" => "page_variants",
 				"type" => "tabs",
@@ -1049,7 +1050,7 @@ if ( $user->isAnon() ) {
 				"links" => array(
 					array(
 						"class" => 'selected',
-						"text" => $wgContLang->getVariantname( $preferred ),
+						"text" => $contLang->getVariantname( $preferred ),
 						"href" => $this->data['skin']->getTitle()->getLocalURL( '', $preferred ),
 						"links" => $this->data['articlelinks']['variants'],
 					)
