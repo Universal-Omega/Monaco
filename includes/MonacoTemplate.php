@@ -174,106 +174,104 @@ if ($custom_article_footer !== '') {
 			$html .= "\n";
 		}
 
-		// haleyjd 20140801: Rewrite to use ContextSource/WikiPage instead of wgArticle global which has been removed from MediaWiki 1.23
 		$myContext = $this->getSkin()->getContext();
-		if($myContext->canUseWikiPage())
-		{
-			$wikiPage   = $myContext->getWikiPage();
-			$timestamp  = $wikiPage->getTimestamp();
-			$lastUpdate = $wgLang->date($timestamp);
-			$userId     = $wikiPage->getUser();
-			if($userId > 0)
-			{
-				$user = User::newFromName($wikiPage->getUserText());
-				$userPageTitle  = $user->getUserPage();
-				$userPageLink   = $userPageTitle->getLocalUrl();
+
+		if ( $myContext->canUseWikiPage() ) {
+			$wikiPage = $myContext->getWikiPage();
+			$timestamp = $wikiPage->getTimestamp();
+			$lastUpdate = $wgLang->date( $timestamp );
+			$userId = $wikiPage->getUser();
+
+			if ( $userId > 0 ) {
+				$user = User::newFromName( $wikiPage->getUserText() );
+				$userPageTitle = $user->getUserPage();
+				$userPageLink = $userPageTitle->getLocalUrl();
 				$userPageExists = $userPageTitle->exists();
-				$userGender     = $user->getOption("gender");
-				$feUserIcon     = $this->blankimg(array( "id" => "fe_user_img", "alt" => "", "class" => ($userGender == "female" ? "sprite user-female" : "sprite user" )));
-				if($userPageExists)
-					$feUserIcon = Html::rawElement( 'a', array( "id" => "fe_user_icon", "href" => $userPageLink ), $feUserIcon );
+				$userGender = $user->getOption( 'gender' );
+				$feUserIcon = $this->blankimg( [ 'id' => 'fe_user_img', 'alt' => '', 'class' => ( $userGender == 'female' ? 'sprite user-female' : 'sprite user' ) ] );
 
-								$html .= '<li>' . $feUserIcon . '<div>';
-				// haleyjd 20171009: must use LinkRenderer for 1.28 and up
-				if(class_exists('\\MediaWiki\\MediaWikiServices') && method_exists('\\MediaWiki\\MediaWikiServices', 'getLinkRenderer')) {
-					$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-					$html .= wfMessage('monaco-footer-lastedit')->rawParams($linkRenderer->makeLink($userPageTitle, $user->getName(), array('id' => 'fe_user_link')), Html::element('time', array('datetime' => wfTimestamp(TS_ISO_8601, $$timestamp)), $lastUpdate))->escaped();
-				} else {
-					// TODO: remove once 1.28 is minimum supported.
-					$html .= wfMessage('monaco-footer-lastedit')->rawParams($skin->link($userPageTitle, htmlspecialchars($user->getName()), array( "id" => "fe_user_link" )), Html::element('time', array( 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp )), $lastUpdate))->escaped();
-				} $html .= '</div></li>';
+				if ( $userPageExists ) {
+					$feUserIcon = Html::rawElement( 'a', [ 'id' => 'fe_user_icon', 'href' => $userPageLink ], $feUserIcon );
+				}
+
+				$html .= '<li>' . $feUserIcon . '<div>';
+				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
+				$html .= wfMessage( 'monaco-footer-lastedit' )->rawParams( $linkRenderer->makeLink( $userPageTitle, $user->getName(), [ 'id' => 'fe_user_link' ] ), Html::element( 'time', [ 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp ) ], $lastUpdate ) )->escaped();
 			}
 		}
 
-		if($this->data['copyright'])
-		{
-			$feCopyIcon = $this->blankimg(array("id" => "fe_copyright_img", "class" => "sprite copyright", "alt" => ""));
+		if ( $this->data['copyright'] ) {
+			$feCopyIcon = $this->blankimg( [ 'id' => 'fe_copyright_img', 'class' => 'sprite copyright', 'alt' => '' ] );
 
-								$html .= '<!-- haleyjd 20140425: generic copyright text support -->
-								<li>' . $feCopyIcon . '<div id="copyright">' . $this->get('copyright') . '</div></li>';
+			$html .= '<li>' . $feCopyIcon . '<div id="copyright">' . $this->get( 'copyright' ) . '</div></li>';
 		}
 
-							$html .= '</ul>
-						</td>
-						<td class="col2">';
-		if(!empty($this->data['content_actions']['history']) || !empty($nav_urls['recentchangeslinked']))
-		{
-							$html .= '<ul id="articleFooterActions3" class="actions clearfix">';
-			if(!empty($this->data['content_actions']['history'])) 
-			{
-				$feHistoryIcon = $this->blankimg(array("id" => "fe_history_img", "class" => "sprite history", "alt" => ""));
-				$feHistoryIcon = Html::rawElement("a", array("id" => "fe_history_icon", "href" => $this->data['content_actions']['history']['href']), $feHistoryIcon);
-				$feHistoryLink = Html::rawElement("a", array("id" => "fe_history_link", "href" => $this->data['content_actions']['history']['href']), $this->data['content_actions']['history']['text']);
-								$html .= '<li id="fe_history">' . $feHistoryIcon . '<div>' . $feHistoryLink . '</div></li>';
+		$html .= '</ul></td><td class="col2">';
+
+		if ( !empty( $this->data['content_actions']['history'] ) || !empty( $nav_urls['recentchangeslinked'] ) ) {
+			$html .= '<ul id="articleFooterActions3" class="actions clearfix">';
+
+			if ( !empty( $this->data['content_actions']['history'] ) ) {
+				$feHistoryIcon = $this->blankimg( [ 'id' => 'fe_history_img', 'class' => 'sprite history', 'alt' => '' ] );
+				$feHistoryIcon = Html::rawElement( 'a', [ 'id' => 'fe_history_icon', 'href' => $this->data['content_actions']['history']['href'] ], $feHistoryIcon );
+				$feHistoryLink = Html::rawElement( 'a', [ 'id' => 'fe_history_link', 'href' => $this->data['content_actions']['history']['href'] ], $this->data['content_actions']['history']['text'] );
+
+				$html .= '<li id="fe_history">' . $feHistoryIcon . '<div>' . $feHistoryLink . '</div></li>';
 			}
-			if(!empty($nav_urls['recentchangeslinked']))
-			{
+
+			if ( !empty( $nav_urls['recentchangeslinked'] ) ) {
 				$feRecentIcon = $this->blankimg(array("id" => "fe_recent_img", "class" => "sprite recent", "alt" => ""));
 				$feRecentIcon = Html::rawElement("a", array("id" => "fe_recent_icon", "href" => $nav_urls['recentchangeslinked']['href']), $feRecentIcon);
 				$feRecentLink = Html::rawElement("a", array("id" => "fe_recent_link", "href" => $nav_urls['recentchangeslinked']['href']), wfMessage('recentchangeslinked')->escaped());
-								$html .= '<li id="fe_recent">' . $feRecentIcon . '<div>' . $feRecentLink . '</div></li>';
+
+				$html .= '<li id="fe_recent">' . $feRecentIcon . '<div>' . $feRecentLink . '</div></li>';
 			}
 
-							$html .= '</ul>';
+			$html .= '</ul>';
 		}
-		if(!empty($nav_urls['permalink']) || !empty($nav_urls['whatlinkshere']))
-		{
-							$html .= '<ul id="articleFooterActions4" class="actions clearfix">';
-			if(!empty($nav_urls['permalink'])) 
-			{
+
+		if ( !empty( $nav_urls['permalink'] ) || !empty( $nav_urls['whatlinkshere'] ) ) {
+			$html .= '<ul id="articleFooterActions4" class="actions clearfix">';
+
+			if ( !empty( $nav_urls['permalink'] ) ) {
 				$fePermaIcon = $this->blankimg(array("id" => "fe_permalink_img", "class" => "sprite move", "alt" => ""));
 				$fePermaIcon = Html::rawElement("a", array("id" => "fe_permalink_icon", "href" => $nav_urls['permalink']['href']), $fePermaIcon);
 				$fePermaLink = Html::rawElement("a", array("id" => "fe_permalink_link", "href" => $nav_urls['permalink']['href']), $nav_urls['permalink']['text']);
-								$html .= '<li id="fe_permalink">' . $fePermaIcon . '<div>' . $fePermaLink . '</div></li>';
+
+				$html .= '<li id="fe_permalink">' . $fePermaIcon . '<div>' . $fePermaLink . '</div></li>';
 			}
-			if(!empty($nav_urls['whatlinkshere'])) 
-			{
+
+			if ( !empty( $nav_urls['whatlinkshere'] ) ) {
 				$feWhatIcon = $this->blankimg(array("id" => "fe_whatlinkshere_img", "class" => "sprite pagelink", "alt" => ""));
 				$feWhatIcon = Html::rawElement("a", array("id" => "fe_whatlinkshere_icon", "rel" => "nofollow", "href" => $nav_urls['whatlinkshere']['href']), $feWhatIcon);
 				$feWhatLink = Html::rawElement("a", array("id" => "fe_whatlinkshere_link", "rel" => "nofollow", "href" => $nav_urls['whatlinkshere']['href']), wfMessage('whatlinkshere')->escaped());
-								$html .= '<li id="fe_whatlinkshere">' . $feWhatIcon . '<div>' . $feWhatLink . '</div></li>';
+
+				$html .= '<li id="fe_whatlinkshere">' . $feWhatIcon . '<div>' . $feWhatLink . '</div></li>';
 			}
 							$html .= '</ul>';
 		}
+
 		$feRandIcon = $this->blankimg( [ 'id' => 'fe_random_img', 'class' => 'sprite random', 'alt' => '' ] );
 		$feRandIcon = Html::rawElement( 'a', [ 'id' => 'fe_random_icon', 'href' => Skin::makeSpecialUrl( 'Randompage' ) ], $feRandIcon );
 		$feRandLink = Html::rawElement( 'a', [ 'id' => 'fe_random_link', 'href' => Skin::makeSpecialUrl( 'Randompage' ) ], wfMessage( 'viewrandompage' )->escaped() );
-							$html .= '<ul class="actions clearfix" id="articleFooterActions2">
-								<li id="fe_randompage">' . $feRandIcon . '<div>' . $feRandLink . '</div></li>';
-		// haleyjd 20140426: support for Extension:MobileFrontend
-		if($this->get( 'mobileview' ) !== null)
-		{
+
+		$html .= '<ul class="actions clearfix" id="articleFooterActions2">';
+		$html .= '<li id="fe_randompage">' . $feRandIcon . '<div>' . $feRandLink . '</div></li>';
+
+		if ( $this->get( 'mobileview' ) !== null ) {
 			$feMobileIcon = $this->blankimg( [ 'id' => 'fe_mobile_img', 'class' => 'sprite mobile', 'alt' => '' ] );
 			$this->set( 'mobileview', preg_replace( '/(<a[^>]*?href[^>]*?)>/', '$1 rel="nofollow">', $this->get( 'mobileview' ) ) );
-								$html .= '<li id="fe_mobile">' . $feMobileIcon . '<div>' . $this->get( 'mobileview' ) . '</div></li>';
+
+			$html .= '<li id="fe_mobile">' . $feMobileIcon . '<div>' . $this->get( 'mobileview' ) . '</div></li>';
 		}
-							$html .= '</ul>
-						</td>
-					</tr>
-				</table>
-			</div>';
-	} //end $namespaceType != 'none'
-} //end else from CustomArticleFooter hook
+
+		$html .= '</ul>';
+		$html .= '</td>';
+		$html .= '</tr>';
+		$html .= '</table>';
+		$html .= '</div>';
+	} // end $namespaceType != 'none'
+} // end else from CustomArticleFooter hook
 
 				$html .= '<!-- /ARTICLE FOOTER -->
 
