@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Revision\SlotRecord;
 
 class SkinMonaco extends SkinTemplate {
 
@@ -179,7 +180,10 @@ class SkinMonaco extends SkinTemplate {
 		$revisionStore = MediaWikiServices::getInstance()->getRevisionStore();
 		$revision = $revisionStore->getRevisionByTitle( Title::newFromText( $message_key, NS_MEDIAWIKI ) );
 		if ( is_object( $revision ) ) {
-			if ( trim( $revision->getText() ) != '' ) {
+			$content = $revision->getContent( SlotRecord::MAIN ); 
+			$text = ContentHandler::getContentText( $content );
+
+			if ( trim( $text ) != '' ) {
 				$temp = MonacoSidebar::getMessageAsArray( $message_key );
 				if ( count( $temp ) > 0 ) {
 					$lines = $temp;
