@@ -920,12 +920,12 @@ return $html;
 			}
 			
 			if ($wgUser->isLoggedIn()) {
-				// haleyjd 20140420: This needs to use $key => $value syntax to get the proper style for the elements!
-				$Toolbar = $this->getPersonalTools();
-				unset($Toolbar["preferences"]);
-				unset($Toolbar["mycontris"]);
-				unset($Toolbar["logout"]);
-				foreach ( $Toolbar as $key => $item ) {
+				$toolbar = $this->getPersonalTools();
+
+				unset( $toolbar['preferences'] );
+				unset( $toolbar['mycontris'] );
+				unset( $toolbar['logout'] );
+				foreach ( $toolbar as $key => $item ) {
 					$html .= $this->makeListItem( $key, $item );
 				}
 				
