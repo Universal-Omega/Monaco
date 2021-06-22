@@ -99,7 +99,7 @@ if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 			$html .= $this->printPageBar() . '
 					<!-- ARTICLE -->
 
-				<article id="article" class="mw-body" role="main" aria-labelledby="firstHeading">
+				<article id="content" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>';
 					Hooks::run( 'MonacoAfterArticle', [ $this ] );
 					if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { $html .= '<div id="siteNotice">' . $this->get( 'sitenotice' ) . '</div>'; }
@@ -921,9 +921,12 @@ return $html;
 			
 			if ($wgUser->isLoggedIn()) {
 				// haleyjd 20140420: This needs to use $key => $value syntax to get the proper style for the elements!
-				foreach( array( "username" => "userpage", "mytalk" => "mytalk", "watchlist" => "watchlist" ) as $key => $value ) {
-					$html .= "				" . Html::rawElement( 'span', array( 'id' => "header_$key" ),
-						Html::element( 'a', array( 'href' => $this->data['userlinks'][$value]['href'] ) + Linker::tooltipAndAccesskeyAttribs("pt-$value"), $this->data['userlinks'][$value]['text'] ) ) . "\n";
+				$Toolbar = $this->getPersonalTools();
+				unset($Toolbar["preferences"]);
+				unset($Toolbar["mycontris"]);
+				unset($Toolbar["logout"]);
+				foreach ( $Toolbar as $key => $item ) {
+					$html .= $this->makeListItem( $key, $item );
 				}
 				
 				if ( $this->useUserMore() ) {

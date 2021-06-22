@@ -31,6 +31,7 @@
 .sprite.external { background-position: -67px 3px; }
 
 .sprite.edit { background-position: 0 -106px; }
+.sprite.ve-edit { background-position: 0 -106px; }
 .sprite.new { background-position: -16px -106px; }
 .sprite.photo { background-position: -32px -106px; }
 .sprite.video { background-position: -48px -106px; }

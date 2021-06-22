@@ -1320,4 +1320,15 @@ div#mw-recreate-deleted-warn ul li {
 .changes-list-entry a img {
 	display: none;
 }
-
+#userData li {
+    display: inline-block;
+    padding-left: 9px;
+	font-size: 9pt;
+}
+#headerMenuUser li {
+    display: block;
+}
+.oo-ui-toolbar.oo-ui-toolbar-position-top.ve-ui-toolbar.ve-ui-dir-inline-ltr.ve-ui-dir-block-ltr.ve-ui-targetToolbar.ve-ui-positionedTargetToolbar.ve-init-mw-desktopArticleTarget-toolbar.ve-init-mw-desktopArticleTarget-toolbar-open.ve-init-mw-desktopArticleTarget-toolbar-opened {
+    margin: -10px -8px;
+    margin-bottom: 2px;
+}
