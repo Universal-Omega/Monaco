@@ -464,7 +464,7 @@ $this->printRightSidebar() . '
 				if ($val === false) {
 					$html .= '<li>&nbsp;</li>';
 				} else {
-						$html .= '<li><a' . ( !isset($val['internal']) || !$val['internal'] ? 'rel="nofollow"' : null ) . 'href="' . htmlspecialchars($val['href']) . '" tabIndex=3>' . htmlspecialchars($val['text']) . '</a></li>';
+						$html .= '<li><a' . ( !isset($val['internal']) || !$val['internal'] ? ' rel="nofollow" ' : null ) . 'href="' . htmlspecialchars($val['href']) . '" tabIndex=3>' . htmlspecialchars($val['text']) . '</a></li>';
 				}
 			}
 		}
@@ -478,7 +478,7 @@ $this->printRightSidebar() . '
 					$html .= '<li>&nbsp;</li>';
 				} else {
 
-						$html .= '<li><a' . ( !isset($val['internal']) || !$val['internal'] ? 'rel="nofollow"' : null ) . 'href="' . htmlspecialchars($val['href']) . '" tabIndex=3>' . htmlspecialchars($val['text']) . '</a></li>';
+						$html .= '<li><a' . ( !isset($val['internal']) || !$val['internal'] ? ' rel="nofollow" ' : null ) . 'href="' . htmlspecialchars($val['href']) . '" tabIndex=3>' . htmlspecialchars($val['text']) . '</a></li>';
 				}
 			}
 		}
