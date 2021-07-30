@@ -715,7 +715,7 @@ echo $html;
 		$returnto = wfArrayToCGI( $a );
 
 		if ( !$user->isRegistered() ) {
-			$signUpHref = Skin::makeSpecialUrl( 'UserLogin', $returnto );
+			$signUpHref = Skin::makeSpecialUrl( 'Userlogin', $returnto );
 			$data['login'] = [
 				'text' => wfMessage( 'login' )->text(),
 				'href' => $signUpHref . '&type=login'
