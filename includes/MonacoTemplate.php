@@ -355,7 +355,7 @@ $this->printRightSidebar() . '
 		if ( isset($createPage) && ( $wgUser->isAllowed('edit') || $wgUser->isAnon() ) ) {
 			/* Redirect to login page instead of showing error, see Login friction project */
 			$dynamicLinksInternal["write-article"] = array(
-				'url' => $wgUser->isAnon() ? SpecialPage::getTitleFor('UserLogin')->getLocalURL(array("returnto"=>$createPage->getPrefixedDBkey())) : $createPage->getLocalURL(),
+				'url' => $wgUser->isAnon() ? SpecialPage::getTitleFor('Userlogin')->getLocalURL(array("returnto"=>$createPage->getPrefixedDBkey())) : $createPage->getLocalURL(),
 				'icon' => 'edit',
 			);
 		}
@@ -366,7 +366,7 @@ $this->printRightSidebar() . '
 			if ( $wgUploadNavigationUrl ) {
 				$url = $wgUploadNavigationUrl;
 			} else {
-				$url = $wgUser->isAnon() ? SpecialPage::getTitleFor('UserLogin')->getLocalURL(array("returnto"=>$uploadPage->getPrefixedDBkey())) : $uploadPage->getLocalURL();
+				$url = $wgUser->isAnon() ? SpecialPage::getTitleFor('Userlogin')->getLocalURL(array("returnto"=>$uploadPage->getPrefixedDBkey())) : $uploadPage->getLocalURL();
 			}
 			$dynamicLinksInternal["add-image"] = array(
 				'url' => $url,
@@ -448,7 +448,7 @@ $this->printRightSidebar() . '
 			//Redirect to login page instead of showing error, see Login friction project
 			if ($item !== false && $wgUser->isAnon() && isset($item['specialCanonicalName']) && in_array($item['specialCanonicalName'], $wgSpecialPagesRequiredLogin)) {
 				$returnto = SpecialPage::getTitleFor($item['specialCanonicalName'])->getPrefixedDBkey();
-				$item['href'] = SpecialPage::getTitleFor('UserLogin')->getLocalURL(array("returnto"=>$returnto));
+				$item['href'] = SpecialPage::getTitleFor('Userlogin')->getLocalURL(array("returnto"=>$returnto));
 			}
 			$i & 1 ? $linksArrayR[] = $item : $linksArrayL[] = $item;
 		}
@@ -715,7 +715,7 @@ echo $html;
 		$returnto = wfArrayToCGI( $a );
 
 		if ( !$user->isRegistered() ) {
-			$signUpHref = Skin::makeSpecialUrl( 'UserLogin', $returnto );
+			$signUpHref = Skin::makeSpecialUrl( 'Userlogin', $returnto );
 			$data['login'] = [
 				'text' => wfMessage( 'login' )->text(),
 				'href' => $signUpHref . '&type=login'
