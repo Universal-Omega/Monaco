@@ -26,12 +26,13 @@ class MonacoTemplate extends BaseTemplate {
 	}
 
 	public function execute() {
-		global $wgUser, $wgStyleVersion, $wgRequest, $wgTitle, $wgSitename;
+		global $wgStyleVersion, $wgRequest, $wgTitle, $wgSitename;
 		global $wgMonacoUseSitenoticeIsland;
 
 		$this->addVariables();
 
 		$skin = $this->data['skin'];
+		$wgUser = $skin->getUser();
 		$action = $wgRequest->getText( 'action' );
 		$namespace = $wgTitle->getNamespace();
 
@@ -444,7 +445,7 @@ $this->printRightSidebar() . '
 		for ($i = 0, $max = max(array_keys($linksArray)); $i <= $max; $i++) {
 			$item = isset($linksArray[$i]) ? $linksArray[$i] : false;
 			//Redirect to login page instead of showing error, see Login friction project
-			if ($item !== false && $wgUser->isAnon() && isset($item['specialCanonicalName']) && in_array($item['specialCanonicalName'], $wgSpecialPagesRequiredLogin)) {
+			if ($item !== false && $wgUser->isAnon() && isset($item['specialCanonicalName']) && $wgSpecialPagesRequiredLogin && in_array($item['specialCanonicalName'], $wgSpecialPagesRequiredLogin)) {
 				$returnto = SpecialPage::getTitleFor($item['specialCanonicalName'])->getPrefixedDBkey();
 				$item['href'] = SpecialPage::getTitleFor('Userlogin')->getLocalURL(array("returnto"=>$returnto));
 			}
@@ -917,7 +918,7 @@ return $html;
 				}
 			}
 			
-			if ($wgUser->isLoggedIn()) {
+			if ($wgUser->isRegistered()) {
 				$toolbar = $this->getPersonalTools();
 
 				unset( $toolbar['preferences'] );
