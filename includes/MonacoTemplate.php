@@ -1,7 +1,6 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
-use Wikimedia\AtEase\AtEase;
 
 class MonacoTemplate extends BaseTemplate {
 	/**
@@ -36,9 +35,6 @@ class MonacoTemplate extends BaseTemplate {
 		$namespace = $wgTitle->getNamespace();
 
 		$this->set( 'blankimg', $this->data['stylepath'] . '/Monaco/style/images/blank.gif' );
-
-		// Suppress warnings to prevent notices about missing indexes in $this->data
-		AtEase::suppressWarnings();
 		
 		$this->setupRightSidebar();
 		ob_start();
