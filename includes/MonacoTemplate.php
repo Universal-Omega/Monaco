@@ -3,6 +3,9 @@
 use MediaWiki\MediaWikiServices;
 
 class MonacoTemplate extends BaseTemplate {
+
+	private $mRightSidebar = '';
+
 	/**
 	 * Shortcut for building these crappy blankimg based icons that probably could
 	 * have been implemented in a less ugly way.
@@ -193,7 +196,7 @@ if ($custom_article_footer !== '') {
 
 				$html .= '<li>' . $feUserIcon . '<div>';
 				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
-				$html .= wfMessage( 'monaco-footer-lastedit' )->rawParams( $linkRenderer->makeLink( $userPageTitle, $user->getName(), [ 'id' => 'fe_user_link' ] ), Html::element( 'time', [ 'datetime' => wfTimestamp( TS_ISO_8601, $$timestamp ) ], $lastUpdate ) )->escaped();
+				$html .= wfMessage( 'monaco-footer-lastedit' )->rawParams( $linkRenderer->makeLink( $userPageTitle, $user->getName(), [ 'id' => 'fe_user_link' ] ), Html::element( 'time', [ 'datetime' => wfTimestamp( TS_ISO_8601, $timestamp ) ], $lastUpdate ) )->escaped();
 			}
 		}
 
@@ -1119,7 +1122,7 @@ if ( $user->isAnon() ) {
 			$attrs["class"] .= " {$list["class"]}";
 		}
 		
-		return $this->printCustomPageBarListLinks( $list["links"], $attrs, "			", $list["bad_hook"] );
+		return $this->printCustomPageBarListLinks( $list["links"], $attrs, "			", $list["bad_hook"] ?? 'MonacoAfterArticleLinks' );
 	}
 	
 	function printCustomPageBarListLinks( $links, $attrs=array(), $indent='', $hook=null ) {
