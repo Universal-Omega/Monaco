@@ -1,0 +1,21 @@
+{
+	"@metadata": {
+		"authors": [
+			"Universal Omega"
+		]
+	},
+	"monaco-desc": "{{desc|what=skin|name=Monaco|url=https://www.mediawiki.org/wiki/Skin:Monaco}}",
+	"dynamic-links": "Message for adding dynamic links to Monaco.",
+	"dynamic-links-write-article": "'Create a new article' message.",
+	"dynamic-links-write-article-url": "{{notranslate}}",
+	"dynamic-links-add-image": "'Upload a new image' message.",
+	"monaco-sidebar": "{{notranslate}}",
+	"monaco-toolbox": "{{notranslate}}",
+	"monaco-footer-improve": "Monaco footer improve message.",
+	"monaco-footer-improve-linktext": "Monaco footer improve link text message.",
+	"monaco-footer-improve-lastedit": "Monaco footer last edit message.",
+	"viewrandompage": "'View random page' message.",
+	"masthead-anonymous-user": "Monaco anonymous user text in masthead.",
+	"skinname-monaco": "{{name}}",
+	"monaco-tab-addsection": "Monaco add section tab message."
+}
