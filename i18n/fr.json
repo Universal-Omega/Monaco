@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Verdy p"
+		]
+	},
+	"monaco-desc": "Habillage Monaco sans marque, utilisable avec une installation standard de MediaWiki.",
+	"dynamic-links": "Vous pouvez ajouter des identifiants de liens dynamiques à « Monaco » en utilisant ce message :\n ajoutez  un nouvel identifiant sur chaque ligne (vous pouvez utiliser un « * » au début comme dans\n « sidebar » et « monaco-sidebar » pour en faire une liste).\n Les lignes qui commencent par une espace seront traitées comme du commentaire.\n Après avoir ajouté un nouvel identifiant à la liste, vous pouvez utiliser le message « dynamic-links-<id> »\n pour personnaliser le texte du lien et le message « dynamic-links-<id>-url » avec le nom d’un titre de\n page sur le wiki pour le lien dynamique vers lequel établir un lien.",
+	"dynamic-links-write-article": "Créer un nouvel article",
+	"dynamic-links-write-article-url": "-",
+	"dynamic-links-add-image": "Téléverser une nouvelle image",
+	"monaco-footer-improve": "Améliorer {{SITENAME}} par $1",
+	"monaco-footer-improve-linktext": "modifier cette page",
+	"monaco-footer-lastedit": "$1 a fait une modification sur $2",
+	"viewrandompage": "Afficher une page au hasard",
+	"masthead-anonymous-user": "Utilisateur anonyme",
+	"skinname-monaco": "Monaco",
+	"monaco-tab-addsection": "Laisser un message"
+}
