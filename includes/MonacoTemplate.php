@@ -45,11 +45,9 @@ class MonacoTemplate extends BaseTemplate {
 		Hooks::run( 'MonacoRightSidebar', [ $this ] );
 		$this->addToRightSidebar( ob_get_contents() );
 		ob_end_clean();
-		
-		$html = $this->get( 'headelement' );
 
 
-	$html .= $this->printAdditionalHead(); // @fixme not valid
+	$html = $this->printAdditionalHead(); // @fixme not valid
 
 	// this hook allows adding extra HTML just after <body> opening tag
 	// append your content to $html variable instead of echoing
@@ -515,16 +513,8 @@ $html .= $this->printCustomFooter();
 
 
 $html .= '</div>';
-
-$html .= $this->get('bottomscripts'); /* JS call to runBodyOnloadHook */
 Hooks::run('SpecialFooter');
 		$html .= '<div id="positioned_elements" class="reset"></div>';
-
-$html .= $this->delayedPrintCSSdownload();
-$html .= $this->get( 'reporttime' );
-
-	$html .= '</body>
-</html>';
 echo $html;
 	} // end execute()
 
@@ -787,21 +777,6 @@ echo $html;
 		}
 
 		return $data;
-	}
-
-	//@author Marooned
-	function delayedPrintCSSdownload() {
-		global $wgRequest;
-
-		//regular download
-		if ($wgRequest->getVal('printable')) {
-			// RT #18411
-			$html = $this->get('mergedCSSprint');
-			// RT #25638
-			$html .= "\n\t\t";
-			$html .= $this->get('csslinksbottom');
-			return $html;
-		}
 	}
 
 	// allow subskins to tweak dynamic links
