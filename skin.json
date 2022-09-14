@@ -14,7 +14,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.35.0"
+		"MediaWiki": ">= 1.39.0"
 	},
 	"ValidSkinNames": {
 		"monaco": {
@@ -22,10 +22,10 @@
 			"class": "SkinMonaco",
 			"args": [ {
 				"name": "monaco",
+				"bodyOnly": true,
 				"template": "MonacoTemplate",
 				"styles": [
 					"mediawiki.skinning.content",
-					"mediawiki.skinning.content.externallinks",
 					"skins.monaco"
 				],
 				"scripts": [
@@ -51,6 +51,9 @@
 	"ResourceModules": {
 		"skins.monaco": {
 			"class": "ResourceLoaderSkinModule",
+			"features": {
+				"content-links-external": true
+			},
 			"targets": [
 				"desktop",
 				"mobile"
