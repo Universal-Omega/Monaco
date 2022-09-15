@@ -51,11 +51,11 @@
 		"skins.monaco": {
 			"class": "ResourceLoaderSkinModule",
 			"features": {
-				"content-links": true,
+				"elements": true,
 				"content-links-external": true,
+				"content-links": true,
 				"content-media": true,
 				"content-tables": true,
-				"elements": true,
 				"interface-message-box": true,
 				"interface-category": true,
 				"i18n-ordered-lists": true,
