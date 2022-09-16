@@ -49,7 +49,7 @@
 	},
 	"ResourceModules": {
 		"skins.monaco": {
-			"class": "ResourceLoaderSkinModule",
+			"class": "MediaWiki\\ResourceLoader\\SkinModule",
 			"features": {
 				"elements": true,
 				"content-links-external": true,
