@@ -268,7 +268,9 @@ span.subpages {
 	color: red;
 	font-size: larger;
 }
-.errorbox, .successbox {
+
+.mw-message-box-error,
+.mw-message-box-success {
 	font-size: larger;
 	border: 2px solid;
 	padding: .5em 1em;
@@ -276,15 +278,19 @@ span.subpages {
 	margin-bottom: 2em;
 	color: #000;
 }
-.errorbox {
+
+.mw-message-box-error {
 	border-color: red;
 	background-color: #fff2f2;
 }
-.successbox {
+
+.mw-message-box-success {
 	border-color: green;
 	background-color: #dfd;
 }
-.errorbox h2, .successbox h2 {
+
+.mw-message-box-error h2,
+.mw-message-box-success h2 {
 	font-size: 1em;
 	font-weight: bold;
 	display: inline;
