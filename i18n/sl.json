@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Eleassar"
+		]
+	},
+	"monaco-desc": "Preobleka Monaco brez blagovne znamke za uporabo z običajnim MediaWiki.",
+	"dynamic-links-write-article": "Ustvari nov članek",
+	"dynamic-links-write-article-url": "-",
+	"dynamic-links-add-image": "Naloži novo sliko",
+	"monaco-footer-improve-linktext": "urejanje te strani",
+	"viewrandompage": "Ogled naključne strani",
+	"masthead-anonymous-user": "Anonimni uporabnik",
+	"skinname-monaco": "Monaco",
+	"monaco-tab-addsection": "Pusti sporočilo"
+}
