@@ -9,7 +9,6 @@
 	"monaco-desc": "Markenfreier Monaco Skin für die Nutzung mit Vanilla MediaWiki.",
 	"dynamic-links": "You can add dynamic link ids to monaco using this message, add a new id on each line\n (you can use a * at the start like in sidebar and monaco-sidebar to make this a list)\n Lines starting with a space will be treated as a comment.\n After adding a new id to the list you can use the 'dynamic-links-<id>' message\n to customize the text of the link and 'dynamic-links-<id>-url' message with the name\n of a page title on the wiki for the dynamic link to link to.",
 	"dynamic-links-write-article": "Neuen Artikel erstellen",
-	"dynamic-links-write-article-url": "-",
 	"dynamic-links-add-image": "Neues Bild hochladen",
 	"monaco-footer-improve": "Verbessere {{SITENAME}} über $1",
 	"monaco-footer-improve-linktext": "Bearbeite diese Seite",
