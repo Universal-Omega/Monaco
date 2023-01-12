@@ -8,7 +8,10 @@ class SkinMonaco extends SkinTemplate {
 	/**
 	 * Overwrite few SkinTemplate methods which we don't need in Monaco
 	 */
-	function buildSidebar() {}
+	public function buildSidebar() {
+		return [];
+	}
+
 	function getCopyrightIcon() {}
 	function getPoweredBy() {}
 	function disclaimerLink() {}
