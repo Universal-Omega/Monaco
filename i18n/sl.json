@@ -4,10 +4,13 @@
 			"Eleassar"
 		]
 	},
-	"monaco-desc": "Preobleka Monaco brez blagovne znamke za uporabo z običajnim MediaWiki.",
+	"monaco-desc": "Brezznamčna preobleka Monaco za uporabo z običajnim MediaWikijem.",
+	"dynamic-links": "S tem sporočilom lahko v Monaco dodate ID-je dinamičnih povezav; v vsako vrstico dodajte nov ID\n (da to preoblikujete v seznam, lahko uporabite * na začetku, kot v »sidebar« in »monaco-sidebar«)\n Vrstice, ki se začnejo s presledkom, bodo obravnavane kot komentar.\n Ko na seznam dodate nov ID, lahko uporabite sporočilo »dinamične-povezave-<id>«,\n da prilagodite besedilo povezave, in sporočilo »dynamic-links-<id>-url« z imenom\n naslova strani v vikiju za povezavo na dinamično povezavo.",
 	"dynamic-links-write-article": "Ustvari nov članek",
 	"dynamic-links-add-image": "Naloži novo sliko",
+	"monaco-footer-improve": "Izboljšajte projekt {{SITENAME}} z $1",
 	"monaco-footer-improve-linktext": "urejanje te strani",
+	"monaco-footer-lastedit": "$1 je opravil_a urejanje v projektu $2",
 	"viewrandompage": "Ogled naključne strani",
 	"masthead-anonymous-user": "Anonimni uporabnik",
 	"skinname-monaco": "Monaco",
