@@ -545,7 +545,7 @@ echo $html;
 		}
 
 		if ( $user->isRegistered() ) {
-			if ( empty( $user->mMonacoData ) || ( $this->getTitle()->getNamespace() == NS_USER && $this->getRequest()->getText( 'action' ) == 'delete' ) ) {
+			if ( empty( $user->mMonacoData ) || ( $skin->getTitle()->getNamespace() == NS_USER && $skin->getRequest()->getText( 'action' ) == 'delete' ) ) {
 				$user->mMonacoData = [];
 
 				$text = $skin->getTransformedArticle( 'User:' . $user->getName() . '/Monaco-toolbox', true );
