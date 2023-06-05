@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Kly"
+			"Kly",
+			"捍粵者"
 		]
 	},
 	"monaco-desc": "用於 vanilla MediaWiki 的無商標 Monaco 外觀。",
@@ -10,7 +11,7 @@
 	"dynamic-links-add-image": "上傳新圖片",
 	"monaco-footer-improve": "透過$1改善{{SITENAME}}",
 	"monaco-footer-improve-linktext": "編輯此頁面",
-	"monaco-footer-lastedit": "$1在$2做出編輯",
+	"monaco-footer-lastedit": "$1在$2編輯",
 	"viewrandompage": "顯示隨機頁面",
 	"masthead-anonymous-user": "匿名使用者",
 	"skinname-monaco": "Monaco",
