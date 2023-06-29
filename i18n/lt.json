@@ -1,0 +1,16 @@
+{
+	"@metadata": {
+		"authors": [
+			"Nokeoo"
+		]
+	},
+	"monaco-desc": "„Monaco“ išvaizda be prekės ženklo naudojimui su paprastu „MediaWiki“.",
+	"dynamic-links-write-article": "Kurti naują straipsnį",
+	"dynamic-links-add-image": "Įkelti naują paveikslėlį",
+	"monaco-footer-improve": "Patobulinkite {{SITENAME}} $1",
+	"monaco-footer-improve-linktext": "redaguojamas šis puslapis",
+	"monaco-footer-lastedit": "$1 atliko keitimą $2",
+	"viewrandompage": "Žiūrėti atsitiktinį puslapį",
+	"masthead-anonymous-user": "Anoniminis naudotojas",
+	"monaco-tab-addsection": "Palikti žinutę"
+}
