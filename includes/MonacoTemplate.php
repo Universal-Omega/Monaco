@@ -1015,7 +1015,7 @@ if ( $user->isAnon() ) {
 				"links" => $this->data['articlelinks']['right'],
 			);
 		}
-		if ( isset($this->data['articlelinks']['variants']) ) {
+		if ( isset( $this->data['articlelinks']['variants'] ) ) {
 			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
 
 			$preferred = $contLang->getPreferredVariant();
@@ -1033,13 +1033,17 @@ if ( $user->isAnon() ) {
 				)
 			);
 		}
-		$bar[] = array(
-			"id" => "page_controls",
-			"type" => "buttons",
-			"class" => "page_controls",
-			"bad_hook" => "MonacoAfterArticleLinks",
-			"links" => $this->data['articlelinks']['left'],
-		);
+
+		if ( isset( $this->data['articlelinks']['left'] ) ) {
+			$bar[] = array(
+				"id" => "page_controls",
+				"type" => "buttons",
+				"class" => "page_controls",
+				"bad_hook" => "MonacoAfterArticleLinks",
+				"links" => $this->data['articlelinks']['left'],
+			);
+		}
+
 		return $this->printCustomPageBar( $bar );
 	}
 
