@@ -26,6 +26,7 @@ class SkinMonaco extends SkinTemplate {
 	 */
  	private $config;
 
+	private $mMastheadUser;
 	private $mMastheadTitleVisible;
 
 	public function __construct( array $options = [] ) {
