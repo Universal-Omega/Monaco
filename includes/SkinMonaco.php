@@ -26,6 +26,8 @@ class SkinMonaco extends SkinTemplate {
 	 */
  	private $config;
 
+	private $mMastheadTitleVisible;
+
 	public function __construct( array $options = [] ) {
 		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'monaco' );
 
