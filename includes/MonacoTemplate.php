@@ -695,7 +695,15 @@ echo $html;
 
 		if ( strval( $page ) !== '' ) {
 			$a['returnto'] = $page;
-			$query = $request->getVal( 'returntoquery', $skin->thisquery );
+			$thisquery = [];
+			if ( !$request->wasPosted() ) {
+				$thisquery = $request->getValues();
+				unset( $thisquery['title'] );
+				unset( $thisquery['returnto'] );
+				unset( $thisquery['returntoquery'] );
+			}
+			$thisquery = wfUrlencode( wfArrayToCGI( $thisquery ) );
+			$query = $request->getVal( 'returntoquery', $thisquery );
 			if( $query != '' ) {
 				$a['returntoquery'] = $query;
 			}
