@@ -1016,7 +1016,7 @@ if ( $user->isAnon() ) {
 						$class .= " {$navLink["class"]}";
 					}
 					$html .= Html::rawElement( 'li', [ "class" => $class ],
-						Html::element( 'a', [ "href" => $navLink["href"] ), $navLink["text"] ] );
+						Html::element( 'a', [ "href" => $navLink["href"] ], $navLink["text"] ) );
 				}
 				$html .= '</ul>
 			</div>';
