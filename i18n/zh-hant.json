@@ -1,0 +1,19 @@
+{
+	"@metadata": {
+		"authors": [
+			"Kly",
+			"捍粵者"
+		]
+	},
+	"monaco-desc": "用於 vanilla MediaWiki 的無商標 Monaco 外觀。",
+	"dynamic-links": "您可以使用此訊息來將動態連結 ID 添加到 Monaco。在每一行添加一個新 ID（您可以像是在側邊欄和 monaco-sidebar 的開頭使用 * 字元來建立清單），開頭為空格的行會被視為註解內容。\n將新的 ID 添加到清單後，您可以使用「dynamic-links-<id> 」訊息來自訂連結文字，以及「dynamic-links-<id>-url」這個訊息，自訂動態連結所要連結的 wiki 上頁面名稱。",
+	"dynamic-links-write-article": "建立一個新條目",
+	"dynamic-links-add-image": "上傳新圖片",
+	"monaco-footer-improve": "透過$1改善{{SITENAME}}",
+	"monaco-footer-improve-linktext": "編輯此頁面",
+	"monaco-footer-lastedit": "$1在$2編輯",
+	"viewrandompage": "顯示隨機頁面",
+	"masthead-anonymous-user": "匿名使用者",
+	"skinname-monaco": "Monaco",
+	"monaco-tab-addsection": "留下訊息"
+}

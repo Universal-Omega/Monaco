@@ -2,16 +2,17 @@
 	"@metadata": {
 		"authors": [
 			"Daniel Friesen",
-			"James Haley"
+			"James Haley",
+			"Universal Omega"
 		]
 	},
 	"monaco-desc": "Unbranded Monaco skin for use with vanilla MediaWiki.",
-	"dynamic-links": "You can add dynamic link ids to monaco using this message, add a new id on each line\n (you can use a * at the start like in sidebar and monaco-sidebar to make this a list)\n Lines starting with a space will be treated as a comment.\n After adding a new id to the list you can use the 'dynamic-links-<id>' message\n to customize the text of the link and 'dynamic-links-<id>-url' message with the name\n of a page title on the wiki for the dynamic link to link to.\n\n",
+	"dynamic-links": "You can add dynamic link ids to monaco using this message, add a new id on each line\n (you can use a * at the start like in sidebar and monaco-sidebar to make this a list)\n Lines starting with a space will be treated as a comment.\n After adding a new id to the list you can use the 'dynamic-links-<id>' message\n to customize the text of the link and 'dynamic-links-<id>-url' message with the name\n of a page title on the wiki for the dynamic link to link to.",
 	"dynamic-links-write-article": "Create a new article",
 	"dynamic-links-write-article-url": "-",
 	"dynamic-links-add-image": "Upload a new image",
 	"monaco-sidebar": "* mainpage|mainpage-description\n* randompage-url|randompage\n* portal-url|community\n** portal-url|portal\n** currentevents-url|currentevents",
-	"monaco-toolbox": "recentchanges-url|recentchanges \nrandompage-url|randompage \nSpecial:SpecialPage|specialpages \nhelppage|help",
+	"monaco-toolbox": "recentchanges-url|recentchanges \nrandompage-url|randompage \nSpecial:SpecialPages|specialpages \nhelppage|help",
 	"monaco-footer-improve": "Improve {{SITENAME}} by $1",
 	"monaco-footer-improve-linktext": "editing this page",
 	"monaco-footer-lastedit": "$1 made an edit on $2",

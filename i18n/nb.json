@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"monaco-desc": "Umerket Monaco-drakt til bruk for standard MediaWiki.",
+	"dynamic-links": "Du kan legge til dynamiske lenke-ID-er i Monaco med denne beskjeden; legg til en ny ID på hver linje\n (du kan bruke * i begynnelsen for å gjøre dette til ei liste, som i sidebar og monaco-sidebar)\n Linjer som begynner med mellomrom behandles som kommentarer.\n Etter å ha lagt til en ny ID i lista kan du brke beskjeden «dynamic-links-<id>» for å\n tilpasse lenketeksten og «dynamic-links-<id>-url» med tittelen på ei side\n på wikien det skal lenkes til.",
+	"dynamic-links-write-article": "Opprett en ny artikkel",
+	"dynamic-links-add-image": "Last opp et nytt bilde",
+	"monaco-footer-improve": "Forbedre {{SITENAME}} ved å $1",
+	"monaco-footer-improve-linktext": "redigere denne siden",
+	"monaco-footer-lastedit": "$1 redigerte $2",
+	"viewrandompage": "Vis tilfeldig side",
+	"masthead-anonymous-user": "Anonym bruker",
+	"skinname-monaco": "Monaco",
+	"monaco-tab-addsection": "Legg igjen en beskjed"
+}

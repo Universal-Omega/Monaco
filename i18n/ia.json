@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"McDutchie"
+		]
+	},
+	"monaco-desc": "Apparentia Monaco sin marca pro uso con un installation vanilla de MediaWiki.",
+	"dynamic-links": "Tu pote adder identificatores de ligamines dynamic a Monaco usante iste message,\n addente un nove identificator sur cata linea (tu pote usar un * al initio como\n in \"sidebar\" e \"monaco-sidebar\" pro facer un lista de isto).\n Lineas que comencia con un spatio essera tractate como commento.\n Post adder un nove identificator al lista, tu pote usar le message\n 'dynamic-links-<id>' pro personalisar le texto del ligamine e le message\n 'dynamic-links-<id>-url' con le nomine de un titulo de pagina in le wiki\n pro le ligamine dynamic al qual ligar.",
+	"dynamic-links-write-article": "Crear un nove articulo",
+	"dynamic-links-add-image": "Incargar un nove imagine",
+	"monaco-footer-improve": "Meliorar {{SITENAME}} per $1",
+	"monaco-footer-improve-linktext": "modificar iste pagina",
+	"monaco-footer-lastedit": "$1 ha facite un modification sur $2",
+	"viewrandompage": "Vider pagina aleatori",
+	"masthead-anonymous-user": "Usator anonyme",
+	"skinname-monaco": "Monaco",
+	"monaco-tab-addsection": "Lassar message"
+}

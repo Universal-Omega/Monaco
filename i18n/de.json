@@ -3,11 +3,13 @@
 		"authors": [
 			"Daniel Friesen",
 			"James Haley",
+			"Justman10000",
+			"McDutchie",
 			"Roger Meier"
 		]
 	},
 	"monaco-desc": "Markenfreier Monaco Skin für die Nutzung mit Vanilla MediaWiki.",
-	"dynamic-links": "You can add dynamic link ids to monaco using this message, add a new id on each line\n (you can use a * at the start like in sidebar and monaco-sidebar to make this a list)\n Lines starting with a space will be treated as a comment.\n After adding a new id to the list you can use the 'dynamic-links-<id>' message\n to customize the text of the link and 'dynamic-links-<id>-url' message with the name\n of a page title on the wiki for the dynamic link to link to.",
+	"dynamic-links": "Du kannst dynamische Link-IDs zu monaco verwenden, indem du in jeder Zeile eine neue ID hinzufügst\n (du kannst ein * am Anfang verwenden, wie in sidebar und monaco-sidebar, um eine Liste durchzuführen)\n Zeilen, die mit einem Leerzeichen beginnen, werden wie ein Kommentar behandelt.\n Nachdem du der Liste eine neue ID hinzugefügt hast, kannst du die Nachricht 'dynamic-links-<id>' verwenden\n um den Text des Links anzupassen und die Nachricht 'dynamic-links-<id>-url' mit dem Namen\n eines Seitentitels im Wiki angeben, auf den der dynamische Link verweisen soll.",
 	"dynamic-links-write-article": "Neuen Artikel erstellen",
 	"dynamic-links-write-article-url": "-",
 	"dynamic-links-add-image": "Neues Bild hochladen",
