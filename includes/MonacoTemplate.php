@@ -180,10 +180,11 @@ if ($custom_article_footer !== '') {
 			$wikiPage = $myContext->getWikiPage();
 			$timestamp = $wikiPage->getTimestamp();
 			$lastUpdate = $wgLang->date( $timestamp );
-			$userId = $wikiPage->getUser();
+#			$userId = $wikiPage->getUser();
 
-			if ( $userId > 0 ) {
-				$user = User::newFromName( $wikiPage->getUserText() );
+#			if ( $userId > 0 ) {
+#				$user = User::newFromName( $wikiPage->getUserText() );
+				$user = $wgUser;
 				$userPageTitle = $user->getUserPage();
 				$userPageLink = $userPageTitle->getLocalUrl();
 				$userPageExists = $userPageTitle->exists();
@@ -199,7 +200,7 @@ if ($custom_article_footer !== '') {
 				$linkRenderer = MediaWikiServices::getInstance()->getLinkRenderer();
 				$html .= wfMessage( 'monaco-footer-lastedit' )->rawParams( $linkRenderer->makeLink( $userPageTitle, $user->getName(), [ 'id' => 'fe_user_link' ] ), Html::element( 'time', [ 'datetime' => wfTimestamp( TS_ISO_8601, $timestamp ) ], $lastUpdate ) )->escaped();
 			}
-		}
+#		}
 
 		if ( $this->data['copyright'] ) {
 			$feCopyIcon = $this->blankimg( [ 'id' => 'fe_copyright_img', 'class' => 'sprite copyright', 'alt' => '' ] );
