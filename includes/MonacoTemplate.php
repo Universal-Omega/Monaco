@@ -49,7 +49,7 @@ class MonacoTemplate extends BaseTemplate {
 		$html = $this->get( 'headelement' );
 
 
-	$html .= $this->printAdditionalHead(); // @fixme not valid
+	$html = $this->printAdditionalHead(); // @fixme not valid
 
 	// this hook allows adding extra HTML just after <body> opening tag
 	// append your content to $html variable instead of echoing
@@ -86,7 +86,7 @@ if ( Hooks::run( 'AlternateNavLinks' ) ) {
 		<!-- PAGE -->
 	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar' . ( $this->hasRightSidebar() ? ' with_right_sidebar' : null ) . '">
 		<div id="page_wrapper">';
-Hooks::run( 'MonacoBeforePage', [ $this ] );
+Hooks::run( 'MonacoBeforePage', [ $this, &$html ] );
 $html .= $this->printBeforePage();
 if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 			$html .= '<div class="page">
@@ -101,7 +101,7 @@ if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 
 				<article id="content" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>';
-					Hooks::run( 'MonacoAfterArticle', [ $this ] );
+					Hooks::run( 'MonacoAfterArticle', [ $this, &$html ] );
 					if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { $html .= '<div id="siteNotice">' . $this->get( 'sitenotice' ) . '</div>'; }
 					if ( method_exists( $this, 'getIndicators' ) ) { $html .= $this->getIndicators(); }
 					$html .= $this->printFirstHeading() . '
@@ -187,7 +187,8 @@ if ($custom_article_footer !== '') {
 				$userPageTitle = $user->getUserPage();
 				$userPageLink = $userPageTitle->getLocalUrl();
 				$userPageExists = $userPageTitle->exists();
-				$userGender = $user->getOption( 'gender' );
+				$userOptionsManager = MediaWikiServices::getInstance()->getUserOptionsManager();
+				$userGender = $userOptionsManager->getOption( $user, 'gender' );
 				$feUserIcon = $this->blankimg( [ 'id' => 'fe_user_img', 'alt' => '', 'class' => ( $userGender == 'female' ? 'sprite user-female' : 'sprite user' ) ] );
 
 				if ( $userPageExists ) {
@@ -504,7 +505,7 @@ $this->printRightSidebar() . '
 			</div>
 			<!-- /SEARCH/NAVIGATION -->' .
 		$this->printExtraSidebar();
-Hooks::run( 'MonacoSidebarEnd', [ $this ] );
+Hooks::run( 'MonacoSidebarEnd', [ &$this, &$html ] );
 
 		$html .= '</div>
 		<!-- /WIDGETS -->
@@ -882,7 +883,7 @@ echo $html;
 	
 	function printRightSidebar() {
 		if ( $this->hasRightSidebar() ) {
-		$html .= '<!-- RIGHT SIDEBAR -->
+		$html = '<!-- RIGHT SIDEBAR -->
 		 <div id="right_sidebar" class="sidebar right_sidebar">' .
 $this->lateRightSidebar();
 Hooks::run('MonacoRightSidebar::Late', [ $this ] );
@@ -913,7 +914,7 @@ return $html;
 		if( $custom_user_data ) {
 			$html .= $custom_user_data;
 		} else {
-			global $wgUser;
+			$wgUser = $skin->getUser();
 			
 			// Output the facebook connect links that were added with PersonalUrls.
 			// @author Sean Colombo
