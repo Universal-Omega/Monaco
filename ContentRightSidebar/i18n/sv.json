@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sabelöga"
+		]
+	},
+	"monacocontentrightsidebar-desc": "Lägger till en parser-tagg ned förmåga att lägga till innehåll i höger sidofält i utseendet Monaco."
+}
