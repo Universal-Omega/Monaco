@@ -705,7 +705,14 @@ echo $html;
 
 		if ( strval( $page ) !== '' ) {
 			$a['returnto'] = $page;
-			$query = $request->getVal( 'returntoquery', $skin->thisquery );
+			$query = $request->getVal( 'returntoquery' );
+			if ( $query === null && !$request->wasPosted() ) {
+				$thisquery = $request->getValues();
+				unset( $thisquery['title'] );
+				unset( $thisquery['returnto'] );
+				unset( $thisquery['returntoquery'] );
+				$query = $thisquery;
+			}
 			if( $query != '' ) {
 				$a['returntoquery'] = $query;
 			}
