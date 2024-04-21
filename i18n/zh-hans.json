@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Lakejason0"
+		]
+	},
+	"monaco-desc": "去除品牌的Monaco皮肤，用于原版MediaWiki使用。",
+	"dynamic-links": " 可以使用此消息向Monaco添加动态链接ID，在每一行添加一个新ID（可以在行的开头使用*，就像和MediaWiki:Sidebar、MediaWiki:Monaco-sidebar一样显示成一个列表）\n 以空格开始的行会被视为注释。\n 向此列表添加新ID后，修改“dynaimc-links-<id>”这一消息来修改链接的文本，修改“dynamic-links-<id>-url”这一消息为wiki上的页面标题来让链接指向该页面。",
+	"dynamic-links-write-article": "创建新条目",
+	"dynamic-links-add-image": "上传新图像",
+	"monaco-footer-improve": "通过$1改进{{SITENAME}}",
+	"monaco-footer-improve-linktext": "编辑本页",
+	"monaco-footer-lastedit": "$1对$2进行了编辑",
+	"viewrandompage": "查看随机页面",
+	"masthead-anonymous-user": "匿名用户",
+	"skinname-monaco": "Monaco",
+	"monaco-tab-addsection": "留言"
+}

@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Jon Harald Søby"
+		]
+	},
+	"monacocontentrightsidebar-desc": "Legger til en parsertagg med muligheten til å legge til sidemenyinnhold til høyre i Monaco-drakta."
+}

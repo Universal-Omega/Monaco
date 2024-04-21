@@ -1,0 +1,15 @@
+{
+	"@metadata": {
+		"authors": [
+			"Deltaspace",
+			"Kareyac"
+		]
+	},
+	"monaco-desc": "Небрендовый скин Monaco для использования с ванильной MediaWiki.",
+	"dynamic-links-write-article": "Создать новую статью",
+	"dynamic-links-add-image": "Загрузить новое изображение",
+	"monaco-footer-lastedit": "$1 внес изменения в $2",
+	"viewrandompage": "Показать случайную страницу",
+	"masthead-anonymous-user": "Анонимный участник",
+	"monaco-tab-addsection": "Оставить сообщение"
+}

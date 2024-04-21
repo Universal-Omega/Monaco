@@ -1,0 +1,17 @@
+{
+	"@metadata": {
+		"authors": [
+			"Sabelöga"
+		]
+	},
+	"monaco-desc": "Omärkt Monaco-utseende för användning med vanilla MediaWiki.",
+	"dynamic-links": "Du kan lägga till dynamiska länk-ID:n i Monaco genom detta meddelande, lägga till ett nytt ID på varje rad\n (du kan använda ett * i början, precis som i sidofält och Monaco-sidosält för att skapa detta som en lista)\n Rader som börjar med ett mellanslag behandlas som en kommentar.\n Efter att du lagt till ett nytt ID i listan kan du använda meddelandet \"dynamic-links-<id>\"\n för att anpassa länktexten och meddelandet \"dynamic-links-<id>-url\" med namnet\n på sidtiteln på wikin som den dynamiska länken ska länka till.",
+	"dynamic-links-write-article": "Skapa en ny artikel",
+	"dynamic-links-add-image": "Ladda upp en ny bild",
+	"monaco-footer-improve": "Förbättra {{SITENAME}} med $1",
+	"monaco-footer-improve-linktext": "redigera denna sida",
+	"monaco-footer-lastedit": "$1 gjorde en redigering på $2",
+	"viewrandompage": "Visa slumpmässig sida",
+	"masthead-anonymous-user": "Anonym användare",
+	"monaco-tab-addsection": "Lämna meddelande"
+}

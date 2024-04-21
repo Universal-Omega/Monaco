@@ -1,0 +1,18 @@
+{
+	"@metadata": {
+		"authors": [
+			"Hamilton Abreu"
+		]
+	},
+	"monaco-desc": "Tema Mónaco desprovido de caracterização para uso com a instalação básica do MediaWiki.",
+	"dynamic-links": "Pode adicionar identificadores de hiperligações dinâmicas ao tema Mónaco usando esta mensagem. Adicione um novo identificador em cada linha (pode usar um * no início, como na barra lateral e na barra lateral do Mónaco, para fazer uma lista). As linhas que começam com um espaço serão tratadas como comentários. Depois de adicionar um novo identificador à lista, pode usar a mensagem 'dynamic-links-<id>' para personalizar o texto da hiperligação e a mensagem 'dynamic-links-<id>-url' com o nome de um título de página na wiki à qual a hiperligação dinâmica conduzirá.",
+	"dynamic-links-write-article": "Criar um artigo novo",
+	"dynamic-links-add-image": "Carregar uma imagem nova",
+	"monaco-footer-improve": "Melhore a  wiki {{SITENAME}} $1",
+	"monaco-footer-improve-linktext": "editando esta página",
+	"monaco-footer-lastedit": "$1 fez uma edição a $2",
+	"viewrandompage": "Ver página à sorte",
+	"masthead-anonymous-user": "Utilizador anónimo",
+	"skinname-monaco": "Mónaco",
+	"monaco-tab-addsection": "Deixar mensagem"
+}
