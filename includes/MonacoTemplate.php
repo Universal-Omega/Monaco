@@ -34,7 +34,7 @@ class MonacoTemplate extends BaseTemplate {
 		$this->addVariables();
 
 		$skin = $this->data['skin'];
-		$wgUser = $skin->getUser();
+		$wgUser = $user = $skin->getUser();
 		$action = $wgRequest->getText( 'action' );
 		$namespace = $wgTitle->getNamespace();
 
@@ -184,7 +184,6 @@ if ($custom_article_footer !== '') {
 
 #			if ( $userId > 0 ) {
 #				$user = User::newFromName( $wikiPage->getUserText() );
-				$user = $wgUser;
 				$userPageTitle = $user->getUserPage();
 				$userPageLink = $userPageTitle->getLocalUrl();
 				$userPageExists = $userPageTitle->exists();
