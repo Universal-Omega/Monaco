@@ -697,15 +697,14 @@ echo $html;
 
 		if ( strval( $page ) !== '' ) {
 			$a['returnto'] = $page;
-			$thisquery = [];
-			if ( !$request->wasPosted() ) {
+			$query = $request->getVal( 'returntoquery' );
+			if ( $query === null && !$request->wasPosted() ) {
 				$thisquery = $request->getValues();
 				unset( $thisquery['title'] );
 				unset( $thisquery['returnto'] );
 				unset( $thisquery['returntoquery'] );
+				$query = $thisquery;
 			}
-			$thisquery = wfUrlencode( wfArrayToCGI( $thisquery ) );
-			$query = $request->getVal( 'returntoquery', $thisquery );
 			if( $query != '' ) {
 				$a['returntoquery'] = $query;
 			}
