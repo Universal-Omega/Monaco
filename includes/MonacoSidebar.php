@@ -160,7 +160,7 @@ class MonacoSidebar {
 			$menu_item =
 				Html::rawElement( 'a', [
 						'href' => !empty( $nodes[$val]['href'] ) ? $nodes[$val]['href'] : '#',
-						'class' => $nodes[$val]['class'] ?? null,
+						'class' => $nodes[$val]['class'],
 						'tabIndex' => 3,
 						'rel' => $nodes[$val]['internal'] ? null : 'nofollow'
 					], $link_html ) . "\n";
@@ -188,7 +188,6 @@ class MonacoSidebar {
 		if ( count( $nodes ) > 0 ) {
 			Hooks::run( 'MonacoSidebarGetMenu', [ &$nodes ] );
 
-			$menu = '';
 			$mainMenu = [];
 			foreach ( $nodes[0]['children'] as $key => $val ) {
 				if ( isset( $nodes[$val]['children'] ) ) {

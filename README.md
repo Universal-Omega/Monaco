@@ -8,7 +8,7 @@ This is an unbranded fork of the Monaco skin originally developed by Fandom.
 offline.
 
 Compared to the original version of the skin, this fork now supports MediaWiki
-version 1.39+ officially.
+version 1.35+ officially.
 This codebase will usually remain up-to-date against MediaWiki, and will drop
 support for older versions unconditionally once it becomes impractical to
 continue to support them.

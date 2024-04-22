@@ -1,6 +1,6 @@
 {
 	"name": "Monaco",
-	"version": "2.6.5",
+	"version": "2.6.4",
 	"author": [
 		"'''Universal Omega'''",
 		"Inez Korczyński",
@@ -14,7 +14,7 @@
 	"license-name": "GPL-2.0-or-later",
 	"type": "skin",
 	"requires": {
-		"MediaWiki": ">= 1.39.0"
+		"MediaWiki": ">= 1.35.0"
 	},
 	"ValidSkinNames": {
 		"monaco": {
@@ -22,9 +22,10 @@
 			"class": "SkinMonaco",
 			"args": [ {
 				"name": "monaco",
-				"bodyOnly": true,
 				"template": "MonacoTemplate",
 				"styles": [
+					"mediawiki.skinning.content",
+					"mediawiki.skinning.content.externallinks",
 					"skins.monaco"
 				],
 				"scripts": [
@@ -49,19 +50,7 @@
 	},
 	"ResourceModules": {
 		"skins.monaco": {
-			"class": "MediaWiki\\ResourceLoader\\SkinModule",
-			"features": {
-				"elements": true,
-				"content-links-external": true,
-				"content-links": true,
-				"content-media": true,
-				"content-tables": true,
-				"interface-message-box": true,
-				"interface-category": true,
-				"i18n-ordered-lists": true,
-				"i18n-all-lists-margins": true,
-				"i18n-headings": true
-			},
+			"class": "ResourceLoaderSkinModule",
 			"targets": [
 				"desktop",
 				"mobile"

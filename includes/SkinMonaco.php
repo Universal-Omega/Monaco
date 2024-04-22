@@ -8,10 +8,7 @@ class SkinMonaco extends SkinTemplate {
 	/**
 	 * Overwrite few SkinTemplate methods which we don't need in Monaco
 	 */
-	public function buildSidebar() {
-		return [];
-	}
-
+	function buildSidebar() {}
 	function getCopyrightIcon() {}
 	function getPoweredBy() {}
 	function disclaimerLink() {}
@@ -26,11 +23,13 @@ class SkinMonaco extends SkinTemplate {
 	 */
  	private $config;
 
-	private $mMastheadUser;
-	private $mMastheadTitleVisible;
-
 	public function __construct( array $options = [] ) {
 		$this->config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'monaco' );
+
+		if ( version_compare( MW_VERSION, '1.36', '<' ) ) {
+			// Associate template - this is replaced by `template` option in 1.36
+			$this->template = MonacoTemplate::class;
+		}
 
 		parent::__construct( $options );
 	}
