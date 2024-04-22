@@ -185,7 +185,8 @@ if ($custom_article_footer !== '') {
 				$userPageTitle = $user->getUserPage();
 				$userPageLink = $userPageTitle->getLocalUrl();
 				$userPageExists = $userPageTitle->exists();
-				$userGender = $user->getOption( 'gender' );
+				$userOptionsManager = MediaWikiServices::getInstance()->getUserOptionsManager();
+				$userGender = $userOptionsManager->getOption( $user, 'gender' );
 				$feUserIcon = $this->blankimg( [ 'id' => 'fe_user_img', 'alt' => '', 'class' => ( $userGender == 'female' ? 'sprite user-female' : 'sprite user' ) ] );
 
 				if ( $userPageExists ) {
@@ -295,9 +296,10 @@ $this->printRightSidebar() . '
 	global $wgSitename;
 	$msgSearchLabel = wfMessage('Tooltip-search')->escaped();
 	$searchLabel = wfMessage('Tooltip-search')->isDisabled() ? (wfMessage('ilsubmit')->escaped().' '.$wgSitename.'...') : $msgSearchLabel;
+	$searchAction = SpecialPage::newSearchPage( $user )->getLocalURL();
 
 			$html .= '<div id="search_box" class="color1" role="search">
-				<form action="' . $this->get('searchaction') . '" id="searchform">
+				<form action="' . $this->get( $searchAction ) . '" id="searchform">
 					<label style="display: none;" for="searchInput">' . htmlspecialchars($searchLabel) . '</label>' .
 					Html::input( 'search', '', 'search', [
 						'id' => "searchInput",
