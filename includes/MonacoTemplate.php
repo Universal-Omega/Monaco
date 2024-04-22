@@ -882,19 +882,19 @@ return $html;
 	
 	function printUserData() {
 		$skin = $this->data['skin'];
-			$html = '<div id="userData">';
+		$wgUser = $skin->getUser();
+		$html = '<div id="userData">';
 		
 		$custom_user_data = "";
 		
 		if( $custom_user_data ) {
 			$html .= $custom_user_data;
 		} else {
-			global $wgUser;
 			
 			// Output the facebook connect links that were added with PersonalUrls.
 			// @author Sean Colombo
 			foreach($this->data['userlinks'] as $linkName => $linkData){
-				// 
+
 				if( !empty($linkData['html']) ){
 					$html .= $linkData['html']; 
 				}
