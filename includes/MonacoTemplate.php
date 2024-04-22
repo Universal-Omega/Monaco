@@ -84,7 +84,7 @@ if ( Hooks::run( 'AlternateNavLinks' ) ) {
 		<!-- PAGE -->
 	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar' . ( $this->hasRightSidebar() ? ' with_right_sidebar' : null ) . '">
 		<div id="page_wrapper">';
-Hooks::run( 'MonacoBeforePage', [ $this ] );
+Hooks::run( 'MonacoBeforePage', [ $this, &$html ] );
 $html .= $this->printBeforePage();
 if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 			$html .= '<div class="page">
@@ -99,7 +99,7 @@ if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 
 				<article id="content" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>';
-					Hooks::run( 'MonacoAfterArticle', [ $this ] );
+					Hooks::run( 'MonacoAfterArticle', [ $this, &$html ] );
 					if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { $html .= '<div id="siteNotice">' . $this->get( 'sitenotice' ) . '</div>'; }
 					if ( method_exists( $this, 'getIndicators' ) ) { $html .= $this->getIndicators(); }
 					$html .= $this->printFirstHeading() . '
@@ -500,11 +500,12 @@ $this->printRightSidebar() . '
 		</tbody>';
 	}
 	// END: create static box
-	$html .= '</table>
-			</div>
+	$html .= '</table>';
+Hooks::run( 'MonacoStaticboxEnd', [ $this, &$html ] );
+	$html .= '</div>
 			<!-- /SEARCH/NAVIGATION -->' .
 		$this->printExtraSidebar();
-Hooks::run( 'MonacoSidebarEnd', [ $this ] );
+Hooks::run( 'MonacoSidebarEnd', [ $this, &$html ] );
 
 		$html .= '</div>
 		<!-- /WIDGETS -->
