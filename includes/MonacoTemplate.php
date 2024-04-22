@@ -45,11 +45,9 @@ class MonacoTemplate extends BaseTemplate {
 		Hooks::run( 'MonacoRightSidebar', [ $this ] );
 		$this->addToRightSidebar( ob_get_contents() );
 		ob_end_clean();
-		
-		$html = $this->get( 'headelement' );
 
 
-	$html .= $this->printAdditionalHead(); // @fixme not valid
+	$html = $this->printAdditionalHead(); // @fixme not valid
 
 	// this hook allows adding extra HTML just after <body> opening tag
 	// append your content to $html variable instead of echoing
@@ -515,16 +513,8 @@ $html .= $this->printCustomFooter();
 
 
 $html .= '</div>';
-
-$html .= $this->get('bottomscripts'); /* JS call to runBodyOnloadHook */
 Hooks::run('SpecialFooter');
 		$html .= '<div id="positioned_elements" class="reset"></div>';
-
-$html .= $this->delayedPrintCSSdownload();
-$html .= $this->get( 'reporttime' );
-
-	$html .= '</body>
-</html>';
 echo $html;
 	} // end execute()
 
@@ -555,7 +545,7 @@ echo $html;
 		}
 
 		if ( $user->isRegistered() ) {
-			if ( empty( $user->mMonacoData ) || ( $this->getTitle()->getNamespace() == NS_USER && $this->getRequest()->getText( 'action' ) == 'delete' ) ) {
+			if ( empty( $user->mMonacoData ) || ( $skin->getTitle()->getNamespace() == NS_USER && $skin->getRequest()->getText( 'action' ) == 'delete' ) ) {
 				$user->mMonacoData = [];
 
 				$text = $skin->getTransformedArticle( 'User:' . $user->getName() . '/Monaco-toolbox', true );
@@ -705,7 +695,15 @@ echo $html;
 
 		if ( strval( $page ) !== '' ) {
 			$a['returnto'] = $page;
-			$query = $request->getVal( 'returntoquery', $skin->thisquery );
+			$thisquery = [];
+			if ( !$request->wasPosted() ) {
+				$thisquery = $request->getValues();
+				unset( $thisquery['title'] );
+				unset( $thisquery['returnto'] );
+				unset( $thisquery['returntoquery'] );
+			}
+			$thisquery = wfUrlencode( wfArrayToCGI( $thisquery ) );
+			$query = $request->getVal( 'returntoquery', $thisquery );
 			if( $query != '' ) {
 				$a['returntoquery'] = $query;
 			}
@@ -787,21 +785,6 @@ echo $html;
 		}
 
 		return $data;
-	}
-
-	//@author Marooned
-	function delayedPrintCSSdownload() {
-		global $wgRequest;
-
-		//regular download
-		if ($wgRequest->getVal('printable')) {
-			// RT #18411
-			$html = $this->get('mergedCSSprint');
-			// RT #25638
-			$html .= "\n\t\t";
-			$html .= $this->get('csslinksbottom');
-			return $html;
-		}
 	}
 
 	// allow subskins to tweak dynamic links
@@ -1059,13 +1042,15 @@ if ( $user->isAnon() ) {
 			];
 		}
 
-		$bar[] = [
-			"id" => "page_controls",
-			"type" => "buttons",
-			"class" => "page_controls",
-			"bad_hook" => "MonacoAfterArticleLinks",
-			"links" => $this->data['articlelinks']['left'],
-		];
+		if ( isset( $this->data['articlelinks']['left'] ) ) {
+			$bar[] = [
+				"id" => "page_controls",
+				"type" => "buttons",
+				"class" => "page_controls",
+				"bad_hook" => "MonacoAfterArticleLinks",
+				"links" => $this->data['articlelinks']['left'],
+			];
+		}
 
 		return $this->printCustomPageBar( $bar );
 	}
@@ -1078,7 +1063,7 @@ if ( $user->isAnon() ) {
 		
 		$count = 0;
 		foreach( $bar as $list ) {
-			$count += count($list['links']);
+			$count += count( $list['links'] ?? [] );
 		}
 		$useCompactBar = $wgMonacoCompactSpecialPages && $count == 1;
 		$deferredList = null;
