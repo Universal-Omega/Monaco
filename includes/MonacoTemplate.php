@@ -296,7 +296,7 @@ $this->printRightSidebar() . '
 	global $wgSitename;
 	$msgSearchLabel = wfMessage('Tooltip-search')->escaped();
 	$searchLabel = wfMessage('Tooltip-search')->isDisabled() ? (wfMessage('ilsubmit')->escaped().' '.$wgSitename.'...') : $msgSearchLabel;
-	$searchAction = SpecialPage::newSearchPage( $user )->getLocalURL();
+	$searchAction = SpecialPage::newSearchPage( $wgUser )->getLocalURL();
 
 			$html .= '<div id="search_box" class="color1" role="search">
 				<form action="' . $this->get( $searchAction ) . '" id="searchform">
