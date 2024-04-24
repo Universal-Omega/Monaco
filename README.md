@@ -4,8 +4,7 @@ Monaco Skin for MediaWiki
 About
 -----
 
-This is an unbranded fork of the Monaco skin originally developed by Fandom.
-offline.
+This is an unbranded fork of the Monaco skin originally developed by [Fandom](https://en.wikipedia.org/wiki/Fandom_(website)) (formerly known as Wikicities and Wikia).
 
 Compared to the original version of the skin, this fork now supports MediaWiki
 version 1.39+ officially.
@@ -47,3 +46,9 @@ License
 -------
 All of the code released by Fandom was made available under GPL v2.0 or later.
 This license can be found in the LICENSE file.
+
+Legacy
+------
+A fork [maintained by haleyjd](https://github.com/haleyjd/monaco-port) supports MediaWiki versions 1.24 to 1.29 officially, with verified support for 1.30+ in the works.
+
+This is an unbranded fork of the Monaco skin originally developed by Wikia (now [Fandom](https://en.wikipedia.org/wiki/Fandom_(website))) which is being maintained for use at [DoomWiki.org](http://doomwiki.org/). It was also previously deployed at the Orain non-profit wiki farm before it went offline.
