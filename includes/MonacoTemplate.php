@@ -1,6 +1,7 @@
 <?php
 
 use MediaWiki\MediaWikiServices;
+use MediaWiki\HookContainer\HookContainer;
 
 class MonacoTemplate extends BaseTemplate {
 
@@ -42,7 +43,8 @@ class MonacoTemplate extends BaseTemplate {
 		
 		$this->setupRightSidebar();
 		ob_start();
-		Hooks::run( 'MonacoRightSidebar', [ $this ] );
+		$hookContainer = $this->getHookContainer();
+		$hookContainer->run( 'MonacoRightSidebar', [ $this ] );
 		$this->addToRightSidebar( ob_get_contents() );
 		ob_end_clean();
 
@@ -51,7 +53,7 @@ class MonacoTemplate extends BaseTemplate {
 
 	// this hook allows adding extra HTML just after <body> opening tag
 	// append your content to $html variable instead of echoing
-	Hooks::run( 'GetHTMLAfterBody', [ $this, &$html ] );
+	$hookContainer->run( 'GetHTMLAfterBody', [ $this, &$html ] );
 
 $html .= '<div id="skiplinks"> 
 	<a class="skiplink" href="#article" tabIndex=1>Skip to Content</a> 
@@ -70,7 +72,7 @@ $html .= '<div id="skiplinks">
 		'</div>
 	</div>';
 
-if ( Hooks::run( 'AlternateNavLinks' ) ) {
+if ( $hookContainer->run( 'AlternateNavLinks' ) ) {
 		$html .= '<div id="background_strip" class="reset">
 			<div class="monaco_shrinkwrap">
 
@@ -84,7 +86,7 @@ if ( Hooks::run( 'AlternateNavLinks' ) ) {
 		<!-- PAGE -->
 	<div id="monaco_shrinkwrap_main" class="monaco_shrinkwrap with_left_sidebar' . ( $this->hasRightSidebar() ? ' with_right_sidebar' : null ) . '">
 		<div id="page_wrapper">';
-Hooks::run( 'MonacoBeforePage', [ $this, &$html ] );
+$hookContainer->run( 'MonacoBeforePage', [ $this, &$html ] );
 $html .= $this->printBeforePage();
 if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 			$html .= '<div class="page">
@@ -93,13 +95,13 @@ if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 }
 		$html .= '<div id="wikia_page" class="page">' .
 			$this->printMasthead();
-			Hooks::run( 'MonacoBeforePageBar', [ $this ] );
+			$hookContainer->run( 'MonacoBeforePageBar', [ $this ] );
 			$html .= $this->printPageBar() . '
 					<!-- ARTICLE -->
 
 				<article id="content" class="mw-body" role="main" aria-labelledby="firstHeading">
 					<a id="top"></a>';
-					Hooks::run( 'MonacoAfterArticle', [ $this, &$html ] );
+					$hookContainer->run( 'MonacoAfterArticle', [ $this, &$html ] );
 					if ( !$wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) { $html .= '<div id="siteNotice">' . $this->get( 'sitenotice' ) . '</div>'; }
 					if ( method_exists( $this, 'getIndicators' ) ) { $html .= $this->getIndicators(); }
 					$html .= $this->printFirstHeading() . '
@@ -129,7 +131,7 @@ if ( $wgMonacoUseSitenoticeIsland && $this->data['sitenotice'] ) {
 global $wgTitle, $wgOut;
 $custom_article_footer = '';
 $namespaceType = '';
-Hooks::run( 'CustomArticleFooter', [ &$this, &$tpl, &$custom_article_footer ] );
+$hookContainer->run( 'CustomArticleFooter', [ &$this, &$tpl, &$custom_article_footer ] );
 if ($custom_article_footer !== '') {
 	$html .= $custom_article_footer;
 } else {
@@ -157,7 +159,7 @@ if ($custom_article_footer !== '') {
 							<ul class="actions" id="articleFooterActions">';
 		if ($namespaceType == 'talk') {
 			$custom_article_footer = '';
-			Hooks::run('AddNewTalkSection', [ &$this, &$tpl, &$custom_article_footer ] );
+			$hookContainer->run('AddNewTalkSection', [ &$this, &$tpl, &$custom_article_footer ] );
 			if ($custom_article_footer != '')
 				 $html .= $custom_article_footer;
 		} else {
@@ -315,7 +317,7 @@ $this->printRightSidebar() . '
 					<input type="image" alt="' . htmlspecialchars(wfMessage('search')->escaped()) . '" src="' . $this->get('blankimg') . '" id="search-button" class="sprite search" tabIndex=2 />
 				</form>
 			</div>';
-	$monacoSidebar = new MonacoSidebar();
+	$monacoSidebar = new MonacoSidebar( $hookContainer );
 	if(isset($this->data['content_actions']['edit'])) {
 		$monacoSidebar->editUrl = $this->data['content_actions']['edit']['href'];
 	}
@@ -373,7 +375,7 @@ $this->printRightSidebar() . '
 		}
 		
 		$html .= $this->extendDynamicLinks( $dynamicLinksInternal );
-		Hooks::run( 'MonacoDynamicLinks', [ $this, &$dynamicLinksInternal ] );
+		$hookContainer->run( 'MonacoDynamicLinks', [ $this, &$dynamicLinksInternal ] );
 		$html .= $this->extendDynamicLinksAfterHook( $dynamicLinksInternal );
 		
 		$dynamicLinksUser = [];
@@ -484,28 +486,15 @@ $this->printRightSidebar() . '
 					$html .= '</ul>
 				</td>
 			</tr>
-			<!-- haleyjd 20140420: FIXME: DoomWiki.org-specific; make generic! -->
-			<!--
-			<tr>
-				<td colspan="2" style="text-align:center;">
-					<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-						<input type="hidden" name="cmd" value="_s-xclick">
-						<input type="hidden" name="hosted_button_id" value="D5MLUSDXA8HMQ">
-						<input type="image" src="' . $this->get('stylepath') . '/Monaco/style/images/contribute-button.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
-						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;">
-					</form>
-				</td>
-			</tr>
-			-->
 		</tbody>';
 	}
 	// END: create static box
 	$html .= '</table>';
-Hooks::run( 'MonacoStaticboxEnd', [ $this, &$html ] );
+$hookContainer->run( 'MonacoStaticboxEnd', [ $this, &$html ] );
 	$html .= '</div>
 			<!-- /SEARCH/NAVIGATION -->' .
 		$this->printExtraSidebar();
-Hooks::run( 'MonacoSidebarEnd', [ $this, &$html ] );
+$hookContainer->run( 'MonacoSidebarEnd', [ $this, &$html ] );
 
 		$html .= '</div>
 		<!-- /WIDGETS -->
@@ -516,7 +505,7 @@ $html .= $this->printCustomFooter();
 
 
 $html .= '</div>';
-Hooks::run('SpecialFooter');
+$hookContainer->run('SpecialFooter');
 		$html .= '<div id="positioned_elements" class="reset"></div>';
 echo $html;
 	} // end execute()
@@ -864,7 +853,7 @@ echo $html;
 		$html = '<!-- RIGHT SIDEBAR -->
 		 <div id="right_sidebar" class="sidebar right_sidebar">' .
 $this->lateRightSidebar();
-Hooks::run('MonacoRightSidebar::Late', [ $this ] );
+$hookContainer->run('MonacoRightSidebar::Late', [ $this ] );
 $html .= $this->mRightSidebar . '
 		</div>
 		<!-- /RIGHT SIDEBAR -->';
@@ -873,8 +862,9 @@ return $html;
 	}
 	
 	function printMonacoBranding() {
+		$hookContainer = $this->getHookContainer();
 		ob_start();
-		Hooks::run( 'MonacoBranding', [ $this ] );
+		$hookContainer->run( 'MonacoBranding', [ $this ] );
 		$branding = ob_get_contents();
 		ob_end_clean();
 		
@@ -1148,8 +1138,9 @@ if ( $user->isAnon() ) {
 			$html .= Xml::closeElement( 'li' );
 			$html .= "\n";
 		}
+		$hookContainer = $this->getHookContainer();
 		if ( $hook ) {
-			Hooks::run( $hook );
+			$hookContainer->run( $hook );
 		}
 		$html .= "$indent</ul>\n";
 		
@@ -1158,11 +1149,12 @@ if ( $user->isAnon() ) {
 
 	// Made a separate method so recipes, answers, etc can override. Notably, answers turns it off.
 	function printFirstHeading(){
+		$hookContainer = $this->getHookContainer();
 		if ( !$this->data['skin']->isMastheadTitleVisible() ) {
 			return;
 		}
 		$html = '<h1 id="firstHeading" class="firstHeading" aria-level="1">' . $this->get('title');
-		Hooks::run( 'MonacoPrintFirstHeading' );
+		$hookContainer->run( 'MonacoPrintFirstHeading' );
 		$html .= '</h1>';
 		return $html;
 	}
