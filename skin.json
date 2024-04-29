@@ -150,6 +150,18 @@
 		},
 		"MonacoBiggestCategoriesBlacklist": {
 			"value": []
+		},
+		"MonacoEnablePaypal": {
+			"value": false
+		},
+		"MonacoPaypalID": {
+			"value": ""
+		},
+		"MonacoEnablePatreon": {
+			"value": false
+		},
+		"MonacoPatreonURL": {
+			"value": ""
 		}
 	},
 	"Hooks": {

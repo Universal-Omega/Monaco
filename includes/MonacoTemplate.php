@@ -503,6 +503,32 @@ $this->printRightSidebar() . '
 					$html .= '</ul>
 				</td>
 			</tr>
+<?php
+		global $wgMonacoEnablePaypal, $wgMonacoPaypalID, $wgMonacoEnablePatreon, $wgMonacoPatreonURL;
+		if ( $wgMonacoEnablePaypal ) {
+?>
+			<tr>
+				<td colspan="2" style="text-align:center;">
+					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" title="PayPal">
+						<input type="hidden" name="cmd" value="_s-xclick">
+						<input type="hidden" name="hosted_button_id" value="<?php echo $wgMonacoPaypalID ?>">
+						<input type="image" src="<?php $this->text('stylepath') ?>/monaco/style/images/paypal.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
+						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;">
+					</form>
+				</td>
+			</tr>
+<?php
+		}
+		if ( $wgMonacoEnablePatreon ) {
+?>
+			<tr>
+				<td colspan="2" style="text-align:center;">
+					<a href="<?php echo $wgMonacoPatreonURL ?>" target="_blank" rel="nofollow"><img alt="Patreon" src="<?php $this->text('stylepath') ?>/monaco/style/images/patreon.png" width="139" height="37"></a>
+				</td>
+			</tr>
+<?php
+		}
+?>
 		</tbody>';
 	}
 	// END: create static box
