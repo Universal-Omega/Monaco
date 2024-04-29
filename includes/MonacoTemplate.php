@@ -1099,7 +1099,9 @@ if ( $user->isAnon() ) {
 		
 		$count = 0;
 		foreach( $bar as $list ) {
-			$count += count( $list['links'] ?? [] );
+			if ( $list['links'] ) {
+				$count += count( $list['links'] );
+			}
 		}
 		$useCompactBar = $wgMonacoCompactSpecialPages && $count == 1;
 		$deferredList = null;
@@ -1145,7 +1147,7 @@ if ( $user->isAnon() ) {
 			$attrs["class"] .= " {$list["class"]}";
 		}
 		
-		return $this->printCustomPageBarListLinks( $list["links"], $attrs, "			", $list["bad_hook"] ?? 'MonacoAfterArticleLinks' );
+		return $this->printCustomPageBarListLinks( $list['links'], $attrs, "			", isset( $list['bad_hook'] ) ? $list['bad_hook'] : 'MonacoAfterArticleLinks' );
 	}
 	
 	function printCustomPageBarListLinks( $links, $attrs = [], $indent = '', $hook = null ) {
