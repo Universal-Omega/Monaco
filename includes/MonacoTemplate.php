@@ -38,8 +38,9 @@ class MonacoTemplate extends BaseTemplate {
 		$wgUser = $skin->getUser();
 		$action = $wgRequest->getText( 'action' );
 		$namespace = $wgTitle->getNamespace();
+		$stylepath = $this->data['stylepath'];
 
-		$this->set( 'blankimg', $this->data['stylepath'] . '/Monaco/style/images/blank.gif' );
+		$this->set( 'blankimg', $stylepath . '/Monaco/style/images/blank.gif' );
 		
 		$this->setupRightSidebar();
 		ob_start();
@@ -502,34 +503,28 @@ $this->printRightSidebar() . '
 					$html .= '<li style="font-size: 1px; position: absolute; top: -10000px"><a href="' . Title::newFromText('Special:Recentchanges')->getLocalURL() . '" accesskey="r">Recent changes</a><a href="' . Title::newFromText('Special:Random')->getLocalURL() . '" accesskey="x">Random page</a></li>';
 					$html .= '</ul>
 				</td>
-			</tr>
-<?php
+			</tr>';
 		global $wgMonacoEnablePaypal, $wgMonacoPaypalID, $wgMonacoEnablePatreon, $wgMonacoPatreonURL;
-		if ( $wgMonacoEnablePaypal ) {
-?>
-			<tr>
+		if ( $wgMonacoEnablePaypal && !empty( $wgMonacoPaypalID ) ) {
+			$html .= '<tr>
 				<td colspan="2" style="text-align:center;">
 					<form action="https://www.paypal.com/cgi-bin/webscr" method="post" title="PayPal">
-						<input type="hidden" name="cmd" value="_s-xclick">
-						<input type="hidden" name="hosted_button_id" value="<?php echo $wgMonacoPaypalID ?>">
-						<input type="image" src="<?php $this->text('stylepath') ?>/monaco/style/images/paypal.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;">
-						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;">
+						<input type="hidden" name="cmd" value="_s-xclick" />
+						<input type="hidden" name="hosted_button_id" value="' . $wgMonacoPaypalID . '" />
+						<input type="image" src="' . $stylepath . '/Monaco/style/images/paypal.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;" />
+						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;" />
 					</form>
 				</td>
-			</tr>
-<?php
+			</tr>';
 		}
-		if ( $wgMonacoEnablePatreon ) {
-?>
-			<tr>
+		if ( $wgMonacoEnablePatreon && !empty( $wgMonacoPatreonURL ) ) {
+			$html .= '<tr>
 				<td colspan="2" style="text-align:center;">
-					<a href="<?php echo $wgMonacoPatreonURL ?>" target="_blank" rel="nofollow"><img alt="Patreon" src="<?php $this->text('stylepath') ?>/monaco/style/images/patreon.png" width="139" height="37"></a>
+					<a href="' . $wgMonacoPatreonURL . '" target="_blank" rel="nofollow"><img alt="Patreon" src="' . $stylepath . '/Monaco/style/images/patreon.png" width="139" height="37"></a>
 				</td>
-			</tr>
-<?php
+			</tr>';
 		}
-?>
-		</tbody>';
+		$html .= '</tbody>';
 	}
 	// END: create static box
 	$html .= '</table>';
@@ -841,7 +836,7 @@ echo $html;
 		if ( isset($options['id']) ) {
 			$attrs['id'] = $options['id'];
 		}
-		if ( isset($options['class'']) ) {
+		if ( isset($options['class']) ) {
 			$attrs['class'] .= " {$options['class']}";
 		}
 		
