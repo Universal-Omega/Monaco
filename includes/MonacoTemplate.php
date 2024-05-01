@@ -35,6 +35,7 @@ class MonacoTemplate extends BaseTemplate {
 		$this->addVariables();
 
 		$skin = $this->data['skin'];
+		$wgLang = $skin->getLanguage();
 		$wgUser = $skin->getUser();
 		$action = $wgRequest->getText( 'action' );
 		$namespace = $wgTitle->getNamespace();
@@ -152,7 +153,6 @@ if ($custom_article_footer !== '') {
 	$action = $wgRequest->getVal('action', 'view');
 	if ( $namespaceType != 'none' && in_array( $action, [ 'view', 'purge', 'edit', 'history', 'delete', 'protect' ] ) ) {
 		$nav_urls = $this->data['nav_urls'];
-		global $wgLang;
 			$html .= '<div id="articleFooter" class="reset article_footer">
 				<table style="border-spacing: 0;">
 					<tr>
@@ -505,6 +505,34 @@ $this->printRightSidebar() . '
 				</td>
 			</tr>';
 		global $wgMonacoEnablePaypal, $wgMonacoPaypalID, $wgMonacoEnablePatreon, $wgMonacoPatreonURL;
+
+		$lang_code = $skin->getLanguage()->getCode();
+		switch ( $lang_code ) {
+			case 'de-at' :
+			case 'de-ch' :
+			case 'de-formal' :
+				$lang_code = 'de_DE';
+			break;
+			case 'es-formal' :
+				$lang_code = 'es_ES';
+			break;
+			case 'nl-formal' :
+				$lang_code = 'nl_NL';
+			break;
+			case 'en-ca' :
+				$lang_code = 'en_CA';
+			break;
+			case 'en-gb' :
+				$lang_code = 'en_GB';
+			break;
+			case 'en' :
+				$lang_code = 'en_US';
+			break;
+			default :
+				$lang_code = strtolower( $lang_code ) . '_' . strtoupper( $lang_code );
+			break;
+		}
+
 		if ( $wgMonacoEnablePaypal && !empty( $wgMonacoPaypalID ) ) {
 			$html .= '<tr>
 				<td colspan="2" style="text-align:center;">
@@ -512,7 +540,7 @@ $this->printRightSidebar() . '
 						<input type="hidden" name="cmd" value="_s-xclick" />
 						<input type="hidden" name="hosted_button_id" value="' . $wgMonacoPaypalID . '" />
 						<input type="image" src="' . $stylepath . '/Monaco/style/images/paypal.png" name="submit" alt="PayPal - The safer, easier way to pay online!" style="border: 0; width:139px; margin:0;" />
-						<img alt="" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1" style="border: 0;" />
+						<img alt="" src="https://www.paypalobjects.com/'. $lang_code .'/i/scr/pixel.gif" width="1" height="1" style="border: 0;" />
 					</form>
 				</td>
 			</tr>';
@@ -999,7 +1027,7 @@ return $html;
 		if ( !$skin->showMasthead() ) {
 			return;
 		}
-		global $wgLang;
+		$wgLang = $this->getContext()->getLanguage();
 		$user = $skin->getMastheadUser();
 		$username = $user->isAnon() ? wfMessage('masthead-anonymous-user')->text() : $user->getName();
 		$editcount = $wgLang->formatNum($user->isAnon() ? 0 : $user->getEditcount());
