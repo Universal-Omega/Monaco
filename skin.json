@@ -47,6 +47,9 @@
 	"ConfigRegistry": {
 		"monaco": "GlobalVarConfig::newInstance"
 	},
+	"ThemeModules": {
+		"monaco": [ "beach", "brick", "carbon", "forest", "gaming", "jade", "moonlight", "obsession", "ruby", "sapphire", "sky", "slate", "smoke", "spring" ]
+	},
 	"ResourceModules": {
 		"skins.monaco": {
 			"class": "MediaWiki\\ResourceLoader\\SkinModule",
@@ -127,42 +130,18 @@
 		"remoteSkinPath": "Monaco"
 	},
 	"config": {
-		"MonacoAllowUseTheme": {
-			"value": true
-		},
-		"MonacoTheme": {
-			"value": "sapphire"
-		},
-		"MonacoDynamicCreateOverride": {
-			"value": false
-		},
-		"MonacoUseMoreButton": {
-			"value": true
-		},
-		"MonacoUseSitenoticeIsland": {
-			"value": false
-		},
-		"MonacoUseMasthead": {
-			"value": true
-		},
-		"MonacoCompactSpecialPages": {
-			"value": false
-		},
-		"MonacoBiggestCategoriesBlacklist": {
-			"value": []
-		},
-		"MonacoEnablePaypal": {
-			"value": false
-		},
-		"MonacoPaypalID": {
-			"value": ""
-		},
-		"MonacoEnablePatreon": {
-			"value": false
-		},
-		"MonacoPatreonURL": {
-			"value": ""
-		}
+		"MonacoAllowUseTheme" : true,
+		"MonacoTheme" : "sapphire",
+		"MonacoDynamicCreateOverride" : false,
+		"MonacoUseMoreButton" : true,
+		"MonacoUseSitenoticeIsland" : false,
+		"MonacoUseMasthead" : true,
+		"MonacoCompactSpecialPages" : false,
+		"MonacoBiggestCategoriesBlacklist" : [],
+		"MonacoEnablePaypal" : true,
+		"MonacoPaypalID" : "wima4711",
+		"MonacoEnablePatreon" : true,
+		"MonacoPatreonURL" : "https://www.wikimannia.org/patreon"
 	},
 	"Hooks": {
 		"MessageCacheReplace": [
@@ -172,5 +151,5 @@
 			"MonacoHooks::onOutputPageBodyAttributes"
 		]
 	},
-	"manifest_version": 2
+	"manifest_version": 1
 }

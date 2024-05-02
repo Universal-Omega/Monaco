@@ -52,22 +52,25 @@ class SkinMonaco extends SkinTemplate {
 			$out->addStyle( 'Monaco/style/css/masthead.css', 'screen' );
 		}
 		
-		$theme = $this->config->get( 'MonacoTheme' );
+		$request = $this->getRequest();
+		$theme_default = $this->config->get( 'MonacoTheme' );
+		$theme_fallback = 'sapphire';
+		$theme = $request->getText( 'usetheme', $theme_default );
+		
+		$themes = ExtensionRegistry::getInstance()->getAttribute( 'ThemeModules' );
+		if ( isset( $themes['monaco'] ) ) {
+			if ( !in_array( $theme, $themes['monaco'] ) ) {
+				$theme = $theme_fallback;
+			}
+		} else {
+			$theme = $theme_fallback;
+		}
         
 		if ( $this->config->get( 'MonacoAllowUseTheme' ) ) {
-			$theme = $this->getRequest()->getText( 'usetheme', $theme );
-			if ( preg_match( '/[^a-z]/', $theme ) ) {
-				$theme = $this->config->get( 'MonacoTheme' );
+			// Theme is another conditional feature, we can't really resource load this
+			if ( isset( $theme ) && is_string( $theme ) && ( $theme != $theme_default ) ) {
+				$out->addStyle( "Monaco/style/{$theme}/css/main.css", 'screen' );
 			}
-		}
-
-		if ( preg_match( '/[^a-z]/', $theme ) ) {
-			$theme = 'sapphire';
-		}
-		
-		// Theme is another conditional feature, we can't really resource load this
-		if ( isset( $theme ) && is_string( $theme ) && $theme != 'sapphire' ) {
-			$out->addStyle( "Monaco/style/{$theme}/css/main.css", 'screen' );
 		}
 		
 		// TODO: explicit RTL style sheets are supposed to be obsolete w/ResourceLoader
