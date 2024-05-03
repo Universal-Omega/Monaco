@@ -1,6 +1,6 @@
 {
 	"name": "Monaco",
-	"version": "2.7.1",
+	"version": "2.7.2",
 	"requires": {
 		"MediaWiki": ">= 1.41.0"
 	},
@@ -46,9 +46,6 @@
 	},
 	"ConfigRegistry": {
 		"monaco": "GlobalVarConfig::newInstance"
-	},
-	"ThemeModules": {
-		"monaco": [ "beach", "brick", "carbon", "forest", "gaming", "jade", "moonlight", "obsession", "ruby", "sapphire", "sky", "slate", "smoke", "spring" ]
 	},
 	"ResourceModules": {
 		"skins.monaco": {
@@ -130,26 +127,56 @@
 		"remoteSkinPath": "Monaco"
 	},
 	"config": {
-		"MonacoAllowUseTheme" : true,
-		"MonacoTheme" : "sapphire",
-		"MonacoDynamicCreateOverride" : false,
-		"MonacoUseMoreButton" : true,
-		"MonacoUseSitenoticeIsland" : false,
-		"MonacoUseMasthead" : true,
-		"MonacoCompactSpecialPages" : false,
-		"MonacoBiggestCategoriesBlacklist" : [],
-		"MonacoEnablePaypal" : true,
-		"MonacoPaypalID" : "wima4711",
-		"MonacoEnablePatreon" : true,
-		"MonacoPatreonURL" : "https://www.wikimannia.org/patreon"
+		"MonacoAllowUseTheme": {
+			"value": true
+		},
+		"MonacoTheme": {
+			"value": "sapphire"
+		},
+		"MonacoDynamicCreateOverride": {
+			"value": false
+		},
+		"MonacoUseMoreButton": {
+			"value": true
+		},
+		"MonacoUseSitenoticeIsland": {
+			"value": false
+		},
+		"MonacoUseMasthead": {
+			"value": true
+		},
+		"MonacoCompactSpecialPages": {
+			"value": false
+		},
+		"MonacoBiggestCategoriesBlacklist": {
+			"value": []
+		},
+		"MonacoEnablePaypal": {
+			"value": false
+		},
+		"MonacoPaypalID": {
+			"value": ""
+		},
+		"MonacoEnablePatreon": {
+			"value": false
+		},
+		"MonacoPatreonURL": {
+			"value": ""
+		}
 	},
 	"Hooks": {
-		"MessageCacheReplace": [
-			"MonacoSidebar::invalidateCache"
-		],
-		"OutputPageBodyAttributes": [
-			"MonacoHooks::onOutputPageBodyAttributes"
-		]
+		"GetPreferences": "main",
+		"MessageCacheReplace": "MonacoSidebar::invalidateCache",
+		"OutputPageBodyAttributes": "main"
 	},
-	"manifest_version": 1
+	"HookHandlers": {
+		"main": {
+			"class": "MonacoHooks",
+			"services": [
+				"MainConfig",
+				"UserOptionsLookup"
+			]
+		}
+	},
+	"manifest_version": 2
 }

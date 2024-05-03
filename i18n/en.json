@@ -3,7 +3,8 @@
 		"authors": [
 			"Daniel Friesen",
 			"James Haley",
-			"Universal Omega"
+			"Universal Omega",
+			"WikiMANNia"
 		]
 	},
 	"monaco-desc": "Unbranded Monaco skin for use with vanilla MediaWiki.",
@@ -19,5 +20,21 @@
 	"viewrandompage": "View random page",
 	"masthead-anonymous-user": "Anonymous user",
 	"skinname-monaco": "Monaco",
-	"monaco-tab-addsection": "Leave message"
+	"monaco-tab-addsection": "Leave message",
+	"theme-prefs-label": "Theme:",
+	"theme-name-monaco-beach": "Beach",
+	"theme-name-monaco-brick": "Brick",
+	"theme-name-monaco-carbon": "Carbon",
+	"theme-name-monaco-default": "default",
+	"theme-name-monaco-forest": "Forest",
+	"theme-name-monaco-gaming": "Gaming",
+	"theme-name-monaco-jade": "Jade",
+	"theme-name-monaco-moonlight": "Moonlight",
+	"theme-name-monaco-obsession": "Obsession",
+	"theme-name-monaco-ruby": "Ruby",
+	"theme-name-monaco-sapphire": "Sapphire",
+	"theme-name-monaco-sky": "Sky",
+	"theme-name-monaco-slate": "Slate",
+	"theme-name-monaco-smoke": "Smoke",
+	"theme-name-monaco-spring": "Spring"
 }

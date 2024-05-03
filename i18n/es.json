@@ -1,0 +1,49 @@
+{
+	"@metadata": {
+		"authors": [
+			"WikiMANNia"
+		]
+	},
+	"monaco-desc": "Apariencia Monaco sin marca para usar con MediaWiki vainilla.",
+	"dynamic-links": "Se puede añadir ids de enlaces dinámicos a monaco usando este mensaje, añade un nuevo id en cada línea\n (se puede usar un * al principio como en sidebar y monaco-sidebar para hacer esto una lista)\n Las líneas que empiecen con un espacio serán tratadas como un comentario.\n Después de añadir un nuevo id a la lista se puede usar el mensaje 'dynamic-links-<id>'\n para personalizar el texto del enlace y el mensaje 'dynamic-links-<id>-url' con el nombre\n de una página de la wiki a la que enlazar el enlace dinámico.",
+	"dynamic-links-write-article": "Crear un artículo nuevo",
+	"dynamic-links-write-article-url": "-",
+	"dynamic-links-add-image": "Subir una nueva imagen",
+	"monaco-footer-improve": "Mejorar {{SITENAME}} por $1",
+	"monaco-footer-improve-linktext": "editar esta página",
+	"monaco-footer-lastedit": "$1 ha editad $2",
+	"viewrandompage": "Ver página al azar",
+	"masthead-anonymous-user": "Usuario anónimo",
+	"skinname-monaco": "Monaco",
+	"monaco-tab-addsection": "Dejar un mensaje",
+	"theme-prefs-label": "Tema:",
+	"theme-name-monaco-beach": "Playa",
+	"theme-name-monaco-brick": "Ladrillo",
+	"theme-name-monaco-carbon": "Carbono",
+	"theme-name-monaco-default": "por defecto",
+	"theme-name-monaco-forest": "Bosque",
+	"theme-name-monaco-gaming": "Juego",
+	"theme-name-monaco-jade": "Jade",
+	"theme-name-monaco-moonlight": "Luz de luna",
+	"theme-name-monaco-obsession": "Obsesión",
+	"theme-name-monaco-ruby": "Rubí",
+	"theme-name-monaco-sapphire": "Zafiro",
+	"theme-name-monaco-sky": "Cielo",
+	"theme-name-monaco-slate": "Pizarra",
+	"theme-name-monaco-smoke": "Humo",
+	"theme-name-monaco-spring": "Primavera"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
