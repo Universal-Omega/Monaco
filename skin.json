@@ -1,6 +1,6 @@
 {
 	"name": "Monaco",
-	"version": "2.7.2",
+	"version": "2.8.0",
 	"requires": {
 		"MediaWiki": ">= 1.41.0"
 	},
@@ -166,7 +166,9 @@
 	},
 	"Hooks": {
 		"GetPreferences": "main",
-		"MessageCacheReplace": "MonacoSidebar::invalidateCache",
+		"MessageCacheReplace": [
+			"MonacoSidebar::invalidateCache"
+		],
 		"OutputPageBodyAttributes": "main"
 	},
 	"HookHandlers": {

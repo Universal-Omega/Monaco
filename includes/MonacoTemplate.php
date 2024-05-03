@@ -564,7 +564,7 @@ $this->printRightSidebar() . '
 		if ( $MonacoEnablePatreon && !empty( $MonacoPatreonURL ) ) {
 			$html .= '<tr>
 				<td colspan="2" style="text-align:center;">
-					<a href="' . $MonacoPatreonURL . '" target="_blank" rel="nofollow"><img alt="Patreon" src="' . $stylepath . '/Monaco/style/images/patreon.png" width="139" height="37"></a>
+					<a href="' . $MonacoPatreonURL . '" target="_blank" rel="nofollow"><img alt="Patreon" src="' . $stylepath . '/Monaco/style/images/patreon.png" width="139" height="37" /></a>
 				</td>
 			</tr>';
 		}

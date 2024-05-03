@@ -36,7 +36,7 @@ class MonacoHooks implements
 		$ctx = RequestContext::getMain();
 		$skin = $ctx->getSkin();
 		$skinName = $skin->getSkinName();
-		$themes = [ "beach", "brick", "carbon", "forest", "gaming", "jade", "moonlight", "obsession", "ruby", "sapphire", "sky", "slate", "smoke", "spring" ];
+		$themes = SkinMonaco::getSkinMonacoThemeList();
 
 		// Braindead code needed to make the theme *names* show up
 		// Without this they show up as "0", "1", etc. in the UI

@@ -39,6 +39,20 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
+	 * @return string
+	 */
+	public static function getSkinMonacoDefaultTheme() {
+		return "sapphire";
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public static function getSkinMonacoThemeList() {
+		return [ "beach", "brick", "carbon", "forest", "gaming", "jade", "moonlight", "obsession", "ruby", "sapphire", "sky", "slate", "smoke", "spring" ];
+	}
+
+	/**
 	 * @param OutputPage $out
 	 */
 	public function initPage( OutputPage $out ) {
@@ -65,12 +79,12 @@ class SkinMonaco extends SkinTemplate {
 		$theme = $this->mUserOptionsLookup->getOption( $user, 'theme', $theme );
 		$theme = $request->getText( 'usetheme', $theme );
 		
-		$themes = [ "beach", "brick", "carbon", "forest", "gaming", "jade", "moonlight", "obsession", "ruby", "sapphire", "sky", "slate", "smoke", "spring" ];
-		$theme_fallback = 'sapphire';
+		$themes = SkinMonaco::getSkinMonacoThemeList();
+		$theme_fallback = SkinMonaco::getSkinMonacoDefaultTheme();
 		if ( !in_array( $theme, $themes ) ) {
 			$theme = $theme_fallback;
 		}
-        
+		
 		if ( $this->config->get( 'MonacoAllowUseTheme' ) ) {
 			// Theme is another conditional feature, we can't really resource load this
 			if ( isset( $theme ) && is_string( $theme ) && ( $theme != $theme_fallback ) ) {
