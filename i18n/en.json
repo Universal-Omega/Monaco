@@ -36,5 +36,6 @@
 	"theme-name-monaco-sky": "Sky",
 	"theme-name-monaco-slate": "Slate",
 	"theme-name-monaco-smoke": "Smoke",
-	"theme-name-monaco-spring": "Spring"
+	"theme-name-monaco-spring": "Spring",
+	"theme-selection-deactivated": "The selection of themes is deactivated."
 }
