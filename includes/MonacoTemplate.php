@@ -164,7 +164,7 @@ if ( !empty( $custom_article_footer ) ) {
 	}
 
 	$action = $wgRequest->getVal('action', 'view');
-	if ( $namespaceType != 'none' && in_array( $action, [ 'view', 'purge', 'edit', 'history', 'delete', 'protect' ] ) ) {
+	if ( ( $namespaceType != 'none' ) && in_array( $action, [ 'view', 'purge', 'edit', 'history', 'delete', 'protect' ] ) ) {
 		$nav_urls = $this->data['nav_urls'];
 			$html .= '<div id="articleFooter" class="reset article_footer">
 				<table style="border-spacing: 0;">
@@ -242,9 +242,9 @@ if ( !empty( $custom_article_footer ) ) {
 			}
 
 			if ( !empty( $nav_urls['recentchangeslinked'] ) ) {
-				$feRecentIcon = $this->blankimg( [ "id" => "fe_recent_img", "class" => "sprite recent", "alt" => "" ] );
-				$feRecentIcon = Html::rawElement("a", [ "id" => "fe_recent_icon", "href" => $nav_urls['recentchangeslinked']['href'] ], $feRecentIcon);
-				$feRecentLink = Html::rawElement("a", [ "id" => "fe_recent_link", "href" => $nav_urls['recentchangeslinked']['href'] ], wfMessage('recentchangeslinked')->escaped());
+				$feRecentIcon = $this->blankimg( [ 'id' => 'fe_recent_img', 'class' => 'sprite recent', 'alt' => '' ] );
+				$feRecentIcon = Html::rawElement( 'a', [ 'id' => 'fe_recent_icon', 'href' => $nav_urls['recentchangeslinked']['href'] ], $feRecentIcon);
+				$feRecentLink = Html::rawElement( 'a', [ 'id' => 'fe_recent_link', 'href' => $nav_urls['recentchangeslinked']['href'] ], wfMessage('recentchangeslinked')->escaped());
 
 				$html .= Html::rawElement( 'li', [ 'id' => 'fe_recent' ],
 					$feRecentIcon . ' ' .
@@ -477,7 +477,7 @@ $this->printRightSidebar() . '
 		for ($i = 0, $max = max(array_keys($linksArray)); $i <= $max; $i++) {
 			$item = isset($linksArray[$i]) ? $linksArray[$i] : false;
 			//Redirect to login page instead of showing error, see Login friction project
-			if ($item !== false && $wgUser->isAnon() && isset($item['specialCanonicalName']) && $wgSpecialPagesRequiredLogin && in_array($item['specialCanonicalName'], $wgSpecialPagesRequiredLogin)) {
+			if ( ( $item !== false ) && $wgUser->isAnon() && isset($item['specialCanonicalName']) && $wgSpecialPagesRequiredLogin && in_array($item['specialCanonicalName'], $wgSpecialPagesRequiredLogin ) ) {
 				$returnto = SpecialPage::getTitleFor($item['specialCanonicalName'])->getPrefixedDBkey();
 				$item['href'] = SpecialPage::getTitleFor('Userlogin')->getLocalURL( [ "returnto" => $returnto ] );
 			}
@@ -768,7 +768,7 @@ echo $html;
 		$page = $request->getVal( 'returnto', $page );
 		$a = [];
 
-		if ( strval( $page ) !== '' ) {
+		if ( !empty( strval( $page ) ) ) {
 			$a['returnto'] = $page;
 			$query = $request->getVal( 'returntoquery' );
 			if ( $query === null && !$request->wasPosted() ) {
@@ -778,7 +778,7 @@ echo $html;
 				unset( $thisquery['returntoquery'] );
 				$query = $thisquery;
 			}
-			if( $query != '' ) {
+			if( !empty( $query ) ) {
 				$a['returntoquery'] = $query;
 			}
 		}

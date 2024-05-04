@@ -10,6 +10,7 @@ class MonacoHooks implements
 {
 
 	private UserOptionsLookup $userOptionsLookup;
+	private bool $allowedThemes;
 	private string $defaultTheme;
 
 	/**
@@ -21,6 +22,7 @@ class MonacoHooks implements
 		UserOptionsLookup $userOptionsLookup
 	) {
 		$this->userOptionsLookup = $userOptionsLookup;
+		$this->allowedThemes = $config->get( "MonacoAllowUseTheme" );
 		$this->defaultTheme = $config->get( "MonacoTheme" );
 	}
 
@@ -41,7 +43,7 @@ class MonacoHooks implements
 		// Braindead code needed to make the theme *names* show up
 		// Without this they show up as "0", "1", etc. in the UI
 		// First themes will be translated in i18n and then sorted.
-	
+
 		// Get translated theme names
 		$themeArray_for_sort = [];
 		foreach ( $themes as $theme ) {
@@ -74,18 +76,32 @@ class MonacoHooks implements
 		}
 
 		$usersTheme = $this->userOptionsLookup->getOption( $user, 'theme', $this->defaultTheme );
-		$preferences['theme'] = [
-			'type' => 'select',
-			'options' => $themeArray,
-			'default' => $usersTheme,
-			'label-message' => 'theme-prefs-label',
-			'section' => 'rendering/skin',
-		];
+		$showIf = [ '!==', 'skin', 'monaco' ];
+
+		// The entry 'theme' conflicts with Extension:Theme.
+		$preferences['theme_monaco'] = $this->allowedThemes
+			?	[
+					'type' => 'select',
+					'options' => $themeArray,
+					'default' => $usersTheme,
+					'label-message' => 'theme-prefs-label',
+					'section' => 'rendering/skin',
+					'hide-if' => $showIf
+				]
+			:	// If the selection of themes is deactiveted,
+				// show only an informative message instead
+				[
+					'type' => 'info',
+					'label-message' => 'theme-prefs-label',
+					'default' => $ctx->msg( 'theme-selection-deactivated' )->text(),
+					'section' => 'rendering/skin',
+					'hide-if' => $showIf
+				];
 	}
 
 	/**
 	 * @param OutputPage $out OutputPage which called the hook, can be used to get the real title
-	 * @param Skin $sk Skin that called OutputPage::headElement
+	 * @param Skin $skin Skin that called OutputPage::headElement
 	 * @param string[] &$bodyAttrs Array of attributes for the body tag passed to Html::openElement
 	 */
 	public function onOutputPageBodyAttributes( $out, $skin, &$bodyAttrs ): void {
@@ -121,4 +137,3 @@ class MonacoHooks implements
 		}
 	}
 }
-
