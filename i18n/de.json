@@ -5,7 +5,8 @@
 			"James Haley",
 			"Justman10000",
 			"McDutchie",
-			"Roger Meier"
+			"Roger Meier",
+			"WikiMANNia"
 		]
 	},
 	"monaco-desc": "Markenfreier Monaco Skin für die Nutzung mit Vanilla MediaWiki.",
@@ -18,5 +19,22 @@
 	"viewrandompage": "Zeige Zufällige Seite",
 	"masthead-anonymous-user": "Gast",
 	"skinname-monaco": "Monaco",
-	"monaco-tab-addsection": "Nachricht hinterlassen"
+	"monaco-tab-addsection": "Nachricht hinterlassen",
+	"theme-prefs-label": "Thema:",
+	"theme-name-monaco-beach": "Strand",
+	"theme-name-monaco-brick": "Ziegelstein",
+	"theme-name-monaco-carbon": "Kohle",
+	"theme-name-monaco-default": "voreingestellt",
+	"theme-name-monaco-forest": "Wald",
+	"theme-name-monaco-gaming": "Spiel",
+	"theme-name-monaco-jade": "Jade",
+	"theme-name-monaco-moonlight": "Mondschein",
+	"theme-name-monaco-obsession": "Besessenheit",
+	"theme-name-monaco-ruby": "Rubin",
+	"theme-name-monaco-sapphire": "Saphir",
+	"theme-name-monaco-sky": "Himmel",
+	"theme-name-monaco-slate": "Schiefer",
+	"theme-name-monaco-smoke": "Rauch",
+	"theme-name-monaco-spring": "Frühling",
+	"theme-selection-deactivated": "Die Auswahl der Themen ist deaktiviert."
 }
