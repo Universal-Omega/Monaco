@@ -87,7 +87,7 @@ class SkinMonaco extends SkinTemplate {
 		
 		if ( $this->config->get( 'MonacoAllowUseTheme' ) ) {
 			// Theme is another conditional feature, we can't really resource load this
-			if ( isset( $theme ) && is_string( $theme ) && ( $theme != $theme_fallback ) ) {
+			if ( $theme !== $theme_fallback ) {
 				$out->addStyle( "Monaco/style/{$theme}/css/main.css", 'screen' );
 			}
 		}
