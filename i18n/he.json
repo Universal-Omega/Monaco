@@ -15,5 +15,22 @@
 	"viewrandompage": "צפייה בדף אקראי",
 	"masthead-anonymous-user": "משתמש אלמוני",
 	"skinname-monaco": "מונקו",
-	"monaco-tab-addsection": "להשאיר הודעה"
+	"monaco-tab-addsection": "להשאיר הודעה",
+	"monaco-theme-prefs-label": "ערכת נושא:",
+	"theme-name-monaco-beach": "חוף",
+	"theme-name-monaco-brick": "לבנים",
+	"theme-name-monaco-carbon": "פחמן",
+	"theme-name-monaco-default": "ברירת המחדל",
+	"theme-name-monaco-forest": "יער",
+	"theme-name-monaco-gaming": "משחקים",
+	"theme-name-monaco-jade": "ירקן",
+	"theme-name-monaco-moonlight": "אור הירח",
+	"theme-name-monaco-obsession": "אובססיה",
+	"theme-name-monaco-ruby": "אודם",
+	"theme-name-monaco-sapphire": "ספיר",
+	"theme-name-monaco-sky": "שמיים",
+	"theme-name-monaco-slate": "צפחה",
+	"theme-name-monaco-smoke": "עשן",
+	"theme-name-monaco-spring": "אביב",
+	"theme-selection-deactivated": "בחירת ערכת הנושא מושבתת."
 }

@@ -16,5 +16,6 @@
 	"viewrandompage": "'View random page' message.",
 	"masthead-anonymous-user": "Monaco anonymous user text in masthead.",
 	"skinname-monaco": "{{name}}",
-	"monaco-tab-addsection": "Monaco add section tab message."
+	"monaco-tab-addsection": "Monaco add section tab message.",
+	"monaco-theme-prefs-label": "Label shown on Special:Preferences\n{{Identical|Theme}}"
 }
