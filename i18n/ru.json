@@ -11,5 +11,6 @@
 	"monaco-footer-lastedit": "$1 внес изменения в $2",
 	"viewrandompage": "Показать случайную страницу",
 	"masthead-anonymous-user": "Анонимный участник",
-	"monaco-tab-addsection": "Оставить сообщение"
+	"monaco-tab-addsection": "Оставить сообщение",
+	"monaco-theme-prefs-label": "Оформление:"
 }

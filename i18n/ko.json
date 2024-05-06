@@ -9,5 +9,6 @@
 	"viewrandompage": "임의의 문서 표시",
 	"masthead-anonymous-user": "익명 사용자",
 	"skinname-monaco": "모나코",
-	"monaco-tab-addsection": "메시지 남기기"
+	"monaco-tab-addsection": "메시지 남기기",
+	"monaco-theme-prefs-label": "테마:"
 }

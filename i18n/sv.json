@@ -13,5 +13,6 @@
 	"monaco-footer-lastedit": "$1 gjorde en redigering på $2",
 	"viewrandompage": "Visa slumpmässig sida",
 	"masthead-anonymous-user": "Anonym användare",
-	"monaco-tab-addsection": "Lämna meddelande"
+	"monaco-tab-addsection": "Lämna meddelande",
+	"monaco-theme-prefs-label": "Tema:"
 }
