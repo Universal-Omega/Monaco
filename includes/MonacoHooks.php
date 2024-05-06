@@ -84,7 +84,7 @@ class MonacoHooks implements
 					'type' => 'select',
 					'options' => $themeArray,
 					'default' => $usersTheme,
-					'label-message' => 'theme-prefs-label',
+					'label-message' => 'monaco-theme-prefs-label',
 					'section' => 'rendering/skin',
 					'hide-if' => $showIf
 				]
@@ -92,7 +92,7 @@ class MonacoHooks implements
 				// show only an informative message instead
 				[
 					'type' => 'info',
-					'label-message' => 'theme-prefs-label',
+					'label-message' => 'monaco-theme-prefs-label',
 					'default' => $ctx->msg( 'theme-selection-deactivated' )->text(),
 					'section' => 'rendering/skin',
 					'hide-if' => $showIf
