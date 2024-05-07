@@ -53,6 +53,20 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
+	 * @return string
+	 */
+	public static function getThemeKey() {
+		return 'theme_monaco';
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getThemeKey() {
+		return 'theme_monaco';
+	}
+
+	/**
 	 * @param OutputPage $out
 	 */
 	public function initPage( OutputPage $out ) {
@@ -70,13 +84,14 @@ class SkinMonaco extends SkinTemplate {
 		}
 		
 		$request = $this->getRequest();
+		$theme_key = SkinMonaco::getThemeKey();
 		$user = RequestContext::getMain()->getUser();
 		// Check the following things in this order:
 		// 1) value of $wgDefaultTheme (set in site configuration)
 		// 2) user's personal preference/override
 		// 3) per-page usetheme URL parameter
 		$theme = $this->config->get( 'MonacoTheme' );
-		$theme = $this->mUserOptionsLookup->getOption( $user, 'theme_monaco', $theme );
+		$theme = $this->mUserOptionsLookup->getOption( $user, $theme_key, $theme );
 		$theme = $request->getText( 'usetheme', $theme );
 		
 		$themes = SkinMonaco::getSkinMonacoThemeList();
