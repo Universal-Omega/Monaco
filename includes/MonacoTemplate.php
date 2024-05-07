@@ -771,7 +771,7 @@ echo $html;
 		if ( !empty( strval( $page ) ) ) {
 			$a['returnto'] = $page;
 			$query = $request->getVal( 'returntoquery' );
-			if ( !empty( $query ) && !$request->wasPosted() ) {
+			if ( empty( $query ) && !$request->wasPosted() ) {
 				$thisquery = $request->getValues();
 				unset( $thisquery['title'] );
 				unset( $thisquery['returnto'] );
@@ -1061,7 +1061,7 @@ if ( $user->isAnon() ) {
 				<ul id="user_masthead_tabs" class="nav_links">';
 
 				foreach ( $this->data['articlelinks']['right'] as $navLink ) {
-					$class = "color1";
+					$class = 'color1';
 					if ( isset($navLink['class']) ) {
 						$class .= " {$navLink['class']}";
 					}
@@ -1150,7 +1150,7 @@ if ( $user->isAnon() ) {
 		$divClass = 'reset color1 page_bar clearfix';
 		
 		foreach( $bar as $i => $list ) {
-			if ( $useCompactBar && $list['id'] == 'page_tabs' && !empty($list['links']) && isset($list['links']['nstab-special']) ) {
+			if ( $useCompactBar && ( $list['id'] == 'page_tabs' ) && !empty($list['links']) && isset($list['links']['nstab-special']) ) {
 				$deferredList = $list;
 				$deferredList['class'] .= ' compact_page_tabs';
 				$divClass .= ' compact_page_bar';

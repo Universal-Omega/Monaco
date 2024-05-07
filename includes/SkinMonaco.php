@@ -76,7 +76,7 @@ class SkinMonaco extends SkinTemplate {
 		// 2) user's personal preference/override
 		// 3) per-page usetheme URL parameter
 		$theme = $this->config->get( 'MonacoTheme' );
-		$theme = $this->mUserOptionsLookup->getOption( $user, 'theme', $theme );
+		$theme = $this->mUserOptionsLookup->getOption( $user, 'theme_monaco', $theme );
 		$theme = $request->getText( 'usetheme', $theme );
 		
 		$themes = SkinMonaco::getSkinMonacoThemeList();
