@@ -60,13 +60,6 @@ class SkinMonaco extends SkinTemplate {
 	}
 
 	/**
-	 * @return string
-	 */
-	public static function getThemeKey() {
-		return 'theme_monaco';
-	}
-
-	/**
 	 * @param OutputPage $out
 	 */
 	public function initPage( OutputPage $out ) {
