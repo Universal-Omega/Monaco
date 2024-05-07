@@ -75,7 +75,7 @@ class MonacoHooks implements
 			$themeArray[$themeDisplayName] = $theme;
 		}
 
-		$usersTheme = $this->userOptionsLookup->getOption( $user, 'theme', $this->defaultTheme );
+		$usersTheme = $this->userOptionsLookup->getOption( $user, 'theme_monaco', $this->defaultTheme );
 		$showIf = [ '!==', 'skin', 'monaco' ];
 
 		// The entry 'theme' conflicts with Extension:Theme.
