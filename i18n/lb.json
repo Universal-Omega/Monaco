@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Robby"
+			"Robby",
+			"Volvox"
 		]
 	},
 	"dynamic-links-add-image": "En neit Bild eroplueden",
@@ -9,5 +10,14 @@
 	"viewrandompage": "Zoufälleg Säit weisen",
 	"masthead-anonymous-user": "Anonymme Benotzer",
 	"skinname-monaco": "Monaco",
-	"monaco-theme-prefs-label": "Thema:"
+	"monaco-theme-prefs-label": "Thema:",
+	"theme-name-monaco-beach": "Plage",
+	"theme-name-monaco-brick": "Zill",
+	"theme-name-monaco-carbon": "Kuel",
+	"theme-name-monaco-forest": "Bësch",
+	"theme-name-monaco-ruby": "Rubin",
+	"theme-name-monaco-sapphire": "Saphir",
+	"theme-name-monaco-sky": "Himmel",
+	"theme-name-monaco-slate": "Schifer",
+	"theme-name-monaco-spring": "Fréijoer"
 }
