@@ -83,21 +83,21 @@ class SkinMonaco extends SkinTemplate {
 		// 1) value of $wgDefaultTheme (set in site configuration)
 		// 2) user's personal preference/override
 		// 3) per-page usetheme URL parameter
-		$theme = $this->config->get( 'MonacoTheme' );
-		$theme = $this->mUserOptionsLookup->getOption( $user, $theme_key, $theme );
-		$theme = $request->getText( 'usetheme', $theme );
+		$theme_fallback = SkinMonaco::getSkinMonacoDefaultTheme();
+		$theme = $this->config->get( 'MonacoTheme', $theme_fallback );
+		if ( $this->config->get( 'MonacoAllowUseTheme' ) ) {
+			$theme = $this->mUserOptionsLookup->getOption( $user, $theme_key, $theme );
+			$theme = $request->getText( 'usetheme', $theme );
+		}
 		
 		$themes = SkinMonaco::getSkinMonacoThemeList();
-		$theme_fallback = SkinMonaco::getSkinMonacoDefaultTheme();
 		if ( !in_array( $theme, $themes ) ) {
 			$theme = $theme_fallback;
 		}
 		
-		if ( $this->config->get( 'MonacoAllowUseTheme' ) ) {
-			// Theme is another conditional feature, we can't really resource load this
-			if ( $theme !== $theme_fallback ) {
-				$out->addStyle( "Monaco/style/{$theme}/css/main.css", 'screen' );
-			}
+		// Theme is another conditional feature, we can't really resource load this
+		if ( $theme !== $theme_fallback ) {
+			$out->addStyle( "Monaco/style/{$theme}/css/main.css", 'screen' );
 		}
 		
 		// TODO: explicit RTL style sheets are supposed to be obsolete w/ResourceLoader
