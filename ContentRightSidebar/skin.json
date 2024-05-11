@@ -24,15 +24,14 @@
 		]
 	},
 	"Hooks": {
-		"BeforePageDisplay": [
-			"MonacoContentRightSidebarHooks::onBeforePageDisplay"
-		],
-		"MonacoRightSidebar": [
-			"MonacoContentRightSidebarHooks::onMonacoRightSidebar"
-		],
-		"ParserFirstCallInit": [
-			"MonacoContentRightSidebarHooks::onParserFirstCallInit"
-		]
+		"BeforePageDisplay": "main",
+		"MonacoRightSidebar": "main",
+		"ParserFirstCallInit": "main"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "MonacoContentRightSidebarHooks"
+		}
 	},
 	"ResourceModules": {
 		"ext.MonacoContentRightSidebar": {

@@ -1,4 +1,6 @@
 <?php
+use MediaWiki\Hook\BeforePageDisplayHook;
+use MediaWiki\Hook\ParserFirstCallInitHook;
 
 define( 'RIGHT_SIDEBAR_START_TOKEN', '<!-- RIGHT SIDEBAR START -->' );
 define( 'RIGHT_SIDEBAR_END_TOKEN', '<!-- RIGHT SIDEBAR END -->' );
@@ -10,13 +12,17 @@ define( 'RIGHT_SIDEBAR_CLASS_END_TOKEN', '<RIGHT SIDEBAR CLASS END -->' );
 define( 'RIGHT_SIDEBAR_CONTENT_START_TOKEN', '<!-- RIGHT SIDEBAR CONTENT START -->' );
 define( 'RIGHT_SIDEBAR_CONTENT_END_TOKEN', '<!-- RIGHT SIDEBAR CONTENT END -->' );
 
-class MonacoContentRightSidebarHooks {
+class MonacoContentRightSidebarHooks implements
+	BeforePageDisplayHook,
+	ParserFirstCallInitHook
+{
+
 	/**
 	 * @param OutputPage $out
 	 * @param Skin $skin
 	 */
-	public static function onBeforePageDisplay( OutputPage $out, Skin $skin ) {
-		if ( $skin->getSkinName() == 'monaco' ) {
+	public function onBeforePageDisplay( $out, $skin ): void {
+		if ( $skin->getSkinName() === 'monaco' ) {
 			$out->addModules( [ 'ext.MonacoContentRightSidebar' ] );
 		}
 	}
@@ -24,7 +30,7 @@ class MonacoContentRightSidebarHooks {
 	/**
 	 * @param Parser $parser
 	 */
-	public static function onParserFirstCallInit( Parser $parser )  {
+	public function onParserFirstCallInit( $parser ) {	public static function onParserFirstCallInit( Parser $parser )  {
 		$parser->setHook( 'right-sidebar', [ __CLASS__, 'contentRightSidebarTag' ] );
 	}
 
