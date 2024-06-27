@@ -18,8 +18,15 @@
 	"monaco-tab-addsection": "Laisser un message",
 	"monaco-theme-prefs-label": "Thème :",
 	"theme-name-monaco-beach": "Plage",
+	"theme-name-monaco-default": "par défaut",
 	"theme-name-monaco-forest": "Forêt",
+	"theme-name-monaco-moonlight": "Clair de lune",
+	"theme-name-monaco-obsession": "Obsession",
+	"theme-name-monaco-ruby": "Ruby",
+	"theme-name-monaco-sapphire": "Saphir",
 	"theme-name-monaco-sky": "Ciel",
+	"theme-name-monaco-slate": "Ardoise",
 	"theme-name-monaco-smoke": "Fumée",
-	"theme-name-monaco-spring": "Printemps"
+	"theme-name-monaco-spring": "Printemps",
+	"theme-selection-deactivated": "La sélection de thèmes est désactivée."
 }
