@@ -1,11 +1,12 @@
 {
 	"name": "Monaco",
-	"version": "2.8.0",
+	"version": "2.8.1",
 	"requires": {
 		"MediaWiki": ">= 1.41.0"
 	},
 	"author": [
 		"'''Universal Omega'''",
+		"WikiMANNia",
 		"Inez Korczyński",
 		"Christian Williams",
 		"Daniel Friesen",
@@ -131,7 +132,7 @@
 			"value": true
 		},
 		"MonacoTheme": {
-			"value": "sapphire"
+			"value": "wima"
 		},
 		"MonacoDynamicCreateOverride": {
 			"value": false
@@ -162,6 +163,12 @@
 		},
 		"MonacoPatreonURL": {
 			"value": ""
+		},
+		"MonacoSearchDefaultFulltext": {
+			"value": true
+		},
+		"MonacoSpecialPagesRequiredLogin": {
+			"value": true
 		}
 	},
 	"Hooks": {
