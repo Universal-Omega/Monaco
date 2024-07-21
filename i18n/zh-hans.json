@@ -1,7 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
-			"Lakejason0"
+			"Lakejason0",
+			"LittlePaw365"
 		]
 	},
 	"monaco-desc": "去除品牌的Monaco皮肤，用于原版MediaWiki使用。",
@@ -9,10 +10,11 @@
 	"dynamic-links-write-article": "创建新条目",
 	"dynamic-links-add-image": "上传新图像",
 	"monaco-footer-improve": "通过$1改进{{SITENAME}}",
-	"monaco-footer-improve-linktext": "编辑本页",
+	"monaco-footer-improve-linktext": "编辑该页",
 	"monaco-footer-lastedit": "$1对$2进行了编辑",
 	"viewrandompage": "查看随机页面",
 	"masthead-anonymous-user": "匿名用户",
+	"skinname-monaco": "Monaco",
 	"monaco-tab-addsection": "留言",
 	"monaco-theme-prefs-label": "主题："
 }
