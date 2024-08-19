@@ -1,0 +1,8 @@
+{
+	"@metadata": {
+		"authors": [
+			"Siebrand"
+		]
+	},
+	"monacocontentrightsidebar-desc": "Voegt een parserlabel toe met de mogelijkheid om inhoud in de rechterzijbalk aan het uiterlijk Monaco toe te voegen."
+}

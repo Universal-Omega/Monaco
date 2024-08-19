@@ -1,14 +1,35 @@
 {
 	"@metadata": {
 		"authors": [
-			"Mainframe98"
+			"Mainframe98",
+			"Siebrand"
 		]
 	},
+	"monaco-desc": "Merkloze Monaco-skin voor gebruik met standaard MediaWiki.",
 	"dynamic-links-write-article": "Maak een nieuw artikel aan",
 	"dynamic-links-add-image": "Nieuwe afbeelding toevoegen",
+	"monaco-footer-improve": "Verbeter {{SITENAME}} met $1",
 	"monaco-footer-improve-linktext": "deze pagina bewerken",
+	"monaco-footer-lastedit": "$1 heeft een bewerking gemaakt op $2",
 	"viewrandompage": "Willekeurige pagina bekijken",
 	"masthead-anonymous-user": "Anonieme gebruiker",
+	"skinname-monaco": "Monaco",
 	"monaco-tab-addsection": "Een bericht achterlaten",
-	"monaco-theme-prefs-label": "Thema:"
+	"monaco-theme-prefs-label": "Thema:",
+	"theme-name-monaco-beach": "Strand",
+	"theme-name-monaco-brick": "Steen",
+	"theme-name-monaco-carbon": "Carbon",
+	"theme-name-monaco-default": "standaard",
+	"theme-name-monaco-forest": "Bos",
+	"theme-name-monaco-gaming": "Gamen",
+	"theme-name-monaco-jade": "Jade",
+	"theme-name-monaco-moonlight": "Maanlicht",
+	"theme-name-monaco-obsession": "Obsessie",
+	"theme-name-monaco-ruby": "Robijn",
+	"theme-name-monaco-sapphire": "Saffier",
+	"theme-name-monaco-sky": "Lucht",
+	"theme-name-monaco-slate": "Leisteen",
+	"theme-name-monaco-smoke": "Rook",
+	"theme-name-monaco-spring": "Lente",
+	"theme-selection-deactivated": "De selectie van thema's is gedeactiveerd."
 }
