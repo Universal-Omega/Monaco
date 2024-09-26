@@ -598,7 +598,7 @@ echo $html;
 		$data_array = [];
 
 		$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-		$lang = $skin->getContext()->getLanguage();
+		$lang = $skin->getLanguage();
 
 		$parserCache = MediaWikiServices::getInstance()->getParserCache();
 
