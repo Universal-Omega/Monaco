@@ -31,9 +31,7 @@ class MonacoTemplate extends BaseTemplate {
 	 */
 	private function useUserMore() {
 
-		$MonacoUseMoreButton = $this->mConfig->get( 'MonacoUseMoreButton' );
-
-		return $MonacoUseMoreButton;
+		return $this->mConfig->get( 'MonacoUseMoreButton' );
 	}
 
 	public function execute() {
@@ -338,7 +336,7 @@ $this->printRightSidebar() . '
 				<form action="' . $this->get( $searchAction ) . '" id="searchform">
 					<label style="display: none;" for="searchInput">' . htmlspecialchars($searchLabel) . '</label>' .
 					Html::input( 'search', '', 'search', [
-						'id' => "searchInput",
+						'id' => 'searchInput',
 						'maxlength' => 200,
 						'aria-label' => $searchLabel,
 						'placeholder' => $searchLabel,
@@ -351,7 +349,7 @@ $this->printRightSidebar() . '
 				</form>
 			</div>';
 	$monacoSidebar = new MonacoSidebar( $hookContainer );
-	if(isset($this->data['content_actions']['edit'])) {
+	if( isset( $this->data['content_actions']['edit'] ) ) {
 		$monacoSidebar->editUrl = $this->data['content_actions']['edit']['href'];
 	}
 	$html .= $monacoSidebar->getCode();
@@ -604,7 +602,7 @@ echo $html;
 		$parserCache = MediaWikiServices::getInstance()->getParserCache();
 
 		// We want to cache populated data only if user language is same with wiki language
-		$cache = $lang->getCode() == $contLang->getCode();
+		$cache = ( $lang->getCode() == $contLang->getCode() );
 
 		if ( $cache ) {
 			$key = ObjectCache::getLocalClusterInstance()->makeKey( 'MonacoDataOld' );
@@ -1044,7 +1042,7 @@ $html .= $this->mRightSidebar . '
 		if ( !$skin->showMasthead() ) {
 			return;
 		}
-		$wgLang = $this->getContext()->getLanguage();
+		$wgLang = $this->getSkin()->getContext()->getLanguage();
 		$user = $skin->getMastheadUser();
 		$username = $user->isAnon() ? wfMessage('masthead-anonymous-user')->text() : $user->getName();
 		$editcount = $wgLang->formatNum($user->isAnon() ? 0 : $user->getEditcount());

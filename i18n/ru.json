@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Deltaspace",
-			"Kareyac"
+			"Kareyac",
+			"Yurina Tatiana"
 		]
 	},
 	"monaco-desc": "Небрендовый скин Monaco для использования с ванильной MediaWiki.",
@@ -12,5 +13,10 @@
 	"viewrandompage": "Показать случайную страницу",
 	"masthead-anonymous-user": "Анонимный участник",
 	"monaco-tab-addsection": "Оставить сообщение",
-	"monaco-theme-prefs-label": "Оформление:"
+	"monaco-theme-prefs-label": "Оформление:",
+	"theme-name-monaco-beach": "Пляж",
+	"theme-name-monaco-default": "по умолчанию",
+	"theme-name-monaco-forest": "Лес",
+	"theme-name-monaco-sky": "Небо",
+	"theme-name-monaco-spring": "Весна"
 }
