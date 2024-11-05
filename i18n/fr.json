@@ -1,6 +1,8 @@
 {
 	"@metadata": {
 		"authors": [
+			"Alien333",
+			"Mahabarata",
 			"SleaY",
 			"Verdy p"
 		]
@@ -18,8 +20,12 @@
 	"monaco-tab-addsection": "Laisser un message",
 	"monaco-theme-prefs-label": "Thème :",
 	"theme-name-monaco-beach": "Plage",
+	"theme-name-monaco-brick": "Brique",
+	"theme-name-monaco-carbon": "Carbone",
 	"theme-name-monaco-default": "par défaut",
 	"theme-name-monaco-forest": "Forêt",
+	"theme-name-monaco-gaming": "Jeux",
+	"theme-name-monaco-jade": "Jade",
 	"theme-name-monaco-moonlight": "Clair de lune",
 	"theme-name-monaco-obsession": "Obsession",
 	"theme-name-monaco-ruby": "Ruby",
