@@ -1043,7 +1043,7 @@ return $html;
 		if ( !$skin->showMasthead() ) {
 			return;
 		}
-		$wgLang = $this->getContext()->getLanguage();
+		$wgLang = $this->getSkin()->getLanguage();
 		$user = $skin->getMastheadUser();
 		$username = $user->isAnon() ? wfMessage('masthead-anonymous-user')->text() : $user->getName();
 		$editcount = $wgLang->formatNum($user->isAnon() ? 0 : $user->getEditcount());
