@@ -1100,8 +1100,9 @@ if ( $user->isAnon() ) {
 		}
 		if ( isset( $this->data['articlelinks']['variants'] ) ) {
 			$contLang = MediaWikiServices::getInstance()->getContentLanguage();
-
-			$preferred = $contLang->getPreferredVariant();
+			$converter = MediaWikiServices::getInstance()->getLanguageConverterFactory()
+				->getLanguageConverter( $contLang );
+			$preferred = $converter->getPreferredVariant();
 			$bar[] = [
 				"id" => "page_variants",
 				"type" => "tabs",
