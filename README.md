@@ -76,7 +76,7 @@ Add i18n files
 
 2.8.2 - Sep 29, 2024
 
-Fix "Call to undefined method MonacoTemplate::getContext()" [Universal-Omega#33] (https://github.com/Universal-Omega/Monaco/pull/33)
+Fix "Call to undefined method MonacoTemplate::getContext()" [Universal-Omega#33](https://github.com/Universal-Omega/Monaco/pull/33)
 
 Replace "wfUrlProtocols()" with "wfUrlProtocolsWithoutProtRel()"
 
