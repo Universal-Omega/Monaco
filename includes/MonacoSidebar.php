@@ -1,7 +1,10 @@
 <?php
 
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Html\Html;
 use MediaWiki\MediaWikiServices;
+use MediaWiki\Title\Title;
+use MediaWiki\Utils\UrlUtils;
 
 class MonacoSidebar {
 	/** @var array */
@@ -69,7 +72,8 @@ class MonacoSidebar {
 			if ( !wfMessage( $line_temp[0] )->exists() ) {
 				$link = $line_temp[0];
 			}
-			if ( preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link ) ) {
+			$urlUtils = MediaWikiServices::getInstance()->getUrlUtils();
+			if ( preg_match( '/^(?:' . $urlUtils->validProtocols() . ')/', $link ) ) {
 				$href = $link;
 			} else {
 				$title = Title::newFromText( $link );
@@ -480,7 +484,8 @@ class MonacoSidebar {
 			$link = $lineTmp[0];
 		}
 
-		if ( preg_match( '/^(?:' . wfUrlProtocols() . ')/', $link ) ) {
+		$urlUtils = MediaWikiServices::getInstance()->getUrlUtils();
+		if ( preg_match( '/^(?:' . $urlUtils->validProtocols() . ')/', $link ) ) {
 			$href = $link;
 		} else {
 			if ( empty( $link ) ) {

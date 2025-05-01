@@ -1,8 +1,12 @@
 <?php
 
 use MediaWiki\Config\GlobalVarConfig;
+use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
 use MediaWiki\MediaWikiServices;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Skin\SkinComponentUtils;
+use MediaWiki\Title\Title;
 
 class MonacoTemplate extends BaseTemplate {
 
@@ -280,8 +284,8 @@ if ( !empty( $custom_article_footer ) ) {
 		}
 
 		$feRandIcon = $this->blankimg( [ 'id' => 'fe_random_img', 'class' => 'sprite random', 'alt' => '' ] );
-		$feRandIcon = Html::rawElement( 'a', [ 'id' => 'fe_random_icon', 'href' => Skin::makeSpecialUrl( 'Randompage' ) ], $feRandIcon );
-		$feRandLink = Html::rawElement( 'a', [ 'id' => 'fe_random_link', 'href' => Skin::makeSpecialUrl( 'Randompage' ) ], wfMessage( 'viewrandompage' )->escaped() );
+		$feRandIcon = Html::rawElement( 'a', [ 'id' => 'fe_random_icon', 'href' => SkinComponentUtils::makeSpecialUrl( 'Randompage' ) ], $feRandIcon );
+		$feRandLink = Html::rawElement( 'a', [ 'id' => 'fe_random_link', 'href' => SkinComponentUtils::makeSpecialUrl( 'Randompage' ) ], wfMessage( 'viewrandompage' )->escaped() );
 
 		$html .= '<ul class="actions clearfix" id="articleFooterActions2">';
 		$html .= Html::rawElement( 'li', [ 'id' => 'fe_randompage' ],
@@ -785,7 +789,7 @@ echo $html;
 		$returnto = wfArrayToCGI( $a );
 
 		if ( !$user->isRegistered() ) {
-			$signUpHref = Skin::makeSpecialUrl( 'Userlogin', $returnto );
+			$signUpHref = SkinComponentUtils::makeSpecialUrl( 'Userlogin', $returnto );
 			$data['login'] = [
 				'text' => wfMessage( 'login' )->text(),
 				'href' => $signUpHref . '&type=login'
