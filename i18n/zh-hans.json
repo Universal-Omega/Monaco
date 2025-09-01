@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"GuoPC",
 			"Lakejason0",
 			"LittlePaw365",
 			"沈澄心"
@@ -20,8 +21,10 @@
 	"monaco-theme-prefs-label": "主题：",
 	"theme-name-monaco-beach": "海滩",
 	"theme-name-monaco-brick": "砖块",
+	"theme-name-monaco-carbon": "石炭",
 	"theme-name-monaco-default": "默认",
 	"theme-name-monaco-forest": "森林",
+	"theme-name-monaco-gaming": "电玩",
 	"theme-name-monaco-jade": "翡翠",
 	"theme-name-monaco-moonlight": "月光",
 	"theme-name-monaco-obsession": "迷恋",
@@ -29,6 +32,7 @@
 	"theme-name-monaco-sapphire": "天蓝",
 	"theme-name-monaco-sky": "天空",
 	"theme-name-monaco-slate": "石板",
+	"theme-name-monaco-smoke": "烟黄",
 	"theme-name-monaco-spring": "春天",
 	"theme-selection-deactivated": "主题选择已停用。"
 }
